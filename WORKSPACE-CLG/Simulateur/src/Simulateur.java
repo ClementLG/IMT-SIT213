@@ -41,7 +41,7 @@ public class Simulateur {
      */
     private boolean aleatoireAvecGerme = false;
     /**
-     * la valeur de la semence utilisée pour les générateurs aléatoires
+     * la valeur de la semence utilis�e pour les générateurs aléatoires
      */
     private Integer seed = null;
     /**
@@ -150,22 +150,22 @@ public class Simulateur {
      * @throws Exception si un problème survient lors de l'exécution
      */
     public void execute() throws Exception {
-        SourceAleatoire TAMAMAN = null;
-        SourceFixe TAMAMANFIXE = null;
+        SourceAleatoire sigAleatoire1 = null;
+        SourceFixe sigFixe1 = null;
 
         if (messageAleatoire) {
-            TAMAMAN = new SourceAleatoire(20);
-            TAMAMAN.emettre();
+        	sigAleatoire1 = new SourceAleatoire(20);
+        	sigAleatoire1.emettre();
         }
         if (!messageAleatoire) {
-            TAMAMANFIXE = new SourceFixe("1010101");
-            TAMAMANFIXE.emettre();
+        	sigFixe1 = new SourceFixe("1010101");
+        	sigFixe1.emettre();
         }
         if (affichage = true) {
             SondeLogique LOGIK = new SondeLogique("LOGIK", 720);
-            LOGIK.recevoir(TAMAMAN.getInformationEmise());
+            LOGIK.recevoir(sigAleatoire1.getInformationEmise());
         }
-        TAMAMAN.emettre();
+        sigAleatoire1.emettre();
     }
 
 
