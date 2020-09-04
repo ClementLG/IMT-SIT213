@@ -7,3 +7,6 @@ A chaque étape:
 - Implémentation (description+justification des choix)
 - Illustration (cas d'usage, sondes, etc.)
 - Performances (courbes+analyse/interprétation)
+
+
+OK
