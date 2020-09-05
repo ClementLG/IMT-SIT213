@@ -15,9 +15,6 @@ import information.InformationNonConforme;
 
 public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
 
-    public TransmetteurParfait() {
-    }
-
     //canal Rx Information (abstract dans la classe mere)
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
@@ -27,8 +24,9 @@ public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
 
     //canl Tx Information (abstract dans la classe mere)
     public void emettre() throws InformationNonConforme {
-        for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees)
+        for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
         	destinationConnectee.recevoir(informationRecue);
+        }
         informationEmise = informationRecue;//transmetteur parfait src=dest
 
     }

@@ -191,7 +191,7 @@ public class Simulateur {
     	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
 			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
 		}
-    	TEB=nbErr/source.getInformationEmise().nbElements();
+    	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());
     	
         return TEB;
     }
