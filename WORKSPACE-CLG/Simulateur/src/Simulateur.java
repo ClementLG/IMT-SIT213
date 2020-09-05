@@ -35,7 +35,7 @@ public class Simulateur {
     /**
      * indique si le Simulateur utilise un message genere de maniere aleatoire
      */
-    private boolean messageAleatoire = false;
+    private boolean messageAleatoire = true;
     /**
      * indique si le Simulateur utilise un germe pour initialiser les generateurs aleatoires
      */
@@ -85,10 +85,10 @@ public class Simulateur {
         analyseArguments(args);
         
         //Instanciations des differents blocs de traitement
-        if (!messageAleatoire) {
-        	source=new SourceFixe(messageString);
+        if (messageAleatoire) {
+        	source=new SourceAleatoire(nbBitsMess);
         } else {
-        	source=new SourceAleatoire();
+        	source=new SourceFixe(messageString);
         }
         
         transmetteurLogique = new TransmetteurParfait();
@@ -97,14 +97,13 @@ public class Simulateur {
         //Instanciations des differentes sondes
         SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
         SondeLogique viewTransmit = new SondeLogique("ViewTransmit", 720);
-        SondeLogique viewDest = new SondeLogique("ViewDest", 720);
         
         
         //connexion des blocs ensembles
         source.connecter(transmetteurLogique);
-        source.connecter(viewSrc);
+        if(affichage) source.connecter(viewSrc);
         transmetteurLogique.connecter(destination);
-        transmetteurLogique.connecter(viewTransmit);
+        if(affichage) transmetteurLogique.connecter(viewTransmit);
         
         
         
