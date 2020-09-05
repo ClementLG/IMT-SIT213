@@ -4,39 +4,33 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConforme;
 
+/**
+ * Classe SourceFixe herite d'un composant source d'informations
+ *
+ * @author c.legruiec
+ * @author e.leduc
+ * @author b.demoulin
+ */
 
 public class SourceFixe extends Source<Boolean> {
 
 
     /**
-     * Constructeur de la classe SourceFixe genere une chaine boolean fixee par le string passe en parametre
-     * Si on a un 0 (dans le string passe en parametre), alors on on ajoutera un false (boolean) a la chaine binaire
-     * Au contraire, si on a un 1, le boolean sera true.
+     * Si m est une suite de 0 et de 1 de longueur au moins egale à 7
+     * m est le message à emettre
      *
      * @param s
      */
-    public SourceFixe(String s) {
-        super();
+    public SourceFixe(String m) {
+        super();//Appels des attributs de la classe mere
         informationGeneree = new Information<Boolean>();
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '0')
-                informationGeneree.add(false);
-            else
-                informationGeneree.add(true);
+        for (int i = 0; i < m.length(); i++) {
+        	//si le caractere vaut 1, le boolean vaut True
+            if (m.charAt(i) == '1') informationGeneree.add(true);
+            //Sinon le boolean vaut False. Rq: le message m est conforme, verifié avant dans le main
+            else informationGeneree.add(false);
         }
     }
 
-    /**
-     * Emettre une information binaire fixee par l'utilisateur
-     * Leve l'exception InformationNonConforme
-     */
-    public void emettre() throws InformationNonConforme {
-
-        for (DestinationInterface<Boolean> d : destinationsConnectees)
-            d.recevoir(informationGeneree);
-
-        informationEmise = informationGeneree;
-    }
-
-
+    
 }

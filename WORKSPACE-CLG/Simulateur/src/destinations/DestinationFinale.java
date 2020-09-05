@@ -3,18 +3,24 @@ package destinations;
 import information.Information;
 import information.InformationNonConforme;
 
+/**
+ * Classe DestinationFinale hérité d'un composant destination
+ *
+ * @author c.legruiec
+ * @author e.leduc
+ * @author b.demoulin
+ */
+
 public class DestinationFinale extends Destination<Boolean> {
 
     public DestinationFinale() {
-
+    	super();
     }
 
-    /**
-     * Recevoir une information binaire
-     */
+    
+    //on definie notre méthode (abstract dans la classe mere)
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
-
-        this.informationRecue = information;
+        informationRecue = information;
     }
 
 }
