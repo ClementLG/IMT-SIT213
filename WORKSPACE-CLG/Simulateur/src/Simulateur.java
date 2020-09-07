@@ -45,11 +45,11 @@ public class Simulateur {
      */
     private Integer seed = null;
     /**
-     * la longueur du message aleatoire a  transmettre si un message n'est pas impose
+     * la longueur du message aleatoire a transmettre si un message n'est pas impose
      */
     private int nbBitsMess = 100;
     /**
-     * la chaine de caracteres correspondant a  m dans l'argument -mess m
+     * la chaine de caracteres correspondant a m dans l'argument -mess m
      */
     private String messageString = "100";
 
@@ -114,15 +114,15 @@ public class Simulateur {
     /**
      * La methode analyseArguments extrait d'un tableau de chaines de
      * caracteres les differentes options de la simulation.  Elle met
-     * a  jour les attributs du Simulateur.
+     * a jour les attributs du Simulateur.
      *
      * @param args le tableau des differents arguments.
      *             <br>
      *             <br>Les arguments autorises sont :
      *             <br>
      *             <dl>
-     *             <dt> -mess m  </dt><dd> m (String) constitue de 7 ou plus digits a  0 | 1, le message a  transmettre</dd>
-     *             <dt> -mess m  </dt><dd> m (int) constitue de 1 a  6 digits, le nombre de bits du message "aleatoire" a Â  transmettre</dd>
+     *             <dt> -mess m  </dt><dd> m (String) constitue de 7 ou plus digits a 0 | 1, le message a transmettre</dd>
+     *             <dt> -mess m  </dt><dd> m (int) constitue de 1 a 6 digits, le nombre de bits du message "aleatoire" aÂ  transmettre</dd>
      *             <dt> -s </dt><dd> utilisation des sondes d'affichage</dd>
      *             <dt> -seed v </dt><dd> v (int) d'initialisation pour les generateurs aleatoires</dd>
      *             </dl>
@@ -197,11 +197,11 @@ public class Simulateur {
 
 
     /**
-     * La fonction main instancie un Simulateur a  l'aide des
+     * La fonction main instancie un Simulateur a l'aide des
      * arguments parametres et affiche le resultat de l'execution
      * d'une transmission.
      *
-     * @param args les differents arguments qui serviront a  l'instanciation du Simulateur.
+     * @param args les differents arguments qui serviront a l'instanciation du Simulateur.
      */
     public static void main(String[] args) {
 

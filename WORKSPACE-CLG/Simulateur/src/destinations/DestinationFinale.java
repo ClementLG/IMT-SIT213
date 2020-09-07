@@ -4,7 +4,7 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe DestinationFinale hérité d'un composant destination
+ * Classe DestinationFinale herite d'un composant destination
  *
  * @author c.legruiec
  * @author e.leduc
@@ -18,7 +18,7 @@ public class DestinationFinale extends Destination<Boolean> {
     }
 
     
-    //on definie notre méthode (abstract dans la classe mere)
+    //on definie notre methode (abstract dans la classe mere)
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
     }
