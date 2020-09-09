@@ -62,6 +62,9 @@ public class Simulateur {
      * le  composant Transmetteur parfait logique de la chaine de transmission
      */
     private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
+
+    private Transmetteur<Boolean, Float> emmeteurTest = null;
+
     /**
      * le  composant Destination de la chaine de transmission
      */
@@ -91,22 +94,21 @@ public class Simulateur {
         	source=new SourceFixe(messageString);
         }
         
-        transmetteurLogique = new TransmetteurParfait();
-        destination = new DestinationFinale();
+        //transmetteurLogique = new TransmetteurParfait();
+        //destination = new DestinationFinale();
+        emmeteurTest = new Emmeteur("RZ");
         
         //Instanciations des differentes sondes
         SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
-        SondeLogique viewTransmit = new SondeLogique("ViewTransmit", 720);
+       // SondeLogique viewTransmit = new SondeLogique("ViewTransmit", 720);
+        SondeAnalogique viewAnal = new SondeAnalogique("ViewTransmit");
         
         
         //connexion des blocs ensembles
-        source.connecter(transmetteurLogique);
+        source.connecter(emmeteurTest);
         if(affichage) source.connecter(viewSrc);
-        transmetteurLogique.connecter(destination);
-        if(affichage) transmetteurLogique.connecter(viewTransmit);
-        
-        
-        
+        //emmeteurTest.connecter(destination);
+        if(affichage) emmeteurTest.connecter(viewAnal);
 
     }
 
@@ -216,7 +218,7 @@ public class Simulateur {
 
         try {
             simulateur.execute();
-            float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
+            float tauxErreurBinaire = 0;//simulateur.calculTauxErreurBinaire();
             String s = "java  Simulateur  ";
             for (int i = 0; i < args.length; i++) {
                 s += args[i] + "  ";

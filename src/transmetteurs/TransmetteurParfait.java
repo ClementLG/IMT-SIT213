@@ -22,7 +22,7 @@ public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
 
     }
 
-    //canl Tx Information (abstract dans la classe mere)
+    //canal Tx Information (abstract dans la classe mere)
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
         	destinationConnectee.recevoir(informationRecue);
