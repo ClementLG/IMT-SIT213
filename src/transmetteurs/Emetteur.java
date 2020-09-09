@@ -49,12 +49,12 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 		switch (encodeType) {
 		case "NRZ":
 			ConvertToNRZ();
-			
-			
 			break;
+			
 		case "NRZT":
-			
+			ConvertToNRZT();
 			break;
+			
 		case "RZ":
 			
 			break;
@@ -69,6 +69,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 		this.encodeType=encodeType;
 	}
 	
+	//Converti un signal logique en analogique en utilisant NRZ
 	private void ConvertToNRZ() {
 		for (int i = 0; i < informationRecue.nbElements(); i++) {
 			if(informationRecue.iemeElement(i).equals(true)) {
@@ -83,6 +84,38 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 				}
 				
 			}
+		}
+		
+	}
+	
+	//Converti un signal logique en analogique en utilisant NRZT (triangle)
+	private void ConvertToNRZT() {
+		float quantum=Amax/(nbEchantillon/3);
+		for (int i = 0; i < informationRecue.nbElements(); i++) {
+			if(informationRecue.iemeElement(i)) {
+				for (int j = 0; j < nbEchantillon/3; j++) {
+					informationConverti.add(quantum*j);
+				}
+				for (int j = (nbEchantillon/3)+1; j < (2*nbEchantillon)/3; j++) {
+					informationConverti.add(Amax);
+				}
+				for (int j = 0; j < nbEchantillon/3; j++) {
+					informationConverti.add(Amax-(quantum*j));
+				}
+				
+			} else {
+				for (int j = 0; j < nbEchantillon/3; j++) {
+					informationConverti.add(-quantum*j);
+				}
+				for (int j = (nbEchantillon/3)+1; j < (2*nbEchantillon)/3; j++) {
+					informationConverti.add(-Amax);
+				}
+				for (int j = 0; j < nbEchantillon/3; j++) {
+					informationConverti.add(-Amax+(quantum*j));
+				}
+				
+			}
+			
 		}
 		
 	}
