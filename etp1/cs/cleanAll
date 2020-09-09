@@ -1,0 +1,5 @@
+#!/bin/bash
+rm -rf bin/*
+rm -rf docs/*
+rm -f .gout*
+rm -f *.tar.gz
