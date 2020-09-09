@@ -2,20 +2,7 @@ import sources.*;
 import destinations.*;
 import transmetteurs.*;
 
-import information.*;
-
 import visualisations.*;
-
-import java.util.regex.*;
-import java.util.*;
-import java.lang.Math;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 
 /**
@@ -59,6 +46,14 @@ public class Simulateur {
      */
     private Source<Boolean> source = null;
     /**
+     * le  composant TransmetteurNumToAna
+     */
+    private Transmetteur<Boolean, Boolean> transmetteurNRZ = null;
+    /**
+     * le  composant TransmetteurAnaToNum
+     */
+    private Transmetteur<Boolean, Boolean> transmetteurAnaToNum = null;
+    /**
      * le  composant Transmetteur parfait logique de la chaine de transmission
      */
     private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
@@ -79,6 +74,7 @@ public class Simulateur {
      * @param args le tableau des differents arguments.
      * @throws ArgumentsException si un des arguments est incorrect
      */
+
     public Simulateur(String[] args) throws ArgumentsException {
     	
     	//Analyse des arguments
@@ -90,7 +86,8 @@ public class Simulateur {
         } else {
         	source=new SourceFixe(messageString);
         }
-        
+        transmetteurNRZ = new TransmetteurNumToAnaNRZ();
+        transmetteurAnaToNum = new TransmetteurAnaToNum();
         transmetteurLogique = new TransmetteurParfait();
         destination = new DestinationFinale();
         
@@ -100,10 +97,12 @@ public class Simulateur {
         
         
         //connexion des blocs ensembles
-        source.connecter(transmetteurLogique);
+        source.connecter(transmetteurNRZ);
         if(affichage) source.connecter(viewSrc);
-        transmetteurLogique.connecter(destination);
-        if(affichage) transmetteurLogique.connecter(viewTransmit);
+        if(affichage) transmetteurAnaToNum.connecter(viewSrc);
+        transmetteurNRZ.connecter(transmetteurLogique);
+        transmetteurLogique.connecter(transmetteurAnaToNum);
+        if(affichage) transmetteurAnaToNum.connecter(viewSrc);
         
         
         
