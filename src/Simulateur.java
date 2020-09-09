@@ -93,17 +93,22 @@ public class Simulateur {
         
         transmetteurLogique = new TransmetteurParfait();
         destination = new DestinationFinale();
+        Transmetteur<Boolean, Float> emetteur = new Emetteur();
         
         //Instanciations des differentes sondes
         SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
         SondeLogique viewTransmit = new SondeLogique("ViewTransmit", 720);
+        SondeAnalogique viewEmet = new SondeAnalogique("ViewEmet");
+        
         
         
         //connexion des blocs ensembles
-        source.connecter(transmetteurLogique);
+        //source.connecter(transmetteurLogique);
         if(affichage) source.connecter(viewSrc);
-        transmetteurLogique.connecter(destination);
-        if(affichage) transmetteurLogique.connecter(viewTransmit);
+        source.connecter(emetteur);
+        emetteur.connecter(viewEmet);
+        //transmetteurLogique.connecter(destination);
+        //if(affichage) transmetteurLogique.connecter(viewTransmit);
         
         
         
@@ -187,10 +192,10 @@ public class Simulateur {
     	
     	int nbErr=0;
     	float TEB=0.0f;
-    	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
+    	/*for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
 			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
 		}
-    	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());
+    	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());*/
     	
         return TEB;
     }

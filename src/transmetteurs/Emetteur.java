@@ -4,28 +4,35 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConforme;
 
-public abstract class Emetteur extends Transmetteur<Boolean, Float>{
+public class Emetteur extends Transmetteur<Boolean, Float>{
 	private float Amax;
 	private float Amin;
 	private int nbEchantillon;
+	private String encodeType;
 	private Information<Float> informationConverti;
 	
 	public Emetteur() {
 		Amax=5;
 		Amin=-5;
+		encodeType="NRZ";
+		nbEchantillon=30;
+		informationConverti =new Information<>();
 		
 	}
 	
-	public Emetteur(float Amax, float Amin, int nbEchantillon) {
+	public Emetteur(float Amax, float Amin, int nbEchantillon, String encodeType) {
 		this.Amax=Amax;
 		this.Amin=Amax;
 		this.nbEchantillon=nbEchantillon;
+		this.encodeType=encodeType;
+		informationConverti =new Information<>();
 	}
 	
 	//canal Rx Information (abstract dans la classe mere)
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
-        emettre();//envoie l'information
+        CNA();
+        emettre();
 
     }
     
@@ -38,7 +45,7 @@ public abstract class Emetteur extends Transmetteur<Boolean, Float>{
 
     }
     
-	public void CNA(String encodeType) {
+	public void CNA() {
 		switch (encodeType) {
 		case "NRZ":
 			ConvertToNRZ();
@@ -56,6 +63,10 @@ public abstract class Emetteur extends Transmetteur<Boolean, Float>{
 			System.out.println("Aucun type d'encodage ne correspond à l'entree saisie");
 			break;
 		}
+	}
+	
+	public void changeCNAtype(String encodeType) {
+		this.encodeType=encodeType;
 	}
 	
 	private void ConvertToNRZ() {
