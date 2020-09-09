@@ -45,51 +45,57 @@ public class Emmeteur extends Transmetteur<Boolean, Float> {
             case "NRZ":
                 for(int i=0;i< this.informationRecue.nbElements();i++){
                     if(informationRecue.iemeElement(i)){
-                        informationAnalogique.add(5f);
-                        informationAnalogique.add(5f);
+                        for(int npt=0;npt<30;npt++){informationAnalogique.add(5f);}
                     }
                     else {
-                        informationAnalogique.add(0f);
-                        informationAnalogique.add(0f);
+                        for(int npt=0;npt<30;npt++){informationAnalogique.add(0f);}
                     }
-
                 }
                 break;
 
             case "NRZT":
-
+                float etat=0;
                 for(int i=0;i< informationRecue.nbElements();i++){
-                    informationAnalogique.add(0f);
                     if(informationRecue.iemeElement(i)){
-                        informationAnalogique.add(5f);
+                        if(etat==5f){
+                            for(int npt=0;npt<30;npt++){informationAnalogique.add(5f);}}
+                        else if(etat==0){
+                            for(int npt=0;npt<10;npt++){informationAnalogique.add(etat);etat+=0.5;}
+                            for(int npt=0;npt<20;npt++){informationAnalogique.add(5f);etat=5f;}}
+                        else {
+                            for(int npt=0;npt<20;npt++){informationAnalogique.add(etat);etat+=0.5;}}
+                            for(int npt=0;npt<10;npt++){informationAnalogique.add(5f);etat=5f;}
                     }
-                    else informationAnalogique.add(-5f);
+                    else {
+                        if(etat==-5f){
+                            for(int npt=0;npt<30;npt++){informationAnalogique.add(-5f);}}
+                        else if(etat==0){
+                            for(int npt=0;npt<10;npt++){informationAnalogique.add(etat);etat-=0.5;}
+                            for(int npt=0;npt<20;npt++){informationAnalogique.add(5f);etat=-5f;}}
+                        else {
+                            for(int npt=0;npt<20;npt++){informationAnalogique.add(etat);etat-=0.5;}}
+                            for(int npt=0;npt<10;npt++){informationAnalogique.add(-5f);etat=-5f;}
+                    }
                 }
                 break;
 
             case "RZ":
 
                 for(int i=0;i< informationRecue.nbElements();i++){
+                    for(int npt=0;npt<30;npt++){informationAnalogique.add(0f);}
                     if(informationRecue.iemeElement(i)){
-                        informationAnalogique.add(5f);
-                        informationAnalogique.add(5f);
+                        for(int npt=0;npt<30;npt++){informationAnalogique.add(5f);}
                     }
                     else {
-                        informationAnalogique.add(-5f);
-                        informationAnalogique.add(-5f);
+                        for(int npt=0;npt<30;npt++){informationAnalogique.add(-5f);}
                     }
-                    informationAnalogique.add(0f);
-                    informationAnalogique.add(0f);
                 }
                 break;
 
             default:
                 throw new IllegalStateException("Unexpected value: " + protocole);
         }
-
     }
-
-
 }
 
 

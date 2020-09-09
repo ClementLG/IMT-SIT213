@@ -96,7 +96,7 @@ public class Simulateur {
         
         //transmetteurLogique = new TransmetteurParfait();
         //destination = new DestinationFinale();
-        emmeteurTest = new Emmeteur("RZ");
+        emmeteurTest = new Emmeteur("NRZT");
         
         //Instanciations des differentes sondes
         SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
