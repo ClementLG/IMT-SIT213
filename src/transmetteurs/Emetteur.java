@@ -90,30 +90,127 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 	
 	//Converti un signal logique en analogique en utilisant NRZT (triangle)
 	private void ConvertToNRZT() {
-		float quantum=Amax/(nbEchantillon/3);
+		int divTrois=nbEchantillon/3;
+		float quantum=Amax/divTrois;
+		boolean checkAfter=false;
+		boolean checkBefore=false;
+		
+		
+		
 		for (int i = 0; i < informationRecue.nbElements(); i++) {
+			if(i!=informationRecue.nbElements()-1) {
+				checkAfter=informationRecue.iemeElement(i+1);
+				if(checkAfter) System.out.println("rien apres : "+i);
+			}
+			if(i!=0) {
+				checkBefore=informationRecue.iemeElement(i-1);
+				if(checkBefore) System.out.println("rien avant : "+i);
+			}
+			
+			if(i==0 && !informationRecue.iemeElement(i)) checkBefore=true;
+			if(i==informationRecue.nbElements()-1 && !informationRecue.iemeElement(i)) checkAfter=true;
+			
 			if(informationRecue.iemeElement(i)) {
-				for (int j = 0; j < nbEchantillon/3; j++) {
-					informationConverti.add(quantum*j);
+				if(!checkAfter && !checkBefore) {
+					
+					for (int j = 0; j < divTrois; j++) {
+						informationConverti.add(quantum*j);
+					}
+					for (int j = divTrois; j < 2*divTrois; j++) {
+						informationConverti.add(Amax);
+					}
+					for (int j = 0; j < divTrois; j++) {
+						informationConverti.add(Amax-(quantum*j));
+					}
+					checkAfter=false;
+					checkBefore=false;
 				}
-				for (int j = (nbEchantillon/3)+1; j < (2*nbEchantillon)/3; j++) {
-					informationConverti.add(Amax);
+				
+				if(checkAfter && checkBefore) {	
+					for (int j = 0; j < nbEchantillon; j++) {
+						informationConverti.add(Amax);
+					}
+					checkAfter=false;
+					checkBefore=false;
 				}
-				for (int j = 0; j < nbEchantillon/3; j++) {
-					informationConverti.add(Amax-(quantum*j));
+				
+				if(checkAfter && !checkBefore) {	
+					for (int j = 0; j < divTrois; j++) {
+						informationConverti.add(quantum*j);
+					}
+					for (int j = divTrois; j < 3*divTrois; j++) {
+						informationConverti.add(Amax);
+					}
+					checkAfter=false;
+					checkBefore=false;
 				}
+				
+				if(!checkAfter && checkBefore) {	
+					
+					for (int j = 0; j < 2*divTrois; j++) {
+						informationConverti.add(Amax);
+					}
+					for (int j = 0; j < divTrois; j++) {
+						informationConverti.add(Amax-(quantum*j));
+					}
+					checkAfter=false;
+					checkBefore=false;
+				}
+				
+				
+				
+				
 				
 			} else {
-				for (int j = 0; j < nbEchantillon/3; j++) {
-					informationConverti.add(-quantum*j);
-				}
-				for (int j = (nbEchantillon/3)+1; j < (2*nbEchantillon)/3; j++) {
-					informationConverti.add(-Amax);
-				}
-				for (int j = 0; j < nbEchantillon/3; j++) {
-					informationConverti.add(-Amax+(quantum*j));
+				
+				
+				
+				if(checkAfter && checkBefore) {
+					
+					for (int j = 0; j < divTrois; j++) {
+						informationConverti.add(-quantum*j);
+					}
+					for (int j = divTrois; j < 2*divTrois; j++) {
+						informationConverti.add(-Amax);
+					}
+					for (int j = 0; j < divTrois; j++) {
+						informationConverti.add(-Amax+(quantum*j));
+					}
+					checkAfter=true;
+					checkBefore=true;
 				}
 				
+				if(!checkAfter && !checkBefore) {	
+					for (int j = 0; j < nbEchantillon; j++) {
+						informationConverti.add(-Amax);
+					}
+					checkAfter=true;
+					checkBefore=true;
+				}
+				
+				
+				if(!checkAfter && checkBefore) {	
+					for (int j = 0; j < divTrois; j++) {
+						informationConverti.add(-quantum*j);
+					}
+					for (int j = divTrois; j < 3*divTrois; j++) {
+						informationConverti.add(-Amax);
+					}
+					checkAfter=true;
+					checkBefore=true;
+				}
+				
+				if(checkAfter && !checkBefore) {	
+					
+					for (int j = 0; j < 2*divTrois; j++) {
+						informationConverti.add(-Amax);
+					}
+					for (int j = 0; j < divTrois; j++) {
+						informationConverti.add(-Amax+(quantum*j));
+					}
+					checkAfter=true;
+					checkBefore=true;
+				}
 			}
 			
 		}
