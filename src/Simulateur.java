@@ -2,7 +2,20 @@ import sources.*;
 import destinations.*;
 import transmetteurs.*;
 
+import information.*;
+
 import visualisations.*;
+
+import java.util.regex.*;
+import java.util.*;
+import java.lang.Math;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 
 /**
@@ -49,9 +62,6 @@ public class Simulateur {
      * le  composant Transmetteur parfait logique de la chaine de transmission
      */
     private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
-
-    private Transmetteur<Boolean, Float> emmeteurTest = null;
-
     /**
      * le  composant Destination de la chaine de transmission
      */
@@ -81,21 +91,38 @@ public class Simulateur {
         	source=new SourceFixe(messageString);
         }
         
-        //transmetteurLogique = new TransmetteurParfait();
-        //destination = new DestinationFinale();
-        emmeteurTest = new Emeteur("NRZT");
+        
+        Transmetteur<Boolean, Float> emetteur = new Emetteur(5f, -5f, 30, "NRZT");
+        Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
+        Transmetteur<Float, Boolean> recepteur=new Recepteur(5, -5, 30, "NRZT");
+        Destination<Boolean> destinationFinale=new DestinationFinale();
         
         //Instanciations des differentes sondes
         SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
-       // SondeLogique viewTransmit = new SondeLogique("ViewTransmit", 720);
-        SondeAnalogique viewAnal = new SondeAnalogique("ViewTransmit");
+        SondeAnalogique viewEmet = new SondeAnalogique("ViewEmet");
+        SondeAnalogique viewTransmitAna = new SondeAnalogique("ViewTransmitAna");
+        SondeLogique viewDest = new SondeLogique("ViewDest", 720);
+        
         
         
         //connexion des blocs ensembles
-        source.connecter(emmeteurTest);
-        if(affichage) source.connecter(viewSrc);
-        //emmeteurTest.connecter(destination);
-        if(affichage) emmeteurTest.connecter(viewAnal);
+        source.connecter(emetteur);
+        emetteur.connecter(transmetteurAnalogiqueParfait);
+        transmetteurAnalogiqueParfait.connecter(recepteur);
+        recepteur.connecter(destinationFinale);
+        
+        if(affichage) {
+        	source.connecter(viewSrc);
+        	emetteur.connecter(viewEmet);
+        	transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
+        	recepteur.connecter(viewDest);
+        }
+        
+        //transmetteurLogique.connecter(destination);
+        //if(affichage) transmetteurLogique.connecter(viewTransmit);
+        
+        
+        
 
     }
 
@@ -176,10 +203,10 @@ public class Simulateur {
     	
     	int nbErr=0;
     	float TEB=0.0f;
-    	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
+    	/*for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
 			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
 		}
-    	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());
+    	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());*/
     	
         return TEB;
     }
@@ -205,7 +232,7 @@ public class Simulateur {
 
         try {
             simulateur.execute();
-            float tauxErreurBinaire = 0;//simulateur.calculTauxErreurBinaire();
+            float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
             String s = "java  Simulateur  ";
             for (int i = 0; i < args.length; i++) {
                 s += args[i] + "  ";
