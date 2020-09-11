@@ -25,6 +25,7 @@ import java.io.PrintWriter;
  *
  * @author cousin
  * @author prou
+ * @author clegruiec
  */
 public class Simulateur {
 
