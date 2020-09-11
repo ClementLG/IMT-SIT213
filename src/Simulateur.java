@@ -2,20 +2,7 @@ import sources.*;
 import destinations.*;
 import transmetteurs.*;
 
-import information.*;
-
 import visualisations.*;
-
-import java.util.regex.*;
-import java.util.*;
-import java.lang.Math;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 
 /**
@@ -96,7 +83,7 @@ public class Simulateur {
         
         //transmetteurLogique = new TransmetteurParfait();
         //destination = new DestinationFinale();
-        emmeteurTest = new Emmeteur("NRZT");
+        emmeteurTest = new Emeteur("NRZT");
         
         //Instanciations des differentes sondes
         SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);

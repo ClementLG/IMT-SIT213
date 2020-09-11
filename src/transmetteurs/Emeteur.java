@@ -6,18 +6,18 @@ import information.InformationNonConforme;
 
 
 /**
- * Classe Emmeteur herite d'un composant transmetteur d'informations
+ * Classe Emeteur herite d'un composant transmetteur d'informations
  *
  * @author c.legruiec
  * @author e.leduc
  * @author b.demoulin
  */
 
-public class Emmeteur extends Transmetteur<Boolean, Float> {
+public class Emeteur extends Transmetteur<Boolean, Float> {
     private Information <Float> informationAnalogique;
     private String protocole;
 
-    public Emmeteur(String p){
+    public Emeteur(String p){
         protocole=p;
         informationAnalogique= new Information<>();
     }
