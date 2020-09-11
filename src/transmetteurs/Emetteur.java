@@ -22,7 +22,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 	
 	public Emetteur(float Amax, float Amin, int nbEchantillon, String encodeType) {
 		this.Amax=Amax;
-		this.Amin=Amax;
+		this.Amin=Amin;
 		this.nbEchantillon=nbEchantillon;
 		this.encodeType=encodeType;
 		informationConverti =new Information<>();
@@ -45,7 +45,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 
     }
     
-	public void CNA() {
+	public void CNA() throws InformationNonConforme {
 		switch (encodeType) {
 		case "NRZ":
 			ConvertToNRZ();
@@ -56,17 +56,21 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 			break;
 			
 		case "RZ":
-			
+			ConvertToRZ();
 			break;
 
 		default:
 			System.out.println("Aucun type d'encodage ne correspond à l'entree saisie");
-			break;
+			throw new InformationNonConforme();
 		}
 	}
 	
 	public void changeCNAtype(String encodeType) {
 		this.encodeType=encodeType;
+	}
+	
+	public void getType() {
+		System.out.println("Type d'emetteur: "+encodeType+"avec Amax="+Amax+"et Amin="+Amin+". nBechantillon par symbole "+nbEchantillon);
 	}
 	
 	//Converti un signal logique en analogique en utilisant NRZ
@@ -91,7 +95,8 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 	//Converti un signal logique en analogique en utilisant NRZT (triangle)
 	private void ConvertToNRZT() {
 		int divTrois=nbEchantillon/3;
-		float quantum=Amax/divTrois;
+		float quantumP=Amax/divTrois;
+		float quantumM=Amin/divTrois;
 		boolean checkAfter=false;
 		boolean checkBefore=false;
 		
@@ -109,18 +114,19 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 			
 			if(i==0 && !informationRecue.iemeElement(i)) checkBefore=true;
 			if(i==informationRecue.nbElements()-1 && !informationRecue.iemeElement(i)) checkAfter=true;
+			if(i==informationRecue.nbElements()-1 && informationRecue.iemeElement(i)) checkAfter=false;
 			
 			if(informationRecue.iemeElement(i)) {
 				if(!checkAfter && !checkBefore) {
 					
 					for (int j = 0; j < divTrois; j++) {
-						informationConverti.add(quantum*j);
+						informationConverti.add(quantumP*j);
 					}
 					for (int j = divTrois; j < 2*divTrois; j++) {
 						informationConverti.add(Amax);
 					}
 					for (int j = 0; j < divTrois; j++) {
-						informationConverti.add(Amax-(quantum*j));
+						informationConverti.add(Amax-(quantumP*j));
 					}
 					checkAfter=false;
 					checkBefore=false;
@@ -136,7 +142,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 				
 				if(checkAfter && !checkBefore) {	
 					for (int j = 0; j < divTrois; j++) {
-						informationConverti.add(quantum*j);
+						informationConverti.add(quantumP*j);
 					}
 					for (int j = divTrois; j < 3*divTrois; j++) {
 						informationConverti.add(Amax);
@@ -151,7 +157,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 						informationConverti.add(Amax);
 					}
 					for (int j = 0; j < divTrois; j++) {
-						informationConverti.add(Amax-(quantum*j));
+						informationConverti.add(Amax-(quantumP*j));
 					}
 					checkAfter=false;
 					checkBefore=false;
@@ -168,13 +174,13 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 				if(checkAfter && checkBefore) {
 					
 					for (int j = 0; j < divTrois; j++) {
-						informationConverti.add(-quantum*j);
+						informationConverti.add(quantumM*j);
 					}
 					for (int j = divTrois; j < 2*divTrois; j++) {
-						informationConverti.add(-Amax);
+						informationConverti.add(Amin);
 					}
 					for (int j = 0; j < divTrois; j++) {
-						informationConverti.add(-Amax+(quantum*j));
+						informationConverti.add(Amin-(quantumM*j));
 					}
 					checkAfter=true;
 					checkBefore=true;
@@ -182,7 +188,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 				
 				if(!checkAfter && !checkBefore) {	
 					for (int j = 0; j < nbEchantillon; j++) {
-						informationConverti.add(-Amax);
+						informationConverti.add(Amin);
 					}
 					checkAfter=true;
 					checkBefore=true;
@@ -191,10 +197,10 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 				
 				if(!checkAfter && checkBefore) {	
 					for (int j = 0; j < divTrois; j++) {
-						informationConverti.add(-quantum*j);
+						informationConverti.add(quantumM*j);
 					}
 					for (int j = divTrois; j < 3*divTrois; j++) {
-						informationConverti.add(-Amax);
+						informationConverti.add(Amin);
 					}
 					checkAfter=true;
 					checkBefore=true;
@@ -203,10 +209,10 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 				if(checkAfter && !checkBefore) {	
 					
 					for (int j = 0; j < 2*divTrois; j++) {
-						informationConverti.add(-Amax);
+						informationConverti.add(Amin);
 					}
 					for (int j = 0; j < divTrois; j++) {
-						informationConverti.add(-Amax+(quantum*j));
+						informationConverti.add(Amin-(quantumM*j));
 					}
 					checkAfter=true;
 					checkBefore=true;
@@ -216,5 +222,32 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 		}
 		
 	}
+	
+	private void ConvertToRZ() {
+		int divTrois=nbEchantillon/3;
+		
+		for (int i = 0; i < informationRecue.nbElements(); i++) {
+			if(informationRecue.iemeElement(i).equals(true)) {
+				for (int j = 0; j < divTrois; j++) {
+					informationConverti.add(0f);
+				}
+				for (int j = 0; j < divTrois; j++) {
+					informationConverti.add(Amax);
+				}
+				for (int j = 0; j < divTrois; j++) {
+					informationConverti.add(0f);
+				}
+				
+			}
+			if(informationRecue.iemeElement(i).equals(false)) {
+				for (int j = 0; j < nbEchantillon; j++) {
+					informationConverti.add(0f);
+				}
+				
+			}
+		}
+	}
+	
+	
 
 }

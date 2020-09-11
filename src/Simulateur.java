@@ -93,7 +93,7 @@ public class Simulateur {
         
         transmetteurLogique = new TransmetteurParfait();
         destination = new DestinationFinale();
-        Transmetteur<Boolean, Float> emetteur = new Emetteur(5, -5, 30, "NRZT");
+        Transmetteur<Boolean, Float> emetteur = new Emetteur(5f, -10f, 30, "NRZT");
         
         
         //Instanciations des differentes sondes
