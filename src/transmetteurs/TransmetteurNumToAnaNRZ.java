@@ -15,6 +15,7 @@ import information.InformationNonConforme;
 
 public class TransmetteurNumToAnaNRZ extends Transmetteur<Boolean, Boolean> {
 
+
     //canal Rx Information (abstract dans la classe mere)
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
 
@@ -22,15 +23,16 @@ public class TransmetteurNumToAnaNRZ extends Transmetteur<Boolean, Boolean> {
         Information informationAnalogique= new Information();
         int pointParPeriode=30;
         for (int i=0; i < informationRecue.nbElements(); i++) {
+            System.out.println(i);
             if (informationRecue.iemeElement(i) == true)
             {
-                for (int n=0; n < pointParPeriode; i++) {
+                for (int n=0; n < pointParPeriode; n++) {
                     informationAnalogique.add(1);
                 }
             }
             else {
-                for (int n=0; n < pointParPeriode; i++) {
-                    informationAnalogique.add(1);
+                for (int n=0; n < pointParPeriode; n++) {
+                    informationAnalogique.add(0);
                 }
             }
 
@@ -45,7 +47,7 @@ public class TransmetteurNumToAnaNRZ extends Transmetteur<Boolean, Boolean> {
         for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
         	destinationConnectee.recevoir(informationRecue);
         }
-        informationEmise = informationRecue;//transmetteur parfait src=dest
+        informationEmise = informationAnalogique;//transmetteur parfait src=dest
 
     }
 

@@ -34,7 +34,7 @@ public class Simulateur {
     /**
      * la longueur du message aleatoire a transmettre si un message n'est pas impose
      */
-    private int nbBitsMess = 100;
+    private int nbBitsMess = 10;
     /**
      * la chaine de caracteres correspondant a m dans l'argument -mess m
      */
