@@ -60,7 +60,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
     	int k=1;
     	float moy=Amax-Amin;
     	
-    	for (int i = 0; i < informationRecue.nbElements(); i+=30) {
+    	for (int i = 0; i < informationRecue.nbElements(); i+=nbEchantillon) {
     		for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
 				moy+=informationRecue.iemeElement(j);
 			}

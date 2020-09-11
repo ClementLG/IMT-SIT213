@@ -52,7 +52,11 @@ public class Simulateur {
      * la chaine de caracteres correspondant a m dans l'argument -mess m
      */
     private String messageString = "100";
-
+    
+    /**
+     * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
+     */
+    private String form = "RZ";
 
     /**
      * le  composant Source de la chaine de transmission
@@ -66,7 +70,18 @@ public class Simulateur {
      * le  composant Destination de la chaine de transmission
      */
     private Destination<Boolean> destination = null;
-
+    /**
+     *  'ne' precise le nombre d’échantillons par bit
+     */
+    private int ne = 30;
+    /**
+     *  'min' precise l'amplitude minimale du signale analogique
+     */
+    private float min = 0;
+    /**
+     *  'max' precise l'amplitude maximale du signale analogique
+     */
+    private float max = 1;
 
     /**
      * Le constructeur de Simulateur construit une chaine de
@@ -86,16 +101,16 @@ public class Simulateur {
         
         //Instanciations des differents blocs de traitement
         if (messageAleatoire) {
-        	source=new SourceAleatoire(nbBitsMess);
+        	source=new SourceAleatoire(nbBitsMess, seed);
         } else {
         	source=new SourceFixe(messageString);
         }
         
         
-        Transmetteur<Boolean, Float> emetteur = new Emetteur(5f, -5f, 30, "NRZT");
+        Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
-        Transmetteur<Float, Boolean> recepteur=new Recepteur(5, -5, 30, "NRZT");
-        Destination<Boolean> destinationFinale=new DestinationFinale();
+        Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
+        destination=new DestinationFinale();
         
         //Instanciations des differentes sondes
         SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
@@ -109,7 +124,7 @@ public class Simulateur {
         source.connecter(emetteur);
         emetteur.connecter(transmetteurAnalogiqueParfait);
         transmetteurAnalogiqueParfait.connecter(recepteur);
-        recepteur.connecter(destinationFinale);
+        recepteur.connecter(destination);
         
         if(affichage) {
         	source.connecter(viewSrc);
@@ -173,7 +188,28 @@ public class Simulateur {
                         throw new ArgumentsException("Valeur du parametre -mess invalide : " + nbBitsMess);
                 } else
                     throw new ArgumentsException("Valeur du parametre -mess invalide : " + args[i]);
+            } else if (args[i].matches("-form")) {
+            	i++;
+            	// traiter la valeur associee
+            	if(args[i].matches("\\bRZ\\b|\\bNRZ\\b|\\bNRZT\\b")) form=args[i];
+            	else throw new ArgumentsException("Forme invalide :" + args[i]);
+            } else if (args[i].matches("-nbEch")) {
+            	i++;
+            	// traiter la valeur associee
+            	if(Integer.parseInt(args[i])>0) ne=Integer.parseInt(args[i]);
+            	else throw new ArgumentsException("Nombre d'echantillon invalide :" + args[i]);
+            } else if (args[i].matches("-ampl")) {
+            	i++;
+            	// traiter la valeur associee
+            	if(args[i].matches("^-?\\d*(\\.\\d+)?$")) min=Float.parseFloat(args[i]);
+            	else throw new ArgumentsException("Amplitude min incorecte :" + args[i]);
+            	i++;
+            	if(args[i].matches("^-?\\d*(\\.\\d+)?$")) max=Float.parseFloat(args[i]);
+            	else throw new ArgumentsException("Amplitude max incorecte :" + args[i]);
+            	if(min>max) throw new ArgumentsException("Amplitudes incorectes (min>max) : " + min + ">"+max);
+            	
             } else throw new ArgumentsException("Option invalide :" + args[i]);
+            
         }
 
     }
