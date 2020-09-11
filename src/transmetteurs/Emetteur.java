@@ -105,11 +105,11 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 		for (int i = 0; i < informationRecue.nbElements(); i++) {
 			if(i!=informationRecue.nbElements()-1) {
 				checkAfter=informationRecue.iemeElement(i+1);
-				if(checkAfter) System.out.println("rien apres : "+i);
+				//if(checkAfter) System.out.println("rien apres : "+i);
 			}
 			if(i!=0) {
 				checkBefore=informationRecue.iemeElement(i-1);
-				if(checkBefore) System.out.println("rien avant : "+i);
+				//if(checkBefore) System.out.println("rien avant : "+i);
 			}
 			
 			if(i==0 && !informationRecue.iemeElement(i)) checkBefore=true;

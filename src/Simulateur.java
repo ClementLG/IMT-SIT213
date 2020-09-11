@@ -91,23 +91,33 @@ public class Simulateur {
         	source=new SourceFixe(messageString);
         }
         
-        transmetteurLogique = new TransmetteurParfait();
-        destination = new DestinationFinale();
-        Transmetteur<Boolean, Float> emetteur = new Emetteur(5f, -10f, 30, "NRZT");
         
+        Transmetteur<Boolean, Float> emetteur = new Emetteur(5f, -5f, 30, "NRZT");
+        Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
+        Transmetteur<Float, Boolean> recepteur=new Recepteur(5, -5, 30, "NRZT");
+        Destination<Boolean> destinationFinale=new DestinationFinale();
         
         //Instanciations des differentes sondes
         SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
-        SondeLogique viewTransmit = new SondeLogique("ViewTransmit", 720);
         SondeAnalogique viewEmet = new SondeAnalogique("ViewEmet");
+        SondeAnalogique viewTransmitAna = new SondeAnalogique("ViewTransmitAna");
+        SondeLogique viewDest = new SondeLogique("ViewDest", 720);
         
         
         
         //connexion des blocs ensembles
-        //source.connecter(transmetteurLogique);
-        if(affichage) source.connecter(viewSrc);
         source.connecter(emetteur);
-        emetteur.connecter(viewEmet);
+        emetteur.connecter(transmetteurAnalogiqueParfait);
+        transmetteurAnalogiqueParfait.connecter(recepteur);
+        recepteur.connecter(destinationFinale);
+        
+        if(affichage) {
+        	source.connecter(viewSrc);
+        	emetteur.connecter(viewEmet);
+        	transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
+        	recepteur.connecter(viewDest);
+        }
+        
         //transmetteurLogique.connecter(destination);
         //if(affichage) transmetteurLogique.connecter(viewTransmit);
         
