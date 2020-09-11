@@ -4,19 +4,9 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConforme;
 
-
-/**
- * Classe TransmetteurAnalogiqueParfait herite d'un composant transmetteur d'informations
- *
- * @author c.legruiec
- * @author e.leduc
- * @author b.demoulin
- */
-
-public class TransmetteurAnalogiqueParfait extends Transmetteur<Boolean, Boolean> {
-
-    //canal Rx Information (abstract dans la classe mere)
-    public void recevoir(Information<Boolean> information) throws InformationNonConforme {
+public class TransmetteurAnalogiqueParfait extends Transmetteur<Float, Float>{
+	//canal Rx Information (abstract dans la classe mere)
+    public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
         emettre();//envoie l'information
 
@@ -24,15 +14,11 @@ public class TransmetteurAnalogiqueParfait extends Transmetteur<Boolean, Boolean
 
     //canl Tx Information (abstract dans la classe mere)
     public void emettre() throws InformationNonConforme {
-        for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
-            destinationConnectee.recevoir(informationRecue);
+        for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
+        	destinationConnectee.recevoir(informationRecue);
         }
         informationEmise = informationRecue;//transmetteur parfait src=dest
 
     }
 
-
 }
-
-
-
