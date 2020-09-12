@@ -47,7 +47,8 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 			break;
 			
 		case "RZ":
-			toAna(Amax/6);
+			toAna(Amax/9);
+			informationConverti.toString();
 			break;
 
 		default:

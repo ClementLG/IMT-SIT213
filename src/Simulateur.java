@@ -240,10 +240,15 @@ public class Simulateur {
     	
     	int nbErr=0;
     	float TEB=0.0f;
-    	/*for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
+    	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
 			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
 		}
-    	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());*/
+    	//si taille differente on compte les bits manquant comme erreurs
+    	if(destination.getInformationRecue().nbElements()!=source.getInformationEmise().nbElements()) {
+    		nbErr+=Math.abs(source.getInformationEmise().nbElements()-destination.getInformationRecue().nbElements());
+    	}
+    	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());
+    	
     	
         return TEB;
     }
