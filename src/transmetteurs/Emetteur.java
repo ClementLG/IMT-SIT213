@@ -4,6 +4,15 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConforme;
 
+/**
+ * Classe Emetteur hérité de la classe Transmetteur
+ *
+ * @author c.legruiec
+ * @author e.leduc
+ * @author p.maquin
+ * @author g.fraignac
+ * @author m.lejeune
+ */
 public class Emetteur extends Transmetteur<Boolean, Float>{
 	private float Amax;
 	private float Amin;
@@ -11,6 +20,10 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 	private String encodeType;
 	private Information<Float> informationConverti;
 	
+	
+	/**
+     * Constructeur par default de Emetteur sans parametre
+     */
 	public Emetteur() {
 		Amax=5;
 		Amin=-5;
@@ -20,6 +33,13 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 		
 	}
 	
+	/**
+     * Constructeur de Emetteur à parametrer avec des infos de base
+     * @param Amax : Amplitude Max
+     * @param Amin : Amplitude Min
+     * @param nbEchantillon : Nombre d'echantillon par symbole
+     * @param encodeType : le type de conversion analogique (NRZ,NRZT,RZ)
+     */
 	public Emetteur(float Amax, float Amin, int nbEchantillon, String encodeType) {
 		this.Amax=Amax;
 		this.Amin=Amin;
@@ -28,7 +48,10 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 		informationConverti =new Information<>();
 	}
 	
-	//canal Rx Information (abstract dans la classe mere)
+	/**
+     * canal Rx Information (abstract dans la classe mere)
+     * 
+     */
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
         CNA();
@@ -36,7 +59,10 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 
     }
     
-    //canl Tx Information (abstract dans la classe mere)
+    /**
+     * canal Tx Information (abstract dans la classe mere)
+     * 
+     */
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
         	destinationConnectee.recevoir(informationConverti);
@@ -45,6 +71,10 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 
     }
     
+    /**
+     * Permet de selectionner le type de conversion a effectuer
+     * Permettra d'effectuer des operations personaliser si besoin
+     */
 	public void CNA() throws InformationNonConforme {
 		switch (encodeType) {
 		case "NRZ":
@@ -65,15 +95,11 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 		}
 	}
 	
-	public void changeCNAtype(String encodeType) {
-		this.encodeType=encodeType;
-	}
+
 	
-	public void getType() {
-		System.out.println("Type d'emetteur: "+encodeType+"avec Amax="+Amax+"et Amin="+Amin+". nBechantillon par symbole "+nbEchantillon);
-	}
-	
-	//Converti un signal logique en analogique en utilisant NRZ
+	/**
+     * Permet de convertir un signal logique en analogigue NRZ
+     */
 	private void ConvertToNRZ() {
 		for (int i = 0; i < informationRecue.nbElements(); i++) {
 			if(informationRecue.iemeElement(i).equals(true)) {
@@ -92,7 +118,9 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 		
 	}
 	
-	//Converti un signal logique en analogique en utilisant NRZT (triangle)
+	/**
+     * Permet de convertir un signal logique en analogigue NRZT
+     */
 	private void ConvertToNRZT() {
 		int divTrois=nbEchantillon/3;
 		float quantumP=Amax/divTrois;
@@ -223,6 +251,9 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 		
 	}
 	
+	/**
+     * Permet de convertir un signal logique en analogigue RZ
+     */
 	private void ConvertToRZ() {
 		int divTrois=nbEchantillon/3;
 		

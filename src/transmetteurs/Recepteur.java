@@ -4,6 +4,15 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConforme;
 
+/**
+ * Classe Recepteur hérité de la classe Transmetteur
+ *
+ * @author c.legruiec
+ * @author e.leduc
+ * @author p.maquin
+ * @author g.fraignac
+ * @author m.lejeune
+ */
 public class Recepteur extends Transmetteur<Float, Boolean>{
 	private float Amax;
 	private float Amin;
@@ -11,6 +20,13 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 	private String decodeType;
 	private Information<Boolean> informationConverti;
 	
+	/**
+     * Constructeur de recepteur à parametrer avec des infos de base
+     * @param Amax : Amplitude Max
+     * @param Amin : Amplitude Min
+     * @param nbEchantillon : Nombre d'echantillon par symbole
+     * @param decodeType : le type de conversion analogique (NRZ,NRZT,RZ)
+     */
 	public Recepteur(float Amax, float Amin, int nbEchantillon, String decodeType) {
 		this.Amax=Amax;
 		this.Amin=Amin;
@@ -19,7 +35,10 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 		informationConverti =new Information<>();
 	}
 	
-	//canal Rx Information (abstract dans la classe mere)
+	/**
+     * canal Rx Information (abstract dans la classe mere)
+     * 
+     */
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
         CAN();
@@ -27,7 +46,10 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 
     }
     
-    //canl Tx Information (abstract dans la classe mere)
+    /**
+     * canal Tx Information (abstract dans la classe mere)
+     * 
+     */
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
         	destinationConnectee.recevoir(informationConverti);
@@ -36,18 +58,23 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 
     }
     
+    
+    /**
+     * Permet de selectionner le type de conversion a effectuer
+     * Permettra d'effectuer des operations personaliser si besoin
+     */
     private void CAN() throws InformationNonConforme {
     	switch (decodeType) {
 		case "NRZ":
-			toAna(Amax/3);
+			toLogique(Amax/3);
 			break;
 			
 		case "NRZT":
-			toAna(Amax/3);
+			toLogique(Amax/3);
 			break;
 			
 		case "RZ":
-			toAna(Amax/9);
+			toLogique(Amax/9);
 			informationConverti.toString();
 			break;
 
@@ -57,7 +84,10 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 		}
     }
     
-    private void toAna(float seuil) {
+    /**
+     * Converti le signal en logique qu'ils soient de type NRZ,NRZT ou RZ
+     */
+    private void toLogique(float seuil) {
     	int k=1;
     	float moy=Amax-Amin;
     	
@@ -80,10 +110,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
     	
     }
     
-    
-    private void RZtoAna() {
-    	
-    }
+
 	
 	
 
