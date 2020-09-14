@@ -61,11 +61,11 @@ public class Simulateur {
     /**
      * le  composant Transmetteur parfait logique de la chaine de transmission
      */
-    private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
+    private final Transmetteur<Boolean, Boolean> transmetteurLogique = null;
     /**
      * le  composant Destination de la chaine de transmission
      */
-    private Destination<Boolean> destination = null;
+    private final Destination<Boolean> destination = null;
 
 
     /**
@@ -234,8 +234,8 @@ public class Simulateur {
             simulateur.execute();
             float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
             String s = "java  Simulateur  ";
-            for (int i = 0; i < args.length; i++) {
-                s += args[i] + "  ";
+            for (String arg : args) {
+                s += arg + "  ";
             }
             System.out.println(s + "  =>   TEB : " + tauxErreurBinaire);
         } catch (Exception e) {

@@ -5,11 +5,11 @@ import information.Information;
 import information.InformationNonConforme;
 
 public class Recepteur extends Transmetteur<Float, Boolean>{
-	private float Amax;
-	private float Amin;
-	private int nbEchantillon;
-	private String decodeType;
-	private Information<Boolean> informationConverti;
+	private final float Amax;
+	private final float Amin;
+	private final int nbEchantillon;
+	private final String decodeType;
+	private final Information<Boolean> informationConverti;
 	
 	public Recepteur(float Amax, float Amin, int nbEchantillon, String decodeType) {
 		this.Amax=Amax;

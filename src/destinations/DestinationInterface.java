@@ -16,7 +16,7 @@ public interface DestinationInterface<T> {
      *
      * @return une information
      */
-    public Information<T> getInformationRecue();
+    Information<T> getInformationRecue();
 
     /**
      * pour recevoir une information de la source qui nous est
@@ -24,6 +24,6 @@ public interface DestinationInterface<T> {
      *
      * @param information l'information  à recevoir
      */
-    public void recevoir(Information<T> information) throws InformationNonConforme;
+    void recevoir(Information<T> information) throws InformationNonConforme;
 
 }
