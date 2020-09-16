@@ -80,14 +80,13 @@ public class Emetteur extends Transmetteur<Boolean, Float> {
                 for (int j = 0; j < nbEchantillon; j++) {
                     informationConverti.add(Amax);
                 }
-
-            }
+            } // Ajoute Amax a informationConverti lorsque le bit recus est True
             if (!recu) {
                 for (int j = 0; j < nbEchantillon; j++) {
                     informationConverti.add(Amin);
                 }
 
-            }
+            }// Ajoute Amin a informationConverti lorsque le bit recus est False
         }
 
     }
@@ -97,23 +96,58 @@ public class Emetteur extends Transmetteur<Boolean, Float> {
         int divTrois = nbEchantillon / 3;
         float quantumP = Amax / divTrois;
         float quantumM = Amin / divTrois;
+        int nbElem=informationRecue.nbElements();
         boolean checkAfter = false;
         boolean checkBefore = false;
+        checkAfter = informationRecue.iemeElement(1);
 
-
-        for (int i = 0; i < informationRecue.nbElements(); i++) {
-            if (i != informationRecue.nbElements() - 1) {
-                checkAfter = informationRecue.iemeElement(i + 1);
-                //if(checkAfter) System.out.println("rien apres : "+i);
+        if (informationRecue.iemeElement(0)) {
+            if (!checkAfter){
+            for (int j = 0; j < divTrois; j++) {
+                informationConverti.add(quantumP * j);
             }
-            if (i != 0) {
-                checkBefore = informationRecue.iemeElement(i - 1);
-                //if(checkBefore) System.out.println("rien avant : "+i);
+            for (int j = 0; j < divTrois; j++) {
+                informationConverti.add(Amax);
             }
+            for (int j = 0; j < divTrois; j++) {
+                informationConverti.add(Amax - (quantumP * j));
+            }
+            }
+            else{
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(quantumP * j);
+                }
+                for (int j = 0; j < 2* divTrois; j++) {
+                    informationConverti.add(Amax);
+                }
+            }
+        }
+        else {
+            if (checkAfter){
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(quantumM * j);
+                }
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(Amin);
+                }
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(Amin - (quantumM * j));
+                }
+            }
+            else{
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(quantumM * j);
+                }
+                for (int j = 0; j < 2* divTrois; j++) {
+                    informationConverti.add(Amin);
+                }
+            }
+        }
 
-            if (i == 0 && !informationRecue.iemeElement(i)) checkBefore = true;
-            if (i == informationRecue.nbElements() - 1 && !informationRecue.iemeElement(i)) checkAfter = true;
-            if (i == informationRecue.nbElements() - 1 && informationRecue.iemeElement(i)) checkAfter = false;
+        for (int i = 1; i < nbElem-1; i++) {
+
+            checkAfter = informationRecue.iemeElement(i + 1);
+            checkBefore = informationRecue.iemeElement(i - 1);
 
             if (informationRecue.iemeElement(i)) {
                 if (!checkAfter && !checkBefore) {
@@ -121,36 +155,30 @@ public class Emetteur extends Transmetteur<Boolean, Float> {
                     for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(quantumP * j);
                     }
-                    for (int j = divTrois; j < 2 * divTrois; j++) {
+                    for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(Amax);
                     }
                     for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(Amax - (quantumP * j));
                     }
-                    checkAfter = false;
-                    checkBefore = false;
                 }
 
-                if (checkAfter && checkBefore) {
+                else if (checkAfter && checkBefore) {
                     for (int j = 0; j < nbEchantillon; j++) {
                         informationConverti.add(Amax);
                     }
-                    checkAfter = false;
-                    checkBefore = false;
                 }
 
-                if (checkAfter && !checkBefore) {
+                else if (checkAfter && !checkBefore) {
                     for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(quantumP * j);
                     }
-                    for (int j = divTrois; j < 3 * divTrois; j++) {
+                    for (int j = 0; j < 2 * divTrois; j++) {
                         informationConverti.add(Amax);
                     }
-                    checkAfter = false;
-                    checkBefore = false;
                 }
 
-                if (!checkAfter && checkBefore) {
+                else {
 
                     for (int j = 0; j < 2 * divTrois; j++) {
                         informationConverti.add(Amax);
@@ -158,64 +186,97 @@ public class Emetteur extends Transmetteur<Boolean, Float> {
                     for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(Amax - (quantumP * j));
                     }
-                    checkAfter = false;
-                    checkBefore = false;
                 }
 
-
-            } else {
-
+            }
+            else {
 
                 if (checkAfter && checkBefore) {
 
                     for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(quantumM * j);
                     }
-                    for (int j = divTrois; j < 2 * divTrois; j++) {
+                    for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(Amin);
                     }
                     for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(Amin - (quantumM * j));
                     }
-                    checkAfter = true;
-                    checkBefore = true;
+
                 }
 
-                if (!checkAfter && !checkBefore) {
+                else if (!checkAfter && !checkBefore) {
                     for (int j = 0; j < nbEchantillon; j++) {
                         informationConverti.add(Amin);
                     }
-                    checkAfter = true;
-                    checkBefore = true;
+
                 }
 
-
-                if (!checkAfter && checkBefore) {
+                else if (!checkAfter && checkBefore) {
                     for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(quantumM * j);
                     }
-                    for (int j = divTrois; j < 3 * divTrois; j++) {
+                    for (int j = 0; j < 2 * divTrois; j++) {
                         informationConverti.add(Amin);
                     }
-                    checkAfter = true;
-                    checkBefore = true;
                 }
 
-                if (checkAfter && !checkBefore) {
-
+                else  {
                     for (int j = 0; j < 2 * divTrois; j++) {
                         informationConverti.add(Amin);
                     }
                     for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(Amin - (quantumM * j));
                     }
-                    checkAfter = true;
-                    checkBefore = true;
                 }
             }
-
         }
 
+        checkBefore = informationRecue.iemeElement(nbElem-2);;
+        if (informationRecue.iemeElement(nbElem-1)) {
+            if (!checkBefore){
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(quantumP * j);
+                }
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(Amax);
+                }
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(Amax - (quantumP * j));
+                }
+            }
+            else{
+
+                for (int j = 0; j < 2* divTrois; j++) {
+                    informationConverti.add(Amax);
+                }
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(Amax-(quantumP * j));
+                }
+            }
+        }
+        else {
+            if (checkBefore){
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(quantumM * j);
+                }
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(Amin);
+                }
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(Amin - (quantumM * j));
+                }
+            }
+            else{
+
+                for (int j = 0; j < 2* divTrois; j++) {
+                    informationConverti.add(Amin);
+                }
+                for (int j = 0; j < divTrois; j++) {
+                    informationConverti.add(Amin-(quantumM * j));
+                }
+            }
+        }
     }
 
     private void ConvertToRZ() {
@@ -223,7 +284,7 @@ public class Emetteur extends Transmetteur<Boolean, Float> {
         int divTrois = nbEchantillon / 3;
 
         for (Boolean recu : informationRecue) {
-            if (recu) {
+            if (recu) { // Ajoute Amax pendant T/3 entoure de 0
                 for (int j = 0; j < divTrois; j++) {
                     informationConverti.add(0f);
                 }

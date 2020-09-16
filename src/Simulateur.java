@@ -192,7 +192,10 @@ public class Simulateur {
             } else if (args[i].matches("-nbEch")) {
                 i++;
                 // traiter la valeur associee
-                if (Integer.parseInt(args[i]) > 3) ne = Integer.parseInt(args[i]);
+                if (Integer.parseInt(args[i]) > 3) {
+                    ne = Integer.parseInt(args[i]);
+                    ne = ne - ne%3 ;
+                }
                 else throw new ArgumentsException("Nombre d'echantillon invalide :" + args[i]);
             } else if (args[i].matches("-ampl")) {
                 i++;

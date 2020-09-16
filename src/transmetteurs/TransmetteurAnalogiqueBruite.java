@@ -11,17 +11,14 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float> {
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
         emettre();//envoie l'information
-
     }
 
     //canl Tx Information (abstract dans la classe mere)
     public void emettre() throws InformationNonConforme {
-        bruitage(10f);
+        bruitage(0.5f);
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
             destinationConnectee.recevoir(informationEmise);
         }
-
-
     }
 
     public void bruitage(float sigma) {
