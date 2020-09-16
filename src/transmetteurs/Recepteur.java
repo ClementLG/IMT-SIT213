@@ -4,86 +4,109 @@ import destinations.DestinationInterface;
 import information.Information;
 import information.InformationNonConforme;
 
-public class Recepteur extends Transmetteur<Float, Boolean>{
-	private final float Amax;
-	private final float Amin;
-	private final int nbEchantillon;
-	private final String decodeType;
-	private final Information<Boolean> informationConverti;
-	
-	public Recepteur(float Amax, float Amin, int nbEchantillon, String decodeType) {
-		this.Amax=Amax;
-		this.Amin=Amin;
-		this.nbEchantillon=nbEchantillon;
-		this.decodeType=decodeType;
-		informationConverti =new Information<>();
-	}
-	
-	//canal Rx Information (abstract dans la classe mere)
+/**
+ * Classe Recepteur hérité de la classe Transmetteur
+ *
+ * @author c.legruiec
+ * @author e.leduc
+ * @author p.maquin
+ * @author g.fraignac
+ * @author m.lejeune
+ */
+public class Recepteur extends Transmetteur<Float, Boolean> {
+    private float Amax;
+    private float Amin;
+    private int nbEchantillon;
+    private String decodeType;
+    private Information<Boolean> informationConverti;
+
+    /**
+     * Constructeur de recepteur à parametrer avec des infos de base
+     *
+     * @param Amax          : Amplitude Max
+     * @param Amin          : Amplitude Min
+     * @param nbEchantillon : Nombre d'echantillon par symbole
+     * @param decodeType    : le type de conversion analogique (NRZ,NRZT,RZ)
+     */
+    public Recepteur(float Amax, float Amin, int nbEchantillon, String decodeType) {
+        this.Amax = Amax;
+        this.Amin = Amin;
+        this.nbEchantillon = nbEchantillon;
+        this.decodeType = decodeType;
+        informationConverti = new Information<>();
+    }
+
+    /**
+     * canal Rx Information (abstract dans la classe mere)
+     */
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
         CAN();
         emettre();
 
     }
-    
-    //canl Tx Information (abstract dans la classe mere)
+
+    /**
+     * canal Tx Information (abstract dans la classe mere)
+     */
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
-        	destinationConnectee.recevoir(informationConverti);
+            destinationConnectee.recevoir(informationConverti);
         }
         informationEmise = informationConverti;//transmetteur parfait src=dest
 
     }
-    
-    private void CAN() throws InformationNonConforme {
-    	switch (decodeType) {
-		case "NRZ":
-			toAna(Amax/3);
-			break;
-			
-		case "NRZT":
-			toAna(Amax/3);
-			break;
-			
-		case "RZ":
-			toAna(Amax/6);
-			break;
 
-		default:
-			System.out.println("Aucun type d'encodage ne correspond à l'entree saisie");
-			throw new InformationNonConforme();
-		}
+
+    /**
+     * Permet de selectionner le type de conversion a effectuer
+     * Permettra d'effectuer des operations personaliser si besoin
+     */
+    private void CAN() throws InformationNonConforme {
+        switch (decodeType) {
+            case "NRZ":
+                toLogique(Amax / 3);
+                break;
+
+            case "NRZT":
+                toLogique(Amax / 3);
+                break;
+
+            case "RZ":
+                toLogique(Amax / 9);
+                informationConverti.toString();
+                break;
+
+            default:
+                System.out.println("Aucun type d'encodage ne correspond à l'entree saisie");
+                throw new InformationNonConforme();
+        }
     }
-    
-    private void toAna(float seuil) {
-    	int k=1;
-    	float moy=Amax-Amin;
-    	
-    	for (int i = 0; i < informationRecue.nbElements(); i+=30) {
-    		for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
-				moy+=informationRecue.iemeElement(j);
-			}
-    		moy=moy/nbEchantillon;
-    		k++;
-    		//le signal pourrait etre deformé (si c'est pas un 1 on met 0 par défault
-    		if(moy>seuil) {
-    			informationConverti.add(true);
-    		}
-    		else {
-    			informationConverti.add(false);
-    		}
-    		moy=Amax-Amin;
-		}
-    	
-    	
+
+    /**
+     * Converti le signal en logique qu'ils soient de type NRZ,NRZT ou RZ
+     */
+    private void toLogique(float seuil) {
+        int k = 1;
+        float moy = Amax - Amin;
+
+        for (int i = 0; i < informationRecue.nbElements(); i += nbEchantillon) {
+            for (int j = ((k - 1) * nbEchantillon); j < k * nbEchantillon; j++) {
+                moy += informationRecue.iemeElement(j);
+            }
+            moy = moy / nbEchantillon;
+            k++;
+            //le signal pourrait etre deformé (si c'est pas un 1 on met 0 par défault
+            if (moy > seuil) {
+                informationConverti.add(true);
+            } else {
+                informationConverti.add(false);
+            }
+            moy = Amax - Amin;
+        }
+
+
     }
-    
-    
-    private void RZtoAna() {
-    	
-    }
-	
-	
+
 
 }

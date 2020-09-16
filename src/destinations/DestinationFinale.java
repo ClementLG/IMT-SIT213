@@ -14,10 +14,10 @@ import information.InformationNonConforme;
 public class DestinationFinale extends Destination<Boolean> {
 
     public DestinationFinale() {
-    	super();
+        super();
     }
 
-    
+
     //on definie notre methode (abstract dans la classe mere)
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
