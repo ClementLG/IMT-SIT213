@@ -26,8 +26,8 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
      */
 	public Emetteur() {
 		Amax=5;
-		Amin=-5;
-		encodeType="NRZ";
+		Amin=-0;
+		encodeType="RZ";
 		nbEchantillon=30;
 		informationConverti =new Information<>();
 		

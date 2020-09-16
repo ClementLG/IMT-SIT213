@@ -114,6 +114,7 @@ public class Simulateur {
         
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
+        Transmetteur<Float, Float> transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruitee();
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
         destination=new DestinationFinale();
         
@@ -127,14 +128,16 @@ public class Simulateur {
         
         //connexion des blocs ensembles
         source.connecter(emetteur);
-        emetteur.connecter(transmetteurAnalogiqueParfait);
-        transmetteurAnalogiqueParfait.connecter(recepteur);
+        emetteur.connecter(transmetteurAnalogiqueBruitee);
+        //transmetteurAnalogiqueParfait.connecter(recepteur);
+        transmetteurAnalogiqueBruitee.connecter(recepteur);
         recepteur.connecter(destination);
         
         if(affichage) {
         	source.connecter(viewSrc);
         	emetteur.connecter(viewEmet);
-        	transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
+        	//transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
+        	transmetteurAnalogiqueBruitee.connecter(viewTransmitAna);
         	recepteur.connecter(viewDest);
         }
         
@@ -244,7 +247,7 @@ public class Simulateur {
     	
     	int nbErr=0;
     	float TEB=0.0f;
-    	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
+    	/*for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
 			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
 		}
     	//si taille differente on compte les bits manquant comme erreurs
@@ -252,7 +255,7 @@ public class Simulateur {
     		nbErr+=Math.abs(source.getInformationEmise().nbElements()-destination.getInformationRecue().nbElements());
     	}
     	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());
-    	
+    	*/
     	
         return TEB;
     }
