@@ -36,7 +36,7 @@ public class Simulateur {
     /**
      * indique si le Simulateur utilise des sondes d'affichage
      */
-    private boolean affichage = false;
+    private boolean affichage = true;
     /**
      * indique si le Simulateur utilise un message genere de maniere aleatoire
      */
@@ -52,7 +52,7 @@ public class Simulateur {
     /**
      * la longueur du message aleatoire a transmettre si un message n'est pas impose
      */
-    private int nbBitsMess = 100;
+    private int nbBitsMess = 20;
     /**
      * la chaine de caracteres correspondant a m dans l'argument -mess m
      */
@@ -61,7 +61,7 @@ public class Simulateur {
     /**
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
      */
-    private String form = "RZ";
+    private String form = "NRZT";
 
     /**
      * le  composant Source de la chaine de transmission
@@ -114,6 +114,7 @@ public class Simulateur {
         
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
+        Transmetteur<Float, Float> transmetteurAnalogiqueBruite = new TransmetteurAnalogiqueBruite();
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
         destination=new DestinationFinale();
         
@@ -127,8 +128,8 @@ public class Simulateur {
         
         //connexion des blocs ensembles
         source.connecter(emetteur);
-        emetteur.connecter(transmetteurAnalogiqueParfait);
-        transmetteurAnalogiqueParfait.connecter(recepteur);
+        emetteur.connecter(transmetteurAnalogiqueBruite);
+        transmetteurAnalogiqueBruite.connecter(recepteur);
         recepteur.connecter(destination);
         
         if(affichage) {

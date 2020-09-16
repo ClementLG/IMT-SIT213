@@ -66,15 +66,15 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
     private void CAN() throws InformationNonConforme {
     	switch (decodeType) {
 		case "NRZ":
-			toLogique(Amax/3);
+			toLogique(Amax/2);
 			break;
 			
 		case "NRZT":
-			toLogique(Amax/3);
+			toLogique(Amax/2);
 			break;
 			
 		case "RZ":
-			toLogique(Amax/9);
+			toLogique(Amax/3);
 			informationConverti.toString();
 			break;
 
