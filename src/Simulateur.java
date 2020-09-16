@@ -93,28 +93,28 @@ public class Simulateur {
         
         
         Transmetteur<Boolean, Float> emetteur = new Emetteur(5f, -5f, 30, "NRZT");
-        Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
+        Transmetteur<Float, Float> transmetteurAnalogiqueBruite=new TransmetteurAnalogiqueBruite();
         Transmetteur<Float, Boolean> recepteur=new Recepteur(5, -5, 30, "NRZT");
         Destination<Boolean> destinationFinale=new DestinationFinale();
         
         //Instanciations des differentes sondes
-        SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
-        SondeAnalogique viewEmet = new SondeAnalogique("ViewEmet");
-        SondeAnalogique viewTransmitAna = new SondeAnalogique("ViewTransmitAna");
+        SondeLogique viewSrc = new SondeLogique("Source", 720);
+        SondeAnalogique viewEmet = new SondeAnalogique("Emeteur");
+        SondeAnalogique viewRecept = new SondeAnalogique("Recepteur");
         SondeLogique viewDest = new SondeLogique("ViewDest", 720);
         
         
         
         //connexion des blocs ensembles
         source.connecter(emetteur);
-        emetteur.connecter(transmetteurAnalogiqueParfait);
-        transmetteurAnalogiqueParfait.connecter(recepteur);
+        emetteur.connecter(transmetteurAnalogiqueBruite);
+        transmetteurAnalogiqueBruite.connecter(recepteur);
         recepteur.connecter(destinationFinale);
         
         if(affichage) {
         	source.connecter(viewSrc);
         	emetteur.connecter(viewEmet);
-        	transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
+        	transmetteurAnalogiqueBruite.connecter(viewRecept);
         	recepteur.connecter(viewDest);
         }
         
