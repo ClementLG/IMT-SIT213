@@ -204,7 +204,10 @@ public class Simulateur {
             } else if (args[i].matches("-nbEch")) {
             	i++;
             	// traiter la valeur associee
-            	if(Integer.parseInt(args[i])>0) ne=Integer.parseInt(args[i]);
+            	if(Integer.parseInt(args[i])>0) {
+            		ne=Integer.parseInt(args[i]);
+            		ne -= ne%3;
+            	}
             	else throw new ArgumentsException("Nombre d'echantillon invalide :" + args[i]);
             } else if (args[i].matches("-ampl")) {
             	i++;
@@ -247,7 +250,7 @@ public class Simulateur {
     	
     	int nbErr=0;
     	float TEB=0.0f;
-    	/*for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
+    	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
 			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
 		}
     	//si taille differente on compte les bits manquant comme erreurs
@@ -255,7 +258,7 @@ public class Simulateur {
     		nbErr+=Math.abs(source.getInformationEmise().nbElements()-destination.getInformationRecue().nbElements());
     	}
     	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());
-    	*/
+    	
     	
         return TEB;
     }

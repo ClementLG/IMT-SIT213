@@ -75,7 +75,6 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 			
 		case "RZ":
 			toLogique(Amax/9);
-			informationConverti.toString();
 			break;
 
 		default:

@@ -17,7 +17,7 @@ import information.InformationNonConforme;
  * @author m.lejeune
  */
 public class TransmetteurAnalogiqueBruitee extends Transmetteur<Float, Float>{
-	int var=1;
+	int var=10;
 	Integer seed=null;
 	private Information<Float> informationConverti;
 	
@@ -62,9 +62,9 @@ public class TransmetteurAnalogiqueBruitee extends Transmetteur<Float, Float>{
     	Random rand1=new Random();
     	Random rand2=new Random();
     	float bruit=0f;
-    	for (int i = 0; i < informationRecue.nbElements(); i++) {
+    	for (Float infoR : informationRecue) {
     		bruit=(float) ((float) var*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
-    		informationConverti.add(informationRecue.iemeElement(i)+bruit);
+    		informationConverti.add(infoR+bruit);
 		}
     }
 
