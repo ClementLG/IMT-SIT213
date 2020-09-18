@@ -17,14 +17,15 @@ import information.InformationNonConforme;
  * @author m.lejeune
  */
 public class TransmetteurAnalogiqueBruitee extends Transmetteur<Float, Float>{
-	float snr=10;
+	float snr=0;
 	Integer seed=null;
 	private Information<Float> informationConverti;
+	int nbEchantillon=30;
 	
-	
-	public TransmetteurAnalogiqueBruitee(int seed, float snr) {
+	public TransmetteurAnalogiqueBruitee(int seed, float snr, int nbEchantillon) {
 		this.seed=seed;
 		this.snr=snr;
+		this.nbEchantillon=nbEchantillon;
 		informationConverti =new Information<>();
 
 	}
@@ -59,23 +60,30 @@ public class TransmetteurAnalogiqueBruitee extends Transmetteur<Float, Float>{
     }
     
     private void ajoutBruit() {
-    	float sigma=calculSigma();
+    	float sigma=1;
+    	int k=1;
     	Random rand1=new Random();
     	Random rand2=new Random();
     	float bruit=0f;
-    	for (Float infoR : informationRecue) {
-    		bruit=(float) ((float) sigma*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
-    		informationConverti.add(infoR+bruit);
+    	for (int i = 0; i < informationRecue.nbElements(); i+=nbEchantillon) {
+    		sigma=calculSigma(i);
+    		for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
+        		bruit=(float) ((float) sigma*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
+        		informationConverti.add(informationRecue.iemeElement(j)+bruit);
+    		}
+    		k++;
 		}
+    	
     }
     
-    private float calculSigma() {
+    private float calculSigma(int indexDepart) {
     	float Ps=0f;
     	float Sigma=0f;
   
-        for (Float infoR : informationRecue) {
-    		Ps+=Math.pow(infoR, 2);
-    	}
+        for (int i = indexDepart; i < indexDepart+nbEchantillon; i++) {
+        	Ps+=Math.pow(informationRecue.iemeElement(i), 2);
+		}
+        Ps=Ps/30;
         	
         //calcul de sigmaCarre
         Sigma= (float) (Ps/(2*Math.pow(10,snr/10)));

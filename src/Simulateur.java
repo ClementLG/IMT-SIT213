@@ -62,6 +62,11 @@ public class Simulateur {
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
      */
     private String form = "RZ";
+    
+    /**
+     * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
+     */
+    private float snr = 10000000f;
 
     /**
      * le  composant Source de la chaine de transmission
@@ -114,7 +119,13 @@ public class Simulateur {
         
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
-        Transmetteur<Float, Float> transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruitee();
+        Transmetteur<Float, Float> transmetteurAnalogiqueBruitee;
+        if (aleatoireAvecGerme) {
+        	transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruitee(seed,snr, ne);
+		} else {
+			transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruitee();
+		}
+        
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
         destination=new DestinationFinale();
         
@@ -219,7 +230,10 @@ public class Simulateur {
             	else throw new ArgumentsException("Amplitude max incorecte :" + args[i]);
             	if(min>max) throw new ArgumentsException("Amplitudes incorectes (min>max) : " + min + ">"+max);
             	
-            } else throw new ArgumentsException("Option invalide :" + args[i]);
+            } else if (args[i].matches("-snrpb")) {
+            	i++;
+            	snr=Float.parseFloat(args[i]);
+            }else throw new ArgumentsException("Option invalide :" + args[i]);
             
         }
 
