@@ -17,14 +17,14 @@ import information.InformationNonConforme;
  * @author m.lejeune
  */
 public class TransmetteurAnalogiqueBruitee extends Transmetteur<Float, Float>{
-	int var=10;
+	float snr=10;
 	Integer seed=null;
 	private Information<Float> informationConverti;
 	
 	
-	public TransmetteurAnalogiqueBruitee(int seed, int var) {
+	public TransmetteurAnalogiqueBruitee(int seed, float snr) {
 		this.seed=seed;
-		this.var=var;
+		this.snr=snr;
 		informationConverti =new Information<>();
 
 	}
@@ -59,13 +59,31 @@ public class TransmetteurAnalogiqueBruitee extends Transmetteur<Float, Float>{
     }
     
     private void ajoutBruit() {
+    	float sigma=calculSigma();
     	Random rand1=new Random();
     	Random rand2=new Random();
     	float bruit=0f;
     	for (Float infoR : informationRecue) {
-    		bruit=(float) ((float) var*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
+    		bruit=(float) ((float) sigma*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
     		informationConverti.add(infoR+bruit);
 		}
+    }
+    
+    private float calculSigma() {
+    	float Ps=0f;
+    	float Sigma=0f;
+  
+        for (Float infoR : informationRecue) {
+    		Ps+=Math.pow(infoR, 2);
+    	}
+        	
+        //calcul de sigmaCarre
+        Sigma= (float) (Ps/(2*Math.pow(10,snr/10)));
+        Sigma=(float) Math.sqrt(Sigma);
+    	
+    	//calcul de la puissance moyenne
+    	
+    	return Sigma;
     }
 
 }
