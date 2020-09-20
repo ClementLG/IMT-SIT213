@@ -134,7 +134,7 @@ public class Simulateur {
         if (aleatoireAvecGerme) {
         	transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruitee(seed,snr, ne);
 		} else {
-			transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruitee();
+			transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruitee(snr, ne);
 		}
         
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
