@@ -132,9 +132,9 @@ public class Simulateur {
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
         Transmetteur<Float, Float> transmetteurAnalogiqueBruitee;
         if (aleatoireAvecGerme) {
-        	transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruitee(seed,snr, ne);
+        	transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruite(seed,snr, ne);
 		} else {
-			transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruitee(snr, ne);
+			transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruite(snr, ne);
 		}
         
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
@@ -214,7 +214,7 @@ public class Simulateur {
                 } else if (args[i].matches("[0-9]{1,6}")) {
                     messageAleatoire = true;
                     nbBitsMess = Integer.valueOf(args[i]);
-                    if (nbBitsMess < 1)
+                    if (nbBitsMess < 3)
                         throw new ArgumentsException("Valeur du parametre -mess invalide : " + nbBitsMess);
                 } else
                     throw new ArgumentsException("Valeur du parametre -mess invalide : " + args[i]);

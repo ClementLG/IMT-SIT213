@@ -16,13 +16,13 @@ import information.InformationNonConforme;
  * @author g.fraignac
  * @author m.lejeune
  */
-public class TransmetteurAnalogiqueBruitee extends Transmetteur<Float, Float>{
+public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 	float snr=0;
 	Integer seed=null;
 	private Information<Float> informationConverti;
 	int nbEchantillon=30;
 	
-	public TransmetteurAnalogiqueBruitee(int seed, float snr, int nbEchantillon) {
+	public TransmetteurAnalogiqueBruite(int seed, float snr, int nbEchantillon) {
 		this.seed=seed;
 		this.snr=snr;
 		this.nbEchantillon=nbEchantillon;
@@ -30,7 +30,7 @@ public class TransmetteurAnalogiqueBruitee extends Transmetteur<Float, Float>{
 
 	}
 	
-	public TransmetteurAnalogiqueBruitee(float snr, int ne) {
+	public TransmetteurAnalogiqueBruite(float snr, int ne) {
 		super();
 		this.snr=snr;
 		this.nbEchantillon=ne;
