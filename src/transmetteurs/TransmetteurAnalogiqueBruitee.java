@@ -30,8 +30,10 @@ public class TransmetteurAnalogiqueBruitee extends Transmetteur<Float, Float>{
 
 	}
 	
-	public TransmetteurAnalogiqueBruitee() {
+	public TransmetteurAnalogiqueBruitee(float snr, int ne) {
 		super();
+		this.snr=snr;
+		this.nbEchantillon=ne;
 		informationConverti =new Information<>();
 
 	}
@@ -62,8 +64,15 @@ public class TransmetteurAnalogiqueBruitee extends Transmetteur<Float, Float>{
     private void ajoutBruit() {
     	float sigma=1;
     	int k=1;
-    	Random rand1=new Random();
-    	Random rand2=new Random();
+    	Random rand1;
+    	Random rand2;
+    	if (seed!=null) {
+			rand1=new Random(seed);
+			rand2=new Random(seed);
+		} else {
+			rand1=new Random();
+			rand2=new Random();
+		}
     	float bruit=0f;
     	for (int i = 0; i < informationRecue.nbElements(); i+=nbEchantillon) {
     		sigma=calculSigma(i);
@@ -84,7 +93,6 @@ public class TransmetteurAnalogiqueBruitee extends Transmetteur<Float, Float>{
         	Ps+=Math.pow(informationRecue.iemeElement(i), 2);
 		}
         Ps=Ps/30;
-        	
         //calcul de sigmaCarre
         Sigma= (float) (Ps/(2*Math.pow(10,snr/10)));
         Sigma=(float) Math.sqrt(Sigma);

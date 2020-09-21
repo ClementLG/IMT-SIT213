@@ -331,7 +331,7 @@ public class Simulateur {
         try {
             simulateur.execute();
             float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
-            simulateur.exportDuTEB(tauxErreurBinaire);
+            //simulateur.exportDuTEB(tauxErreurBinaire);
             String s = "java  Simulateur  ";
             for (int i = 0; i < args.length; i++) {
                 s += args[i] + "  ";
