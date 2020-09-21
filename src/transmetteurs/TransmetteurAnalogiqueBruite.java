@@ -92,7 +92,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
         for (int i = indexDepart; i < indexDepart+nbEchantillon; i++) {
         	Ps+=Math.pow(informationRecue.iemeElement(i), 2);
 		}
-        Ps=Ps/nbEchantillon;
+        //Ps=Ps/nbEchantillon;
         //calcul de sigmaCarre
         Sigma= (float) (Ps/(2*Math.pow(10,snr/10)));
         Sigma=(float) Math.sqrt(Sigma);
