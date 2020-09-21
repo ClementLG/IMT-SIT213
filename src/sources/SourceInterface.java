@@ -16,17 +16,17 @@ public interface SourceInterface<T> {
      *
      * @return une information
      */
-    Information<T> getInformationEmise();
+    public Information<T> getInformationEmise();
 
     /**
      * pour connecter une destination à la source
      *
      * @param destination la destination à connecter
      */
-    void connecter(DestinationInterface<T> destination);
+    public void connecter(DestinationInterface<T> destination);
 
     /**
      * pour émettre l'information contenue dans une source
      */
-    void emettre() throws InformationNonConforme;
+    public void emettre() throws InformationNonConforme;
 }

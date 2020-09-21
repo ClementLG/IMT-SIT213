@@ -13,12 +13,12 @@ import java.awt.geom.*;
 import java.lang.*;
 
 public class Vue extends JFrame {
-    private static final LinkedList<Vue> lesVues = new LinkedList<Vue>();
+    private static LinkedList<Vue> lesVues = new LinkedList<Vue>();
     private static final long serialVersionUID = 1917L;
 
     protected static int xPosition = 0;
     protected static int yPosition = 0;
-    private static final int yDecalage = 200;
+    private static int yDecalage = 200;
 
     public static int getXPosition() {
         xPosition += 0;

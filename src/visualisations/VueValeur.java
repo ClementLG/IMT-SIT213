@@ -15,7 +15,7 @@ public class VueValeur extends Vue {
 
     private static final long serialVersionUID = 1917L;
 
-    private final JLabel jLabel;
+    private JLabel jLabel;
 
 
     public VueValeur(Object valeur, String nom) {

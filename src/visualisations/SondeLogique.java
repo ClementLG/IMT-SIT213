@@ -14,7 +14,7 @@ public class SondeLogique extends Sonde<Boolean> {
      * le nombre de pixels en largeur pour un element d'information
      * Boolean a� afficher dans la fenetre
      */
-    private final int nbPixels;
+    private int nbPixels;
 
     /**
      * pour construire une sonde logique

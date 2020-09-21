@@ -13,6 +13,7 @@ import java.lang.Math;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -64,29 +65,44 @@ public class Simulateur {
     private String form = "RZ";
 
     /**
+     * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
+     */
+    private float snr = 10000000f;
+
+    /**
      * le  composant Source de la chaine de transmission
      */
     private Source<Boolean> source = null;
+
     /**
      * le  composant Transmetteur parfait logique de la chaine de transmission
      */
     private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
+
     /**
      * le  composant Destination de la chaine de transmission
      */
     private Destination<Boolean> destination = null;
+
     /**
-     * 'ne' precise le nombre d’échantillons par bit
+     *  'ne' precise le nombre d’échantillons par bit
      */
     private int ne = 30;
+
     /**
-     * 'min' precise l'amplitude minimale du signale analogique
+     *  'min' precise l'amplitude minimale du signale analogique
      */
     private float min = 0;
+
     /**
-     * 'max' precise l'amplitude maximale du signale analogique
+     *  'max' precise l'amplitude maximale du signale analogique
      */
     private float max = 1;
+
+    /**
+     *  'export' precise la destination de l'export du TEB
+     */
+    private String export = null;
 
     /**
      * Le constructeur de Simulateur construit une chaine de
@@ -101,40 +117,58 @@ public class Simulateur {
      */
     public Simulateur(String[] args) throws ArgumentsException {
 
-        //Analyse des arguments
+    	//Analyse des arguments
         analyseArguments(args);
 
         //Instanciations des differents blocs de traitement
         if (messageAleatoire) {
-            source = new SourceAleatoire(nbBitsMess, seed);
+        	source=new SourceAleatoire(nbBitsMess, seed);
         } else {
-            source = new SourceFixe(messageString);
+        	source=new SourceFixe(messageString);
         }
 
+
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
-        Transmetteur<Float, Float> transmetteurAnalogiqueBruite = new TransmetteurAnalogiqueBruite();
-        Transmetteur<Float, Boolean> recepteur = new Recepteur(max, min, ne, form);
-        destination = new DestinationFinale();
+        Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
+        Transmetteur<Float, Float> transmetteurAnalogiqueBruite;
+        if (aleatoireAvecGerme) {
+        	transmetteurAnalogiqueBruite=new TransmetteurAnalogiqueBruite(seed,snr, ne);
+		} else {
+			transmetteurAnalogiqueBruite=new TransmetteurAnalogiqueBruite(snr, ne);
+		}
+
+        Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
+        destination=new DestinationFinale();
 
         //Instanciations des differentes sondes
-        SondeLogique viewSrc = new SondeLogique("Source", 720);
-        SondeAnalogique viewEmet = new SondeAnalogique("Emeteur");
-        SondeAnalogique viewRecept = new SondeAnalogique("Recepteur");
+        SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
+        SondeAnalogique viewEmet = new SondeAnalogique("ViewEmet");
+        SondeAnalogique viewTransmitAna = new SondeAnalogique("ViewTransmitAna");
         SondeLogique viewDest = new SondeLogique("ViewDest", 720);
+
 
 
         //connexion des blocs ensembles
         source.connecter(emetteur);
         emetteur.connecter(transmetteurAnalogiqueBruite);
+        //transmetteurAnalogiqueParfait.connecter(recepteur);
         transmetteurAnalogiqueBruite.connecter(recepteur);
         recepteur.connecter(destination);
 
-        if (affichage) {
-            source.connecter(viewSrc);
-            emetteur.connecter(viewEmet);
-            transmetteurAnalogiqueBruite.connecter(viewRecept);
-            recepteur.connecter(viewDest);
+        if(affichage) {
+        	source.connecter(viewSrc);
+        	emetteur.connecter(viewEmet);
+        	//transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
+        	transmetteurAnalogiqueBruite.connecter(viewTransmitAna);
+        	recepteur.connecter(viewDest);
         }
+
+        //transmetteurLogique.connecter(destination);
+        //if(affichage) transmetteurLogique.connecter(viewTransmit);
+
+
+
+
     }
 
 
@@ -185,29 +219,35 @@ public class Simulateur {
                 } else
                     throw new ArgumentsException("Valeur du parametre -mess invalide : " + args[i]);
             } else if (args[i].matches("-form")) {
-                i++;
-                // traiter la valeur associee
-                if (args[i].matches("\\bRZ\\b|\\bNRZ\\b|\\bNRZT\\b")) form = args[i];
-                else throw new ArgumentsException("Forme invalide :" + args[i]);
+            	i++;
+            	// traiter la valeur associee
+            	if(args[i].matches("\\bRZ\\b|\\bNRZ\\b|\\bNRZT\\b")) form=args[i];
+            	else throw new ArgumentsException("Forme invalide :" + args[i]);
             } else if (args[i].matches("-nbEch")) {
-                i++;
-                // traiter la valeur associee
-                if (Integer.parseInt(args[i]) > 3) {
-                    ne = Integer.parseInt(args[i]);
-                    ne = ne - ne%3 ;
-                }
-                else throw new ArgumentsException("Nombre d'echantillon invalide :" + args[i]);
+            	i++;
+            	// traiter la valeur associee
+            	if(Integer.parseInt(args[i])>0) {
+            		ne=Integer.parseInt(args[i]);
+            		ne -= ne%3;
+            	}
+            	else throw new ArgumentsException("Nombre d'echantillon invalide :" + args[i]);
             } else if (args[i].matches("-ampl")) {
-                i++;
-                // traiter la valeur associee
-                if (args[i].matches("^-?\\d*(\\.\\d+)?$")) min = Float.parseFloat(args[i]);
-                else throw new ArgumentsException("Amplitude min incorecte :" + args[i]);
-                i++;
-                if (args[i].matches("^-?\\d*(\\.\\d+)?$")) max = Float.parseFloat(args[i]);
-                else throw new ArgumentsException("Amplitude max incorecte :" + args[i]);
-                if (min > max) throw new ArgumentsException("Amplitudes incorectes (min>max) : " + min + ">" + max);
+            	i++;
+            	// traiter la valeur associee
+            	if(args[i].matches("^-?\\d*(\\.\\d+)?$")) min=Float.parseFloat(args[i]);
+            	else throw new ArgumentsException("Amplitude min incorecte :" + args[i]);
+            	i++;
+            	if(args[i].matches("^-?\\d*(\\.\\d+)?$")) max=Float.parseFloat(args[i]);
+            	else throw new ArgumentsException("Amplitude max incorecte :" + args[i]);
+            	if(min>max) throw new ArgumentsException("Amplitudes incorectes (min>max) : " + min + ">"+max);
 
-            } else throw new ArgumentsException("Option invalide :" + args[i]);
+            } else if (args[i].matches("-snrpb")) {
+            	i++;
+            	snr=Float.parseFloat(args[i]);
+            }else if (args[i].matches("-export")) {
+            	i++;
+            	export=args[i];
+            }else throw new ArgumentsException("Option invalide :" + args[i]);
 
         }
 
@@ -221,7 +261,7 @@ public class Simulateur {
      * @throws Exception si un probleme survient lors de l'execution
      */
     public void execute() throws Exception {
-        source.emettre();
+    	source.emettre();
 
     }
 
@@ -234,15 +274,39 @@ public class Simulateur {
      */
     public float calculTauxErreurBinaire() {
 
-        int nbErr = 0;
-        float TEB = 0.0f;
-        for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
-            if (destination.getInformationRecue().iemeElement(i) != source.getInformationEmise().iemeElement(i))
-                nbErr++;
-        }
-        TEB = (nbErr * 1.0f) / (source.getInformationEmise().nbElements());
+    	//Attention si tailles des tableaux differentes ?? --> demander si possible
+
+    	int nbErr=0;
+    	float TEB=0.0f;
+    	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
+			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
+		}
+    	//si taille differente on compte les bits manquant comme erreurs
+    	if(destination.getInformationRecue().nbElements()!=source.getInformationEmise().nbElements()) {
+    		nbErr+=Math.abs(source.getInformationEmise().nbElements()-destination.getInformationRecue().nbElements());
+    	}
+    	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());
+
 
         return TEB;
+    }
+
+    public void exportDuTEB(float TEB) {
+    	if(export!=null) {
+    		try
+    		{
+    		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\test.txt";
+    			//String filename= export;
+    		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+    		    fw.write(TEB+"\n");//appends the string to the file
+    		    fw.close();
+    		}
+    		catch(IOException ioe)
+    		{
+    		    System.err.println("IOException: " + ioe.getMessage());
+    		}
+    	}
+
     }
 
 
@@ -267,6 +331,7 @@ public class Simulateur {
         try {
             simulateur.execute();
             float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
+            //simulateur.exportDuTEB(tauxErreurBinaire);
             String s = "java  Simulateur  ";
             for (String arg : args) {
                 s += arg + "  ";
