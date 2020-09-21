@@ -71,11 +71,12 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 
     }
 
+
     /**
      * Permet de selectionner le type de conversion a effectuer
      * Permettra d'effectuer des operations personaliser si besoin
      */
-	public void CNA() throws InformationNonConforme {
+	private void CNA() throws InformationNonConforme {
 		switch (encodeType) {
 		case "NRZ":
 			ConvertToNRZ();
@@ -94,8 +95,6 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 			throw new InformationNonConforme();
 		}
 	}
-
-
 
 	/**
      * Permet de convertir un signal logique en analogigue NRZ

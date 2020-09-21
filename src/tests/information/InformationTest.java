@@ -11,7 +11,7 @@ public class InformationTest {
     Information test1 = new Information();
 
     @Test
-    public void add() {
+    public void testAdd() {
         test1.add("TEST");
         test1.add("DE");
         test1.add("INFORMATION");
@@ -19,27 +19,27 @@ public class InformationTest {
     }
 
     @Test
-    public void nbElements() {
-        add();
+    public void testNbElements() {
+        testAdd();
         assertEquals(3, test1.nbElements());
     }
 
     @Test
-    public void iemeElement() {
-        add();
+    public void testIemeElement() {
+        testAdd();
         assertEquals("TEST", test1.iemeElement(0));
     }
 
     @Test
-    public void setIemeElement() {
-        add();
+    public void testSetIemeElement() {
+        testAdd();
         test1.setIemeElement(1, "REUSSI");
         assertEquals("REUSSI", test1.iemeElement(1));
     }
 
     @Test
     public void testEquals() {
-        add();
+        testAdd();
         assertTrue(test1.equals(test1));
         test1.add(true);
         assertSame( test1.iemeElement(3).getClass().getName(),"java.lang.Boolean");
@@ -47,13 +47,13 @@ public class InformationTest {
 
     @Test
     public void testToString() {
-        add();
+        testAdd();
         assertEquals(" TEST DE INFORMATION", test1.toString());
     }
 
     @Test
     public void testIterator() {
-        add();
+        testAdd();
         int cpt = 0;
         for (Object x : test1) {
             cpt++;
