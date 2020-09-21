@@ -2,9 +2,8 @@ package sources;
 
 import java.util.Random;
 
-import destinations.DestinationInterface;
 import information.Information;
-import information.InformationNonConforme;
+
 
 /**
  * Classe SourceAleatoire hérité d'un composant source d'informations
