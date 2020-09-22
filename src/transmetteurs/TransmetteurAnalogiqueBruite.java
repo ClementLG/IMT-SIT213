@@ -38,6 +38,15 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 
 	}
 	
+	public TransmetteurAnalogiqueBruite(float snr ) {
+		super();
+		this.snr=snr;
+		this.nbEchantillon=nbEchantillon;
+		informationConverti =new Information<>();
+		nbEchantillon=30;
+
+	}
+	
 	/**
      * canal Rx Information (abstract dans la classe mere)
      * 

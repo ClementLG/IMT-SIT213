@@ -21,6 +21,18 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 	private Information<Boolean> informationConverti;
 	
 	/**
+	 * Constructeur par defaut de Recepteur sans parametre
+	 */
+	public Recepteur() {
+		Amax=5;
+		Amin=-0;
+		decodeType="RZ";
+		nbEchantillon=30;
+		informationConverti =new Information<>();
+
+	}
+	
+	/**
      * Constructeur de recepteur à parametrer avec des infos de base
      * @param Amax : Amplitude Max
      * @param Amin : Amplitude Min
