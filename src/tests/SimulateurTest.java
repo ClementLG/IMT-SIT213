@@ -6,6 +6,7 @@ public class SimulateurTest {
 
     @Test
     public void analyseArguments() {
+
     }
 
     @Test

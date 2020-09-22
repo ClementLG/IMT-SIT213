@@ -1,9 +1,6 @@
 package information;
 
 import org.junit.Test;
-
-import javax.print.DocFlavor;
-
 import static org.junit.Assert.*;
 
 public class InformationTest {
