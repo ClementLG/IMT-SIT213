@@ -19,7 +19,11 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 	private int nbEchantillon;
 	private String decodeType;
 	private Information<Boolean> informationConverti;
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> origin/Gui
 	/**
      * Constructeur de recepteur à parametrer avec des infos de base
      * @param Amax : Amplitude Max
@@ -27,6 +31,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
      * @param nbEchantillon : Nombre d'echantillon par symbole
      * @param decodeType : le type de conversion analogique (NRZ,NRZT,RZ)
      */
+<<<<<<< HEAD
 	public Recepteur(float Amax, float Amin, int nbEchantillon, String decodeType) {
 		this.Amax=Amax;
 		this.Amin=Amin;
@@ -38,6 +43,19 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 	/**
      * canal Rx Information (abstract dans la classe mere)
      * 
+=======
+    public Recepteur(float Amax, float Amin, int nbEchantillon, String decodeType) {
+        this.Amax = Amax;
+        this.Amin = Amin;
+        this.nbEchantillon = nbEchantillon;
+        this.decodeType = decodeType;
+        informationConverti = new Information<>();
+    }
+
+    /**
+     * canal Rx Information (abstract dans la classe mere)
+     *
+>>>>>>> origin/Gui
      */
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
@@ -45,10 +63,17 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
         emettre();
 
     }
+<<<<<<< HEAD
     
     /**
      * canal Tx Information (abstract dans la classe mere)
      * 
+=======
+
+    /**
+     * canal Tx Information (abstract dans la classe mere)
+     *
+>>>>>>> origin/Gui
      */
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
@@ -57,8 +82,13 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
         informationEmise = informationConverti;//transmetteur parfait src=dest
 
     }
+<<<<<<< HEAD
     
     
+=======
+
+
+>>>>>>> origin/Gui
     /**
      * Permet de selectionner le type de conversion a effectuer
      * Permettra d'effectuer des operations personaliser si besoin
@@ -68,6 +98,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 		case "NRZ":
 			toLogique(Amax/2);
 			break;
+<<<<<<< HEAD
 			
 		case "NRZT":
 			toLogique(Amax/2);
@@ -76,6 +107,15 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 		case "RZ":
 			toLogique(Amax/3);
 			informationConverti.toString();
+=======
+
+		case "NRZT":
+			toLogique(Amax/2);
+			break;
+
+		case "RZ":
+			toLogique(Amax/9);
+>>>>>>> origin/Gui
 			break;
 
 		default:
@@ -83,14 +123,22 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 			throw new InformationNonConforme();
 		}
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> origin/Gui
     /**
      * Converti le signal en logique qu'ils soient de type NRZ,NRZT ou RZ
      */
     private void toLogique(float seuil) {
     	int k=1;
     	float moy=Amax-Amin;
+<<<<<<< HEAD
     	
+=======
+
+>>>>>>> origin/Gui
     	for (int i = 0; i < informationRecue.nbElements(); i+=nbEchantillon) {
     		for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
 				moy+=informationRecue.iemeElement(j);
@@ -106,6 +154,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
     		}
     		moy=Amax-Amin;
 		}
+<<<<<<< HEAD
     	
     	
     }
@@ -114,4 +163,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 	
 	
 
+=======
+    }
+>>>>>>> origin/Gui
 }
