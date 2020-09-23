@@ -1,6 +1,0 @@
-#!/bin/bash
-echo -e "\n --- début des tests  --- \n"
-
-echo -e "Pas de tests à executer pour l'instant - coming soon"
-
-echo -e "\n --- fin des tests  --- \n"

@@ -1,7 +1,0 @@
-#!/bin/bash
-cd ./src
-javac -encoding ISO-8859-1 Simulateur.java -d ../bin/ 2>../erreurs.log
-more ../erreurs.log
-
-	
-
