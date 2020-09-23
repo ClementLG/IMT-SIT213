@@ -67,7 +67,7 @@ public class Simulateur {
     /**
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
      */
-    private float snr = 3f;
+    private float snr = 10f;
 
     /**
      * le  composant Source de la chaine de transmission

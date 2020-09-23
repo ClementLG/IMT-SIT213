@@ -75,7 +75,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
     }
 	private void ajoutDecalage() {
 		int k=1;
-		float coef=0.2f;
+		float coef=0.6f;
 		int decallage=40;
 		for (int i = 0; i < informationRecue.nbElements(); i+=nbEchantillon) {
 			for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
@@ -107,8 +107,8 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
     		for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
         		bruit=(float) ((float) sigma*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
         		System.out.println(bruit);
-        		//informationConverti.add(informationRecue.iemeElement(j)+bruit);
         		informationConverti.add(informationDecale.iemeElement(j)+bruit);
+
     		}
     		k++;
 		}
