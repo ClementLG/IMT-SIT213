@@ -14,10 +14,10 @@ import information.InformationNonConforme;
  * @author m.lejeune
  */
 public class TransmetteurAnalogiqueParfait extends Transmetteur<Float, Float>{
-	
+
 	/**
      * canal Rx Information (abstract dans la classe mere)
-     * 
+     *
      */
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
@@ -27,7 +27,7 @@ public class TransmetteurAnalogiqueParfait extends Transmetteur<Float, Float>{
 
     /**
      * canal Tx Information (abstract dans la classe mere)
-     * 
+     *
      */
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
