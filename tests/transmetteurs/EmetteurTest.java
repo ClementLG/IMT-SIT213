@@ -1,9 +1,6 @@
 package transmetteurs;
 
-<<<<<<< HEAD
-import destinations.DestinationFinale;
-=======
->>>>>>> master
+
 import information.Information;
 import information.InformationNonConforme;
 import org.junit.Test;

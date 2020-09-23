@@ -37,7 +37,7 @@ public class Simulateur {
     /**
      * indique si le Simulateur utilise des sondes d'affichage
      */
-    private boolean affichage = false;
+    private boolean affichage = true;
     /**
      * indique si le Simulateur utilise un message genere de maniere aleatoire
      */
@@ -63,11 +63,6 @@ public class Simulateur {
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
      */
     private String form = "RZ";
-    
-    /**
-     * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
-     */
-    private float snr = 10000000f;
 
     /**
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
@@ -114,10 +109,6 @@ public class Simulateur {
      */
     private String export = null;
 
-    /**
-     *  'export' precise la destination de l'export du TEB
-     */
-    private String export = null;
 
     /**
      * Le constructeur de Simulateur construit une chaine de
@@ -404,24 +395,7 @@ public class Simulateur {
 
         return TEB;
     }
-    
-    public void exportDuTEB(float TEB) {
-    	if(export!=null) {
-    		try
-    		{
-    		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\test.txt";
-    			//String filename= export;
-    		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
-    		    fw.write(TEB+"\n");//appends the string to the file
-    		    fw.close();
-    		}
-    		catch(IOException ioe)
-    		{
-    		    System.err.println("IOException: " + ioe.getMessage());
-    		}
-    	}
-    	
-    }
+
 
     public void exportDuTEB(float TEB) {
     	if(export!=null) {
