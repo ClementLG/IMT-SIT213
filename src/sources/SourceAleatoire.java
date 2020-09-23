@@ -7,7 +7,7 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe SourceAleatoire h�rit� d'un composant source d'informations
+ * Classe SourceAleatoire herite d'un composant source d'informations
  *
  * @author c.legruiec
  * @author e.leduc
@@ -34,7 +34,7 @@ public class SourceAleatoire extends Source<Boolean> {
 
     /**
      * Si m comporte au plus 6 chiffres decimaux 
-     * et correspond � la representation en base 10 
+     * et correspond a la representation en base 10 
      * d'un entier, cet entier est la longueur du message 
      * que le simulateur doit generer et transmettre.
      *

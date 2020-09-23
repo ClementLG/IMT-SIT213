@@ -13,6 +13,7 @@ import java.lang.Math;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -61,32 +62,51 @@ public class Simulateur {
     /**
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
      */
+<<<<<<< HEAD
     private String form = "NRZT";
+=======
+    private String form = "RZ";
+    
+    /**
+     * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
+     */
+    private float snr = 10000000f;
+>>>>>>> clg
 
     /**
      * le  composant Source de la chaine de transmission
      */
     private Source<Boolean> source = null;
+    
     /**
      * le  composant Transmetteur parfait logique de la chaine de transmission
      */
     private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
+    
     /**
      * le  composant Destination de la chaine de transmission
      */
     private Destination<Boolean> destination = null;
+    
     /**
      *  'ne' precise le nombre d’échantillons par bit
      */
     private int ne = 30;
+    
     /**
      *  'min' precise l'amplitude minimale du signale analogique
      */
     private float min = 0;
+    
     /**
      *  'max' precise l'amplitude maximale du signale analogique
      */
     private float max = 1;
+    
+    /**
+     *  'export' precise la destination de l'export du TEB
+     */
+    private String export = null;
 
     /**
      * Le constructeur de Simulateur construit une chaine de
@@ -114,7 +134,17 @@ public class Simulateur {
         
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
+<<<<<<< HEAD
         Transmetteur<Float, Float> transmetteurAnalogiqueBruite = new TransmetteurAnalogiqueBruite();
+=======
+        Transmetteur<Float, Float> transmetteurAnalogiqueBruitee;
+        if (aleatoireAvecGerme) {
+        	transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruite(seed,snr, ne);
+		} else {
+			transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruite(snr, ne);
+		}
+        
+>>>>>>> clg
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
         destination=new DestinationFinale();
         
@@ -128,14 +158,21 @@ public class Simulateur {
         
         //connexion des blocs ensembles
         source.connecter(emetteur);
+<<<<<<< HEAD
         emetteur.connecter(transmetteurAnalogiqueBruite);
         transmetteurAnalogiqueBruite.connecter(recepteur);
+=======
+        emetteur.connecter(transmetteurAnalogiqueBruitee);
+        //transmetteurAnalogiqueParfait.connecter(recepteur);
+        transmetteurAnalogiqueBruitee.connecter(recepteur);
+>>>>>>> clg
         recepteur.connecter(destination);
         
         if(affichage) {
         	source.connecter(viewSrc);
         	emetteur.connecter(viewEmet);
-        	transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
+        	//transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
+        	transmetteurAnalogiqueBruitee.connecter(viewTransmitAna);
         	recepteur.connecter(viewDest);
         }
         
@@ -190,7 +227,7 @@ public class Simulateur {
                 } else if (args[i].matches("[0-9]{1,6}")) {
                     messageAleatoire = true;
                     nbBitsMess = Integer.valueOf(args[i]);
-                    if (nbBitsMess < 1)
+                    if (nbBitsMess < 3)
                         throw new ArgumentsException("Valeur du parametre -mess invalide : " + nbBitsMess);
                 } else
                     throw new ArgumentsException("Valeur du parametre -mess invalide : " + args[i]);
@@ -202,7 +239,10 @@ public class Simulateur {
             } else if (args[i].matches("-nbEch")) {
             	i++;
             	// traiter la valeur associee
-            	if(Integer.parseInt(args[i])>0) ne=Integer.parseInt(args[i]);
+            	if(Integer.parseInt(args[i])>0) {
+            		ne=Integer.parseInt(args[i]);
+            		ne -= ne%3;
+            	}
             	else throw new ArgumentsException("Nombre d'echantillon invalide :" + args[i]);
             } else if (args[i].matches("-ampl")) {
             	i++;
@@ -214,7 +254,13 @@ public class Simulateur {
             	else throw new ArgumentsException("Amplitude max incorecte :" + args[i]);
             	if(min>max) throw new ArgumentsException("Amplitudes incorectes (min>max) : " + min + ">"+max);
             	
-            } else throw new ArgumentsException("Option invalide :" + args[i]);
+            } else if (args[i].matches("-snrpb")) {
+            	i++;
+            	snr=Float.parseFloat(args[i]);
+            }else if (args[i].matches("-export")) {
+            	i++;
+            	export=args[i];
+            }else throw new ArgumentsException("Option invalide :" + args[i]);
             
         }
 
@@ -229,7 +275,7 @@ public class Simulateur {
      */
     public void execute() throws Exception {
     	source.emettre();
-              
+    	     
     }
 
 
@@ -257,6 +303,24 @@ public class Simulateur {
     	
         return TEB;
     }
+    
+    public void exportDuTEB(float TEB) {
+    	if(export!=null) {
+    		try
+    		{
+    		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\test.txt";
+    			//String filename= export;
+    		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+    		    fw.write(TEB+"\n");//appends the string to the file
+    		    fw.close();
+    		}
+    		catch(IOException ioe)
+    		{
+    		    System.err.println("IOException: " + ioe.getMessage());
+    		}
+    	}
+    	
+    }
 
 
     /**
@@ -280,6 +344,7 @@ public class Simulateur {
         try {
             simulateur.execute();
             float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
+            //simulateur.exportDuTEB(tauxErreurBinaire);
             String s = "java  Simulateur  ";
             for (int i = 0; i < args.length; i++) {
                 s += args[i] + "  ";
