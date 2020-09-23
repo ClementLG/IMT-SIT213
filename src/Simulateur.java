@@ -170,6 +170,94 @@ public class Simulateur {
         
 
     }
+    
+    /**
+     * Observateur du parametre affichage
+     * @return l etat du champs affichage
+     */
+    public boolean getAffichage() {
+    	return affichage;
+    }
+    
+    /**
+     * Observateur du parametre messageAleatoire
+     * @return l etat du champs messageAleatoire
+     */
+    public boolean getMessageAleatoire() {
+    	return messageAleatoire;
+    }
+    
+    /**
+     * Observateur du parametre aleatoireAvecGerme
+     * @return l etat du champs aleatoireAvecGerme
+     */
+    public boolean getAleatoireAvecGerme() {
+    	return aleatoireAvecGerme;
+    }
+    
+    /**
+     * Observateur du parametre seed
+     * @return l etat du champs seed
+     */
+    public Integer getSeed() {
+    	return seed;
+    }
+    
+    /**
+     * Observateur du parametre nbBitsMess
+     * @return l etat du champs nbBitsMess
+     */
+    public Integer getNbBitsMess() {
+    	return nbBitsMess;
+    }
+    
+    /**
+     * Observateur du parametre messageString
+     * @return l etat du champs messageString
+     */
+    public String getMessageString() {
+    	return messageString;
+    }
+    
+    /**
+     * Observateur du parametre form
+     * @return l etat du champs form
+     */
+    public String getForm() {
+    	return form;
+    }
+  
+    /**
+     * Observateur du parametre snr
+     * @return l etat du champs snr
+     */
+    public float getSnr() {
+    	return snr;
+    }
+    
+    /**
+     * Observateur du parametre ne
+     * @return l etat du champs ne
+     */
+    public int getNe() {
+    	return ne;
+    }
+    
+    /**
+     * Observateur du parametre min
+     * @return l etat du champs min
+     */
+    public float getMin() {
+    	return min;
+    }
+
+    /**
+     * Observateur du parametre max
+     * @return l etat du champs max
+     */
+    public float getMax() {
+    	return max;
+    }
 
 
     /**
@@ -343,5 +431,8 @@ public class Simulateur {
             System.exit(-2);
         }
     }
+    
+    
+    
 }
 
