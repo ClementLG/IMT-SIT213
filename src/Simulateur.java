@@ -18,7 +18,7 @@ public class Simulateur {
     /**
      * indique si le Simulateur utilise des sondes d'affichage
      */
-    private boolean affichage = false;
+    private boolean affichage = true;
     /**
      * indique si le Simulateur utilise un message genere de maniere aleatoire
      */
@@ -44,7 +44,12 @@ public class Simulateur {
     /**
      * le  composant Source de la chaine de transmission
      */
+<<<<<<< Updated upstream
     private Source<Boolean> source = null;
+=======
+    private String form = "NRZT";
+
+>>>>>>> Stashed changes
     /**
      * le  composant TransmetteurNumToAna
      */
