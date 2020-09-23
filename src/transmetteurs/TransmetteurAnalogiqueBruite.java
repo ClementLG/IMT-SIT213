@@ -71,7 +71,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
     }
     
     private void ajoutBruit() {
-    	float sigma=1;
+    	float sigma=calculSigma();
     	int k=1;
     	Random rand1;
     	Random rand2;
@@ -84,7 +84,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 		}
     	float bruit=0f;
     	for (int i = 0; i < informationRecue.nbElements(); i+=nbEchantillon) {
-    		sigma=calculSigma(i);
+    		//sigma=calculSigma(i);
     		for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
         		bruit=(float) ((float) sigma*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
         		informationConverti.add(informationRecue.iemeElement(j)+bruit);
@@ -94,21 +94,23 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
     	
     }
     
-    private float calculSigma(int indexDepart) {
+    private float calculSigma() {
     	float Ps=0f;
     	float Sigma=0f;
   
-        for (int i = indexDepart; i < indexDepart+nbEchantillon; i++) {
-        	Ps+=Math.pow(informationRecue.iemeElement(i), 2);
+        for (float info : informationRecue) {
+        	Ps+=Math.pow(info, 2);
 		}
-        //Ps=Ps/nbEchantillon;
+        Ps=Ps/informationRecue.nbElements();
         //calcul de sigmaCarre
-        Sigma= (float) (Ps/(2*Math.pow(10,snr/10)));
+        Sigma= (float) ((float) (Ps*nbEchantillon)/(2*Math.pow(10,snr/10)));
         Sigma=(float) Math.sqrt(Sigma);
     	
     	//calcul de la puissance moyenne
     	
     	return Sigma;
     }
+    
+    
 
 }
