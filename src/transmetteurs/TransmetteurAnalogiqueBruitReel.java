@@ -89,31 +89,29 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 			k++;
 		}
 	}
-    private void ajoutBruit() {
-    	float sigma=1;
-    	int k=1;
-    	Random rand1;
-    	Random rand2;
-    	if (seed!=null) {
+	private void ajoutBruit() {
+		float sigma=0.1f;//calculSigma(0);
+		int k=1;
+		Random rand1;
+		Random rand2;
+		if (seed!=null) {
 			rand1=new Random(seed);
 			rand2=new Random(seed);
 		} else {
 			rand1=new Random();
 			rand2=new Random();
 		}
-    	float bruit=0f;
-    	for (int i = 0; i < informationDecale.nbElements(); i+=nbEchantillon) {
-    		sigma=calculSigma(i);
-    		for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
-        		bruit=(float) ((float) sigma*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
-        		System.out.println(bruit);
-        		informationConverti.add(informationDecale.iemeElement(j)+bruit);
-
-    		}
-    		k++;
+		float bruit=0f;
+		for (int i = 0; i < informationRecue.nbElements(); i+=nbEchantillon) {
+			//sigma=calculSigma(i);
+			for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
+				bruit=(float) ((float) sigma*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
+				informationConverti.add(informationDecale.iemeElement(j)+bruit);
+			}
+			k++;
 		}
 
-    }
+	}
 
     private float calculSigma(int indexDepart) {
     	float Ps=0f;
