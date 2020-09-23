@@ -37,7 +37,7 @@ public class Simulateur {
     /**
      * indique si le Simulateur utilise des sondes d'affichage
      */
-    private boolean affichage = true;
+    private boolean affichage = false;
     /**
      * indique si le Simulateur utilise un message genere de maniere aleatoire
      */
@@ -62,7 +62,12 @@ public class Simulateur {
     /**
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
      */
-    private String form = "NRZT";
+    private String form = "RZ";
+    
+    /**
+     * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
+     */
+    private float snr = 10000000f;
 
     /**
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
@@ -74,30 +79,40 @@ public class Simulateur {
      */
     private Source<Boolean> source = null;
 
+
     /**
      * le  composant Transmetteur parfait logique de la chaine de transmission
      */
     private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
+
 
     /**
      * le  composant Destination de la chaine de transmission
      */
     private Destination<Boolean> destination = null;
 
+
     /**
      *  'ne' precise le nombre d’échantillons par bit
      */
     private int ne = 30;
+
 
     /**
      *  'min' precise l'amplitude minimale du signale analogique
      */
     private float min = 0;
 
+
     /**
      *  'max' precise l'amplitude maximale du signale analogique
      */
     private float max = 1;
+    
+    /**
+     *  'export' precise la destination de l'export du TEB
+     */
+    private String export = null;
 
     /**
      *  'export' precise la destination de l'export du TEB
@@ -130,12 +145,14 @@ public class Simulateur {
 
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
+
         Transmetteur<Float, Float> transmetteurAnalogiqueBruitReel;
         if (aleatoireAvecGerme) {
             transmetteurAnalogiqueBruitReel=new TransmetteurAnalogiqueBruitReel(seed,snr, ne);
 		} else {
             transmetteurAnalogiqueBruitReel=new TransmetteurAnalogiqueBruitReel(snr, ne);
 		}
+
 
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
         destination=new DestinationFinale();
@@ -150,16 +167,20 @@ public class Simulateur {
 
         //connexion des blocs ensembles
         source.connecter(emetteur);
+
         emetteur.connecter(transmetteurAnalogiqueBruitReel);
         //transmetteurAnalogiqueParfait.connecter(recepteur);
         transmetteurAnalogiqueBruitReel.connecter(recepteur);
+
         recepteur.connecter(destination);
 
         if(affichage) {
         	source.connecter(viewSrc);
         	emetteur.connecter(viewEmet);
         	//transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
+
         	transmetteurAnalogiqueBruitReel.connecter(viewTransmitAna);
+
         	recepteur.connecter(viewDest);
         }
 
@@ -169,6 +190,94 @@ public class Simulateur {
 
 
 
+    }
+    
+    /**
+     * Observateur du parametre affichage
+     * @return l etat du champs affichage
+     */
+    public boolean getAffichage() {
+    	return affichage;
+    }
+    
+    /**
+     * Observateur du parametre messageAleatoire
+     * @return l etat du champs messageAleatoire
+     */
+    public boolean getMessageAleatoire() {
+    	return messageAleatoire;
+    }
+    
+    /**
+     * Observateur du parametre aleatoireAvecGerme
+     * @return l etat du champs aleatoireAvecGerme
+     */
+    public boolean getAleatoireAvecGerme() {
+    	return aleatoireAvecGerme;
+    }
+    
+    /**
+     * Observateur du parametre seed
+     * @return l etat du champs seed
+     */
+    public Integer getSeed() {
+    	return seed;
+    }
+    
+    /**
+     * Observateur du parametre nbBitsMess
+     * @return l etat du champs nbBitsMess
+     */
+    public Integer getNbBitsMess() {
+    	return nbBitsMess;
+    }
+    
+    /**
+     * Observateur du parametre messageString
+     * @return l etat du champs messageString
+     */
+    public String getMessageString() {
+    	return messageString;
+    }
+    
+    /**
+     * Observateur du parametre form
+     * @return l etat du champs form
+     */
+    public String getForm() {
+    	return form;
+    }
+  
+    /**
+     * Observateur du parametre snr
+     * @return l etat du champs snr
+     */
+    public float getSnr() {
+    	return snr;
+    }
+    
+    /**
+     * Observateur du parametre ne
+     * @return l etat du champs ne
+     */
+    public int getNe() {
+    	return ne;
+    }
+    
+    /**
+     * Observateur du parametre min
+     * @return l etat du champs min
+     */
+    public float getMin() {
+    	return min;
+    }
+
+    /**
+     * Observateur du parametre max
+     * @return l etat du champs max
+     */
+    public float getMax() {
+    	return max;
     }
 
 
@@ -226,7 +335,9 @@ public class Simulateur {
             } else if (args[i].matches("-nbEch")) {
             	i++;
             	// traiter la valeur associee
-            	if(Integer.parseInt(args[i])>0) {
+
+            	if(Integer.parseInt(args[i])>3) {
+
             		ne=Integer.parseInt(args[i]);
             		ne -= ne%3;
             	}
@@ -241,6 +352,7 @@ public class Simulateur {
             	else throw new ArgumentsException("Amplitude max incorecte :" + args[i]);
             	if(min>max) throw new ArgumentsException("Amplitudes incorectes (min>max) : " + min + ">"+max);
 
+
             } else if (args[i].matches("-snrpb")) {
             	i++;
             	snr=Float.parseFloat(args[i]);
@@ -248,6 +360,7 @@ public class Simulateur {
             	i++;
             	export=args[i];
             }else throw new ArgumentsException("Option invalide :" + args[i]);
+
 
         }
 
@@ -262,6 +375,7 @@ public class Simulateur {
      */
     public void execute() throws Exception {
     	source.emettre();
+
 
     }
 
@@ -289,6 +403,24 @@ public class Simulateur {
 
 
         return TEB;
+    }
+    
+    public void exportDuTEB(float TEB) {
+    	if(export!=null) {
+    		try
+    		{
+    		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\test.txt";
+    			//String filename= export;
+    		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+    		    fw.write(TEB+"\n");//appends the string to the file
+    		    fw.close();
+    		}
+    		catch(IOException ioe)
+    		{
+    		    System.err.println("IOException: " + ioe.getMessage());
+    		}
+    	}
+    	
     }
 
     public void exportDuTEB(float TEB) {
@@ -343,5 +475,8 @@ public class Simulateur {
             System.exit(-2);
         }
     }
+    
+    
+    
 }
 

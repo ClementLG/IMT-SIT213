@@ -1,6 +1,11 @@
 package sources;
+<<<<<<< HEAD
 
 import information.InformationNonConforme;
+=======
+import information.InformationNonConforme;
+
+>>>>>>> master
 import org.junit.Test;
 import static org.junit.Assert.*;
 

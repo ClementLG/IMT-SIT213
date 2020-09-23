@@ -17,9 +17,9 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour construire à partir d'un tableau de T une information
+     * pour construire a� partir d'un tableau de T une information
      *
-     * @param content le tableau d'éléments pour initialiser l'information construite
+     * @param content le tableau d'elements pour initialiser l'information construite
      */
     public Information(T[] content) {
         this.content = new ArrayList<T>();
@@ -29,34 +29,34 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour connaître le nombre d'éléments d'une information
+     * pour connaitre le nombre d'elements d'une information
      *
-     * @return le nombre d'éléments de l'information
+     * @return le nombre d'elements de l'information
      */
     public int nbElements() {
         return this.content.size();
     }
 
     /**
-     * pour renvoyer un élément d'une information
+     * pour renvoyer un element d'une information
      *
-     * @return le ieme élément de l'information
+     * @return le ieme element de l'information
      */
     public T iemeElement(int i) {
         return this.content.get(i);
     }
 
     /**
-     * pour modifier le ième élément d'une information
+     * pour modifier le ia�me element d'une information
      */
     public void setIemeElement(int i, T v) {
         this.content.set(i, v);
     }
 
     /**
-     * pour ajouter un élément à la fin de l'information
+     * pour ajouter un element a� la fin de l'information
      *
-     * @param valeur l'élément à rajouter
+     * @param valeur l'element a� rajouter
      */
     public void add(T valeur) {
         this.content.add(valeur);
@@ -67,8 +67,8 @@ public class Information<T> implements Iterable<T> {
      * pour comparer l'information courante avec une autre information
      *
      * @param o l'information  avec laquelle se comparer
-     * @return "true" si les 2 informations contiennent les mêmes
-     * éléments aux mêmes places; "false" dans les autres cas
+     * @return "true" si les 2 informations contiennent les memes
+     * elements aux memes places; "false" dans les autres cas
      */
     @SuppressWarnings("unchecked")
     public boolean equals(Object o) {

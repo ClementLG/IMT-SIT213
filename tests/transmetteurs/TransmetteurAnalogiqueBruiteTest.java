@@ -1,15 +1,21 @@
 package transmetteurs;
 
+<<<<<<< HEAD
 import destinations.DestinationFinale;
 import information.Information;
 import information.InformationNonConforme;
 import org.junit.Test;
 import sources.SourceFixe;
+=======
+import org.junit.Test;
+
+>>>>>>> master
 import static org.junit.Assert.*;
 
 public class TransmetteurAnalogiqueBruiteTest {
 
     @Test
+<<<<<<< HEAD
     public void testTAB() throws InformationNonConforme {
         float x = -10f;
         boolean b = false;
@@ -41,5 +47,12 @@ public class TransmetteurAnalogiqueBruiteTest {
         sf.emettre();
         return (bools.equals(df.getInformationRecue()));
 
+=======
+    public void recevoir() {
+    }
+
+    @Test
+    public void emettre() {
+>>>>>>> master
     }
 }

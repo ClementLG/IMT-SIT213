@@ -5,7 +5,7 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe Emetteur h√©rit√© de la classe Transmetteur
+ * Classe Emetteur ha©rita© de la classe Transmetteur
  *
  * @author c.legruiec
  * @author e.leduc
@@ -19,8 +19,8 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 	private int nbEchantillon;
 	private String encodeType;
 	private Information<Float> informationConverti;
-
-
+	
+	
 	/**
      * Constructeur par default de Emetteur sans parametre
      */
@@ -30,11 +30,11 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 		encodeType="RZ";
 		nbEchantillon=30;
 		informationConverti =new Information<>();
-
+		
 	}
-
+	
 	/**
-     * Constructeur de Emetteur √† parametrer avec des infos de base
+     * Constructeur de Emetteur a† parametrer avec des infos de base
      * @param Amax : Amplitude Max
      * @param Amin : Amplitude Min
      * @param nbEchantillon : Nombre d'echantillon par symbole
@@ -47,10 +47,10 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 		this.encodeType=encodeType;
 		informationConverti =new Information<>();
 	}
-
+	
 	/**
      * canal Rx Information (abstract dans la classe mere)
-     *
+     * 
      */
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
@@ -58,44 +58,45 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
         emettre();
 
     }
-
+    
     /**
      * canal Tx Information (abstract dans la classe mere)
-     *
+     * 
      */
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
-            destinationConnectee.recevoir(informationConverti);
+        	destinationConnectee.recevoir(informationConverti);
         }
         informationEmise = informationConverti;//transmetteur parfait src=dest
 
     }
-
-
+    
     /**
      * Permet de selectionner le type de conversion a effectuer
      * Permettra d'effectuer des operations personaliser si besoin
      */
-	private void CNA() throws InformationNonConforme {
+	public void CNA() throws InformationNonConforme {
 		switch (encodeType) {
 		case "NRZ":
 			ConvertToNRZ();
 			break;
-
+			
 		case "NRZT":
 			ConvertToNRZT();
 			break;
-
+			
 		case "RZ":
 			ConvertToRZ();
 			break;
 
 		default:
-			System.out.println("Aucun type d'encodage ne correspond √† l'entree saisie");
+			System.out.println("Aucun type d'encodage ne correspond a† l'entree saisie");
 			throw new InformationNonConforme();
 		}
 	}
+	
 
+	
 	/**
      * Permet de convertir un signal logique en analogigue NRZ
      */
@@ -114,7 +115,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
             }// Ajoute Amin a informationConverti lorsque le bit recus est False
         }
     }
-
+	
 	/**
      * Permet de convertir un signal logique en analogigue NRZT
      */
@@ -304,7 +305,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
             }
         }
     }
-
+	
 	/**
      * Permet de convertir un signal logique en analogigue RZ
      */
@@ -333,5 +334,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
             }
         }
     }
+	
+	
 
 }

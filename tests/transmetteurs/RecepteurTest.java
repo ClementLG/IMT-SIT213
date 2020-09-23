@@ -4,7 +4,10 @@ import destinations.DestinationFinale;
 import information.Information;
 import information.InformationNonConforme;
 import org.junit.Test;
+<<<<<<< HEAD
 import sources.SourceFixe;
+=======
+>>>>>>> master
 
 import static org.junit.Assert.*;
 

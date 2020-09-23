@@ -5,7 +5,10 @@ import information.Information;
 import information.InformationNonConforme;
 import org.junit.Test;
 
+<<<<<<< HEAD
 import javax.print.attribute.standard.Destination;
+=======
+>>>>>>> master
 
 import static org.junit.Assert.*;
 

@@ -1,16 +1,21 @@
 package transmetteurs;
 
+<<<<<<< HEAD
 import destinations.DestinationFinale;
 import information.Information;
 import information.InformationNonConforme;
 import org.junit.Test;
 import sources.SourceFixe;
+=======
+import org.junit.Test;
+>>>>>>> master
 
 import static org.junit.Assert.*;
 
 public class TransmetteurAnalogiqueParfaitTest {
 
     @Test
+<<<<<<< HEAD
     public void testTAP() throws InformationNonConforme {
         SourceFixe sf = new SourceFixe("11001");
         Emetteur cna=new Emetteur();
@@ -29,5 +34,12 @@ public class TransmetteurAnalogiqueParfaitTest {
         can.connecter(df);
         sf.emettre();
         assertEquals(bools,df.getInformationRecue());
+=======
+    public void recevoir() {
+    }
+
+    @Test
+    public void emettre() {
+>>>>>>> master
     }
 }

@@ -13,6 +13,10 @@ public class ExportTEB {
 
 	public static void main(String[] args) {
 			//lance 100k fois la simu
+<<<<<<< HEAD
+=======
+		    
+>>>>>>> master
 			String arguments;
 			arguments="-seed 40 -form NRZT -ampl -5 5 -snrpb -20 -export ./test.txt";
 			args= arguments.split(" ");
@@ -20,6 +24,17 @@ public class ExportTEB {
 				Simulateur.main(args);
 			}
 			
+<<<<<<< HEAD
+=======
+			/*
+			String arguments;
+			for (int i = -250; i < 30; i++) {
+				arguments="-seed 40 -form NRZT -ampl -5 5 -snrpb "+i+" -export ./test.txt";
+				args= arguments.split(" ");
+				Simulateur.main(args);
+			}*/
+			
+>>>>>>> master
 			
 
 

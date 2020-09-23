@@ -48,9 +48,9 @@ public abstract class Source<T> implements SourceInterface<T> {
     }
 
     /**
-     * connecte une destination a la source
+     * connecte une destination a� la source
      *
-     * @param destination la destination a connecter
+     * @param destination la destination a� connecter
      */
     public void connecter(DestinationInterface<T> destination) {
         destinationsConnectees.add(destination);

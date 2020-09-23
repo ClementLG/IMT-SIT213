@@ -1,6 +1,10 @@
 package information;
 
 import org.junit.Test;
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 import static org.junit.Assert.*;
 
 public class InformationTest {
