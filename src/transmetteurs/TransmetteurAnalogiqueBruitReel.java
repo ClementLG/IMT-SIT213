@@ -90,7 +90,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 		}
 	}
 	private void ajoutBruit() {
-		float sigma=0.1f;//calculSigma(0);
+		float sigma=0.1f;//calculSigma();
 		int k=1;
 		Random rand1;
 		Random rand2;
