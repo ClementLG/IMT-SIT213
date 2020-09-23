@@ -38,6 +38,7 @@ public class Simulateur {
      * indique si le Simulateur utilise des sondes d'affichage
      */
     private boolean affichage = false;
+
     /**
      * indique si le Simulateur utilise un message genere de maniere aleatoire
      */
@@ -103,6 +104,64 @@ public class Simulateur {
      *  'export' precise la destination de l'export du TEB
      */
     private String export = null;
+
+
+    public boolean isAffichage() {
+        return affichage;
+    }
+
+    public boolean isMessageAleatoire() {
+        return messageAleatoire;
+    }
+
+    public boolean isAleatoireAvecGerme() {
+        return aleatoireAvecGerme;
+    }
+
+    public Integer getSeed() {
+        return seed;
+    }
+
+    public int getNbBitsMess() {
+        return nbBitsMess;
+    }
+
+    public String getMessageString() {
+        return messageString;
+    }
+
+    public String getForm() {
+        return form;
+    }
+
+    public float getSnr() {
+        return snr;
+    }
+
+    public Source<Boolean> getSource() {
+        return source;
+    }
+
+    public Transmetteur<Boolean, Boolean> getTransmetteurLogique() {
+        return transmetteurLogique;
+    }
+
+    public Destination<Boolean> getDestination() {
+        return destination;
+    }
+
+    public int getNe() {
+        return ne;
+    }
+
+    public float getMin() {
+        return min;
+    }
+
+    public float getMax() {
+        return max;
+    }
+
 
     /**
      * Le constructeur de Simulateur construit une chaine de
@@ -262,7 +321,6 @@ public class Simulateur {
      */
     public void execute() throws Exception {
     	source.emettre();
-
     }
 
 

@@ -10,18 +10,15 @@ public class SimulateurTest {
     }
 
     @Test
-    public void execute() {
+    public void testSimulateur() throws ArgumentsException {
+        String[] arg={"-mess","10"};
+        Simulateur sTest=new Simulateur(arg);
+        assertFalse(sTest.isAffichage());
+
     }
 
     @Test
     public void calculTauxErreurBinaire() {
     }
 
-    @Test
-    public void exportDuTEB() {
-    }
-
-    @Test
-    public void main() {
-    }
 }
