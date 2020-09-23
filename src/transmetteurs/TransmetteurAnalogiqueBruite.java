@@ -1,19 +1,12 @@
 package transmetteurs;
 
 import destinations.DestinationInterface;
-<<<<<<< HEAD
-import information.Information;
-import information.InformationNonConforme;
-import java.util.Random;
-import java.lang.Math;
-=======
 
 import java.lang.annotation.IncompleteAnnotationException;
 import java.util.Random;
 import information.Information;
 import information.InformationNonConforme;
 
->>>>>>> clg
 /**
  * Classe TransmetteurAnalogiqueParfait hérité de la classe Transmetteur
  *
@@ -24,8 +17,6 @@ import information.InformationNonConforme;
  * @author m.lejeune
  */
 public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
-<<<<<<< HEAD
-=======
 	float snr=0;
 	Integer seed=null;
 	private Information<Float> informationConverti;
@@ -55,7 +46,6 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 		nbEchantillon=30;
 
 	}
->>>>>>> clg
 	
 	/**
      * canal Rx Information (abstract dans la classe mere)
@@ -63,18 +53,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
      */
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
-<<<<<<< HEAD
-        Random myRandom = new Random();
-        for (int i=0; i<informationRecue.nbElements(); i+=1) {
-            float teta=1;
-            float a1 = myRandom.nextFloat();
-            float a2 = myRandom.nextFloat();
-            float bn = teta*(float)Math.sqrt(-2*Math.log(1-a1))*(float)Math.cos(2*Math.PI*a2)/2;
-            informationRecue.setIemeElement(i, informationRecue.iemeElement(i)+bn);
-        }
-=======
         ajoutBruit();
->>>>>>> clg
         emettre();//envoie l'information
 
     }
@@ -85,13 +64,6 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
      */
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
-<<<<<<< HEAD
-        	destinationConnectee.recevoir(informationRecue);
-        }
-        informationEmise = informationRecue;//transmetteur parfait src=dest
-
-    }
-=======
         	destinationConnectee.recevoir(informationConverti);
         }
         informationEmise = informationConverti;//transmetteur parfait src=dest
@@ -140,6 +112,5 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
     }
     
     
->>>>>>> clg
 
 }

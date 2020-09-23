@@ -37,7 +37,7 @@ public class Simulateur {
     /**
      * indique si le Simulateur utilise des sondes d'affichage
      */
-    private boolean affichage = true;
+    private boolean affichage = false;
     /**
      * indique si le Simulateur utilise un message genere de maniere aleatoire
      */
@@ -53,7 +53,7 @@ public class Simulateur {
     /**
      * la longueur du message aleatoire a transmettre si un message n'est pas impose
      */
-    private int nbBitsMess = 20;
+    private int nbBitsMess = 100;
     /**
      * la chaine de caracteres correspondant a m dans l'argument -mess m
      */
@@ -62,16 +62,12 @@ public class Simulateur {
     /**
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
      */
-<<<<<<< HEAD
-    private String form = "NRZT";
-=======
     private String form = "RZ";
     
     /**
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
      */
     private float snr = 10000000f;
->>>>>>> clg
 
     /**
      * le  composant Source de la chaine de transmission
@@ -134,9 +130,6 @@ public class Simulateur {
         
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
-<<<<<<< HEAD
-        Transmetteur<Float, Float> transmetteurAnalogiqueBruite = new TransmetteurAnalogiqueBruite();
-=======
         Transmetteur<Float, Float> transmetteurAnalogiqueBruitee;
         if (aleatoireAvecGerme) {
         	transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruite(seed,snr, ne);
@@ -144,7 +137,6 @@ public class Simulateur {
 			transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruite(snr, ne);
 		}
         
->>>>>>> clg
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
         destination=new DestinationFinale();
         
@@ -158,14 +150,9 @@ public class Simulateur {
         
         //connexion des blocs ensembles
         source.connecter(emetteur);
-<<<<<<< HEAD
-        emetteur.connecter(transmetteurAnalogiqueBruite);
-        transmetteurAnalogiqueBruite.connecter(recepteur);
-=======
         emetteur.connecter(transmetteurAnalogiqueBruitee);
         //transmetteurAnalogiqueParfait.connecter(recepteur);
         transmetteurAnalogiqueBruitee.connecter(recepteur);
->>>>>>> clg
         recepteur.connecter(destination);
         
         if(affichage) {
