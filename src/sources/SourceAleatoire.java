@@ -2,9 +2,8 @@ package sources;
 
 import java.util.Random;
 
-import destinations.DestinationInterface;
 import information.Information;
-import information.InformationNonConforme;
+
 
 /**
  * Classe SourceAleatoire hérité d'un composant source d'informations
@@ -19,11 +18,13 @@ public class SourceAleatoire extends Source<Boolean> {
     /**
      * Par defaut le simulateur doit generer et transmettre un message de longueur 100.
      */
-    public SourceAleatoire() {
+    public SourceAleatoire(Integer seed) {
         super();//Appels des attributs de la classe mere
         informationGeneree = new Information<Boolean>();
         //generation d'une suite de 100 Boolean (<=>bits) aleatoires
-        Random rand = new Random();
+        Random rand;
+        if (seed !=null) rand = new Random(seed);
+        else rand = new Random();
         for (int i = 0; i < 100; i++) {
             informationGeneree.add(rand.nextBoolean());
         }
@@ -38,11 +39,14 @@ public class SourceAleatoire extends Source<Boolean> {
      *
      * @param nbBits
      */
-    public SourceAleatoire(int nbBits) {
+    public SourceAleatoire(int nbBits, Integer seed) {
         super();//Appels des attributs de la classe mere
         informationGeneree = new Information<Boolean>();
-        //generation d'une suite de 100 Boolean (<=>bits) aleatoires
-        Random rand = new Random();
+        //generation d'une suite de nbBits Boolean (<=>bits) aleatoires
+        Random rand;
+        if (seed !=null) rand = new Random(seed);
+        else rand = new Random();
+
         for (int i = 0; i < nbBits; i++) {
             informationGeneree.add(rand.nextBoolean());
 

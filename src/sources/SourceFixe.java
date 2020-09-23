@@ -19,7 +19,7 @@ public class SourceFixe extends Source<Boolean> {
      * Si m est une suite de 0 et de 1 de longueur au moins egale à 7
      * m est le message à emettre
      *
-     * @param s
+     * @param m
      */
     public SourceFixe(String m) {
         super();//Appels des attributs de la classe mere
