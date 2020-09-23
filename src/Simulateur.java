@@ -37,7 +37,7 @@ public class Simulateur {
     /**
      * indique si le Simulateur utilise des sondes d'affichage
      */
-    private boolean affichage = false;
+    private boolean affichage = true;
     /**
      * indique si le Simulateur utilise un message genere de maniere aleatoire
      */
@@ -62,7 +62,7 @@ public class Simulateur {
     /**
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
      */
-    private String form = "RZ";
+    private String form = "NRZT";
 
     /**
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
@@ -130,11 +130,11 @@ public class Simulateur {
 
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
-        Transmetteur<Float, Float> transmetteurAnalogiqueBruite;
+        Transmetteur<Float, Float> transmetteurAnalogiqueBruitReel;
         if (aleatoireAvecGerme) {
-        	transmetteurAnalogiqueBruite=new TransmetteurAnalogiqueBruite(seed,snr, ne);
+            transmetteurAnalogiqueBruitReel=new TransmetteurAnalogiqueBruitReel(seed,snr, ne);
 		} else {
-			transmetteurAnalogiqueBruite=new TransmetteurAnalogiqueBruite(snr, ne);
+            transmetteurAnalogiqueBruitReel=new TransmetteurAnalogiqueBruitReel(snr, ne);
 		}
 
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
@@ -150,16 +150,16 @@ public class Simulateur {
 
         //connexion des blocs ensembles
         source.connecter(emetteur);
-        emetteur.connecter(transmetteurAnalogiqueBruite);
+        emetteur.connecter(transmetteurAnalogiqueBruitReel);
         //transmetteurAnalogiqueParfait.connecter(recepteur);
-        transmetteurAnalogiqueBruite.connecter(recepteur);
+        transmetteurAnalogiqueBruitReel.connecter(recepteur);
         recepteur.connecter(destination);
 
         if(affichage) {
         	source.connecter(viewSrc);
         	emetteur.connecter(viewEmet);
         	//transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
-        	transmetteurAnalogiqueBruite.connecter(viewTransmitAna);
+        	transmetteurAnalogiqueBruitReel.connecter(viewTransmitAna);
         	recepteur.connecter(viewDest);
         }
 
