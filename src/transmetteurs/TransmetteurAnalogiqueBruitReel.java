@@ -90,7 +90,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 		}
 	}
 	private void ajoutBruit() {
-		float sigma=0.1f;//calculSigma();
+		float sigma=calculSigma();
 		int k=1;
 		Random rand1;
 		Random rand2;
@@ -113,21 +113,21 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 
 	}
 
-    private float calculSigma(int indexDepart) {
-    	float Ps=0f;
-    	float Sigma=0f;
+	private float calculSigma() {
+		float Ps=0f;
+		float Sigma=0f;
 
-        for (int i = indexDepart; i < indexDepart+nbEchantillon; i++) {
-        	Ps+=Math.pow(informationRecue.iemeElement(i), 2);
+		for (float info : informationRecue) {
+			Ps+=Math.pow(info, 2);
 		}
-        Ps=Ps/nbEchantillon;
-        //calcul de sigmaCarre
-        Sigma= (float) (Ps/(2*Math.pow(10,snr/10)));
-        Sigma=(float) Math.sqrt(Sigma);
+		Ps=Ps/informationRecue.nbElements();
+		//calcul de sigmaCarre
+		Sigma= (float) ((float) (Ps*nbEchantillon)/(2*Math.pow(10,snr/10)));
+		Sigma=(float) Math.sqrt(Sigma);
 
-    	//calcul de la puissance moyenne
+		//calcul de la puissance moyenne
 
-    	return Sigma;
-    }
+		return Sigma;
+	}
 
 }
