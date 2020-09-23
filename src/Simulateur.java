@@ -65,7 +65,7 @@ public class Simulateur {
     private String form = "RZ";
 
     /**
-     * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
+     * la valeur par defaut du SNR si aucun SNR n'est precise
      */
     private float snr = 10000000f;
 
@@ -170,7 +170,96 @@ public class Simulateur {
 
 
     }
+    
+    
+    /**
+     * Observateur du paramètre affichage
+     * @return l etat du champs affichage
+     */
+    public boolean getAffichage() {
+    	return affichage;
+    }
+    
+    /**
+     * Observateur du paramètre messageAleatoire
+     * @return l etat du champs messageAleatoire
+     */
+    public boolean getMessageAleatoire() {
+    	return messageAleatoire;
+    }
+    
+    /**
+     * Observateur du paramètre aleatoireAvecGerme
+     * @return l etat du champs aleatoireAvecGerme
+     */
+    public boolean getAleatoireAvecGerme() {
+    	return aleatoireAvecGerme;
+    }
+    
+    /**
+     * Observateur du paramètre seed
+     * @return l etat du champs seed
+     */
+    public Integer getSeed() {
+    	return seed;
+    }
+    
+    /**
+     * Observateur du paramètre nbBitsMess
+     * @return l etat du champs nbBitsMess
+     */
+    public Integer getNbBitsMess() {
+    	return nbBitsMess;
+    }
+    
+    /**
+     * Observateur du paramètre messageString
+     * @return l etat du champs messageString
+     */
+    public String getMessageString() {
+    	return messageString;
+    }
+    
+    /**
+     * Observateur du paramètre form
+     * @return l etat du champs form
+     */
+    public String getForm() {
+    	return form;
+    }
+  
+    /**
+     * Observateur du paramètre snr
+     * @return l etat du champs snr
+     */
+    public float getSnr() {
+    	return snr;
+    }
+    
+    /**
+     * Observateur du paramètre ne
+     * @return l etat du champs ne
+     */
+    public int getNe() {
+    	return ne;
+    }
+    
+    /**
+     * Observateur du paramètre min
+     * @return l etat du champs min
+     */
+    public float getMin() {
+    	return min;
+    }
 
+    /**
+     * Observateur du paramètre max
+     * @return l etat du champs max
+     */
+    public float getMax() {
+    	return max;
+    }
+    
 
     /**
      * La methode analyseArguments extrait d'un tableau de chaines de
