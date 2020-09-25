@@ -102,7 +102,7 @@ public class Simulateur {
     /**
      *  'export' precise la destination de l'export du TEB
      */
-    private String export = null;
+    private Boolean export = false;
 
     /**
      * Le constructeur de Simulateur construit une chaine de
@@ -333,8 +333,8 @@ public class Simulateur {
             	i++;
             	snr=Float.parseFloat(args[i]);
             }else if (args[i].matches("-export")) {
-            	i++;
-            	export=args[i];
+            	//i++;
+            	export=true;
             }else throw new ArgumentsException("Option invalide :" + args[i]);
             
         }
@@ -365,7 +365,7 @@ public class Simulateur {
     	//Attention si tailles des tableaux differentes ?? --> demander si possible
     	
     	int nbErr=0;
-    	float TEB=0.0f;
+    	float TEB=0.000f;
     	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
 			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
 		}
@@ -373,20 +373,20 @@ public class Simulateur {
     	if(destination.getInformationRecue().nbElements()!=source.getInformationEmise().nbElements()) {
     		nbErr+=Math.abs(source.getInformationEmise().nbElements()-destination.getInformationRecue().nbElements());
     	}
-    	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());
+    	TEB=(nbErr*1.000f)/(source.getInformationEmise().nbElements());
     	
     	
         return TEB;
     }
     
     public void exportDuTEB(float TEB) {
-    	if(export!=null) {
+    	if(export) {
     		try
     		{
-    		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\test.txt";
+    		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
     			//String filename= export;
     		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
-    		    fw.write(TEB+"\n");//appends the string to the file
+    		    fw.write(TEB+";"+snr+"\n");//appends the string to the file
     		    fw.close();
     		}
     		catch(IOException ioe)
@@ -419,7 +419,7 @@ public class Simulateur {
         try {
             simulateur.execute();
             float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
-            //simulateur.exportDuTEB(tauxErreurBinaire);
+            simulateur.exportDuTEB(tauxErreurBinaire);
             String s = "java  Simulateur  ";
             for (int i = 0; i < args.length; i++) {
                 s += args[i] + "  ";

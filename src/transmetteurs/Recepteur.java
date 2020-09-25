@@ -5,7 +5,7 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe Recepteur hérité de la classe Transmetteur
+ * Classe Recepteur herite de la classe Transmetteur
  *
  * @author c.legruiec
  * @author e.leduc
@@ -25,7 +25,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 	 */
 	public Recepteur() {
 		Amax=5;
-		Amin=-0;
+		Amin=0;
 		decodeType="RZ";
 		nbEchantillon=30;
 		informationConverti =new Information<>();
@@ -33,7 +33,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 	}
 	
 	/**
-     * Constructeur de recepteur à parametrer avec des infos de base
+     * Constructeur de recepteur a� parametrer avec des infos de base
      * @param Amax : Amplitude Max
      * @param Amin : Amplitude Min
      * @param nbEchantillon : Nombre d'echantillon par symbole
@@ -86,11 +86,11 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 			break;
 			
 		case "RZ":
-			toLogique((Amax+Amin)/2);
+			toLogique((Amax)/4);
 			break;
 
 		default:
-			System.out.println("Aucun type d'encodage ne correspond à l'entree saisie");
+			System.out.println("Aucun type d'encodage ne correspond a� l'entree saisie");
 			throw new InformationNonConforme();
 		}
     }
@@ -108,7 +108,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 			}
     		moy=moy/nbEchantillon;
     		k++;
-    		//le signal pourrait etre deformé (si c'est pas un 1 on met 0 par défault
+    		//le signal pourrait etre deforme (si c'est pas un 1 on met 0 par default
     		if(moy>seuil) {
     			informationConverti.add(true);
     		}
