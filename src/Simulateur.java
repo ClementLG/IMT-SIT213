@@ -130,11 +130,11 @@ public class Simulateur {
         
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
-        Transmetteur<Float, Float> transmetteurAnalogiqueBruitee;
+        Transmetteur<Float, Float> transmetteurAnalogiqueBruiteReel;
         if (aleatoireAvecGerme) {
-        	transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruite(seed,snr, ne);
+        	transmetteurAnalogiqueBruiteReel=new TransmetteurAnalogiqueBruitReel(seed,snr, ne);
 		} else {
-			transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruite(snr, ne);
+			transmetteurAnalogiqueBruiteReel=new TransmetteurAnalogiqueBruitReel(snr, ne);
 		}
         
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
@@ -150,16 +150,16 @@ public class Simulateur {
         
         //connexion des blocs ensembles
         source.connecter(emetteur);
-        emetteur.connecter(transmetteurAnalogiqueBruitee);
+        emetteur.connecter(transmetteurAnalogiqueBruiteReel);
         //transmetteurAnalogiqueParfait.connecter(recepteur);
-        transmetteurAnalogiqueBruitee.connecter(recepteur);
+        transmetteurAnalogiqueBruiteReel.connecter(recepteur);
         recepteur.connecter(destination);
         
         if(affichage) {
         	source.connecter(viewSrc);
         	emetteur.connecter(viewEmet);
         	//transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
-        	transmetteurAnalogiqueBruitee.connecter(viewTransmitAna);
+        	transmetteurAnalogiqueBruiteReel.connecter(viewTransmitAna);
         	recepteur.connecter(viewDest);
         }
         
