@@ -23,26 +23,29 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 	Integer seed=null;
 	private Information<Float> informationConverti=new Information<>();
 	private Information<Float> informationDecale=new Information<>();
+	private ArrayList<Float> parametres=new ArrayList<Float>();
 	int nbEchantillon=30;
 
-	public TransmetteurAnalogiqueBruitReel(int seed, float snr, int nbEchantillon) {
+	public TransmetteurAnalogiqueBruitReel(int seed, float snr, int nbEchantillon, ArrayList<Float> parametres) {
 		super();
 		this.seed=seed;
 		this.snr=snr;
 		this.nbEchantillon=nbEchantillon;
+		this.parametres=parametres;
 	}
 
-	public TransmetteurAnalogiqueBruitReel(float snr, int nbEchantillon) {
+	public TransmetteurAnalogiqueBruitReel(float snr, int nbEchantillon, ArrayList<Float> parametres) {
 		super();
 		this.snr=snr;
 		this.nbEchantillon=nbEchantillon;
+		this.parametres=parametres;
 
 	}
 
-	public TransmetteurAnalogiqueBruitReel(float snr ) {
+	public TransmetteurAnalogiqueBruitReel(float snr, ArrayList<Float> parametres ) {
 		super();
 		this.snr=snr;
-
+		this.parametres=parametres;
 	}
 
 	/**
@@ -51,7 +54,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
      */
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
-        ajoutDecalage(new Float[4]);
+        ajoutDecalage();
         ajoutBruit();
         emettre();//envoie l'information
 
@@ -68,34 +71,27 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
         informationEmise = informationConverti;//transmetteur parfait src=dest
 
     }
-	private void ajoutDecalage(Float[] parametres) {
+	private void ajoutDecalage() {
 		ArrayList<Information<Float>> listeInformationsDecalees=new ArrayList<Information<Float>>();
-		float coef=0.6f;//parametre -ti'ar' (peut etre une liste de 5)
-		int decallage=40;//parametre -ti 'dt'
-		float[] zeros;
 		
-		parametres[0]=0f;
-		parametres[1]=0.6f;
-		parametres[2]=0f;
-		parametres[3]=1.25f;
 		//System.out.println(parametres[0].length);
 		
 		
-		for (int i = 0; i < parametres.length; i+=2) {
+		for (int i = 0; i < parametres.size(); i+=2) {
 			//vidange de la l'info de base
 			informationDecale=new Information<Float>();
 			//copie du signal normal
 			for (float info : informationRecue) {
 				//System.out.println(i+1);
-				informationDecale.add(parametres[i+1]*info);
+				informationDecale.add(parametres.get(i+1)*info);
 			}
 			
-			if (parametres[i]>0f) {
-				informationDecale.addBefore(new ArrayList<Float>(Collections.nCopies(Math.abs(parametres[i].intValue()), 0f)));
+			if (parametres.get(i)>0f) {
+				informationDecale.addBefore(new ArrayList<Float>(Collections.nCopies(Math.abs(parametres.get(i).intValue()), 0f)));
 				informationDecale.cut(0, informationRecue.nbElements());
 			} else {
-				informationDecale.cut(Math.abs(parametres[i].intValue()), informationDecale.nbElements());
-				informationDecale.add(new ArrayList<Float>(Collections.nCopies(Math.abs(parametres[i].intValue()), 0f)));
+				informationDecale.cut(Math.abs(parametres.get(i).intValue()), informationDecale.nbElements());
+				informationDecale.add(new ArrayList<Float>(Collections.nCopies(Math.abs(parametres.get(i).intValue()), 0f)));
 			}
 			
 			
@@ -119,8 +115,9 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 					destResultat.setIemeElement(j, destResultat.iemeElement(j)+arraysofArrays.get(i).iemeElement(j));
 				}
 			}
+			informationDecale=arraysofArrays.get(0);
 		}
-		informationDecale=arraysofArrays.get(0);
+		
 		
 		
 		
@@ -141,7 +138,8 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
     	float bruit=0f;
     	for (int i = 0; i < informationRecue.nbElements(); i++) {
     		bruit=(float) ((float) sigma*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
-        	informationConverti.add(informationRecue.iemeElement(i)+informationDecale.iemeElement(i)+bruit);
+    		if(informationDecale.nbElements()==0) informationConverti.add(informationRecue.iemeElement(i)+bruit);
+    		else informationConverti.add(informationRecue.iemeElement(i)+informationDecale.iemeElement(i)+bruit);
     	}
     	
     	

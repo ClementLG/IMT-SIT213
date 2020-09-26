@@ -100,6 +100,11 @@ public class Simulateur {
     private float max = 1;
     
     /**
+     *  Parametres multitrajet. 5 Couples max. (decalageEnEchantillon:coeffReflexion)
+     */
+    private ArrayList<Float> tdi = new ArrayList<Float>();
+    
+    /**
      *  'export' precise la destination de l'export du TEB
      */
     private Boolean export = false;
@@ -132,9 +137,9 @@ public class Simulateur {
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
         Transmetteur<Float, Float> transmetteurAnalogiqueBruiteReel;
         if (aleatoireAvecGerme) {
-        	transmetteurAnalogiqueBruiteReel=new TransmetteurAnalogiqueBruitReel(seed,snr, ne);
+        	transmetteurAnalogiqueBruiteReel=new TransmetteurAnalogiqueBruitReel(seed,snr, ne, tdi);
 		} else {
-			transmetteurAnalogiqueBruiteReel=new TransmetteurAnalogiqueBruitReel(snr, ne);
+			transmetteurAnalogiqueBruiteReel=new TransmetteurAnalogiqueBruitReel(snr, ne, tdi);
 		}
         
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
@@ -332,8 +337,26 @@ public class Simulateur {
             } else if (args[i].matches("-snrpb")) {
             	i++;
             	snr=Float.parseFloat(args[i]);
-            }else if (args[i].matches("-export")) {
-            	//i++;
+            } else if (args[i].matches("-ti")) {
+            	int k=1;
+            	while ((i+1<args.length) && !args[i+1].matches("^-[a-z]+") && k<11) {
+					i++;
+					k++;
+					if(k%2==1 && args[i].matches("^-?\\d*(\\.\\d+)?$")) {
+						//System.out.println("reflex: "+args[i]);
+						tdi.add(Float.parseFloat(args[i]));
+					} else if (args[i].matches("^-?\\d*$")) {
+						tdi.add(Float.parseFloat(args[i]));
+					}
+					else {
+						throw new ArgumentsException("Decalage(s) ou reflexion(s) invalide(s) :" + args[i]);
+					}
+					
+				}
+            	if(tdi.size()%2 != 0) throw new ArgumentsException("les paramètres multitrajets doivent etre mis par pair ! (decalage en echantillon et coefficient reflexion");
+            	//for(float param : parametreMultiTrajet) System.out.println("param="+param);//debug
+            	
+            }else if (!args[i].matches("-export")) {
             	export=true;
             }else throw new ArgumentsException("Option invalide :" + args[i]);
             
