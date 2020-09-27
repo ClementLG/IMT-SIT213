@@ -356,7 +356,7 @@ public class Simulateur {
             	if(tdi.size()%2 != 0) throw new ArgumentsException("les paramètres multitrajets doivent etre mis par pair ! (decalage en echantillon et coefficient reflexion");
             	//for(float param : parametreMultiTrajet) System.out.println("param="+param);//debug
             	
-            }else if (!args[i].matches("-export")) {
+            }else if (args[i].matches("-export")) {
             	export=true;
             }else throw new ArgumentsException("Option invalide :" + args[i]);
             
@@ -409,7 +409,7 @@ public class Simulateur {
     		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
     			//String filename= export;
     		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
-    		    fw.write(TEB+";"+snr+"\n");//appends the string to the file
+    		    fw.write(TEB+";"+tdi.get(0)+"\n");//appends the string to the file
     		    fw.close();
     		}
     		catch(IOException ioe)
