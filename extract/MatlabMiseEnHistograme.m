@@ -50,6 +50,7 @@ hold on
 semilogy(datasNRZ(:,2),datasNRZ(:,1), 'g');
 hold on
 semilogy(datasNRZT(:,2),datasNRZT(:,1),'r');
+
 legend('RZ', ' NRZ', 'NRZT')
 xlabel("SRNpb (dB)");
 ylabel("TEB (log)");

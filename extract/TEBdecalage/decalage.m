@@ -19,8 +19,8 @@ plot(datasRZ1T05(:,2:end),datasRZ1T05(:,1),'r');
 grid on
 xlabel("decalage en nombre d'echantillon");
 ylabel("TEB");
-title('TEB en fonction du decalage (1trajet) - linear');
-legend('RZ', ' NRZ', 'NRZT')
+title('TEB en fonction du decalage (1 trajet) - linear');
+legend('coeff 1', ' coeff 0.75', 'coeff 0.5')
 hold on
 
 
@@ -30,10 +30,10 @@ hold on
 semilogy(datasRZ1T075(:,2),datasRZ1T075(:,1), 'g');
 hold on
 semilogy(datasRZ1T05(:,2),datasRZ1T05(:,1),'r');
-legend('RZ', ' NRZ', 'NRZT')
+legend('coeff 1', ' coeff 0.75', 'coeff 0.5')
 xlabel("decalage en nombre d'echantillon");
 ylabel("TEB (log)");
-title('TEB en fonction du decalage - Log');
+title('TEB en fonction du decalage (1 trajet)- Log');
 grid on;
 
 %2 trajets parasites
@@ -56,8 +56,8 @@ plot(datasRZ2T05(:,2:end),datasRZ2T05(:,1),'r');
 grid on
 xlabel("decalage en nombre d'echantillon");
 ylabel("TEB");
-title('TEB en fonction du decalage (1trajet) - linear');
-legend('RZ', ' NRZ', 'NRZT')
+title('TEB en fonction du decalage (2 trajet de direction opposées) - linear');
+legend('coeff 1', ' coeff 0.75', 'coeff 0.5')
 hold on
 
 
@@ -67,8 +67,8 @@ hold on
 semilogy(datasRZ2T075(:,2),datasRZ2T075(:,1), 'g');
 hold on
 semilogy(datasRZ2T05(:,2),datasRZ2T05(:,1),'r');
-legend('RZ', ' NRZ', 'NRZT')
+legend('coeff 1', ' coeff 0.75', 'coeff 0.5')
 xlabel("decalage en nombre d'echantillon");
 ylabel("TEB (log)");
-title('TEB en fonction du decalage - Log');
+title('TEB en fonction du decalage (2 trajet de direction opposées) - Log');
 grid on;

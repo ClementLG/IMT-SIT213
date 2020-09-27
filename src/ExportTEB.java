@@ -12,8 +12,9 @@
 public class ExportTEB {
 
 	public static void main(String[] args) {
-			//lance 100k fois la simu
-		    
+			//decommenter au besoin
+		    //-export pour activer l'ecriture dans un fichier
+		
 			/*String arguments;
 			arguments="-seed 40 -form NRZT -ampl -5 5 -snrpb -20 -export";
 			args= arguments.split(" ");
@@ -23,13 +24,20 @@ public class ExportTEB {
 			
 			
 			String arguments;
-			for (float i = -50; i < 20; i+=0.1) {
-					arguments="-seed 40 -form RZ -ampl -5 5 -snrpb "+i+" -export";
+			for (float i = 0; i < 15; i+=0.1) {
+					arguments="-mess 999999 -seed 40 -form RZ -ampl 0 1 -snrpb "+i+" -export";
 					args= arguments.split(" ");
 					Simulateur.main(args);
 
 			}
 			
+			/*String arguments;
+			for (int i = 0; i < 20*30; i+=1) {
+					arguments="-seed 40 -form NRZT -ampl -5 5 -snrpb 3 -ti "+i+" 0.5 "+-i+" 0.5 -export";
+					args= arguments.split(" ");
+					Simulateur.main(args);
+	
+			}*/
 			
 
 
