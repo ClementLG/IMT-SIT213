@@ -17,15 +17,43 @@ import java.util.Random;
  * @author p.maquin
  * @author g.fraignac
  * @author m.lejeune
+ * 
+ * @version R1.0 - Sept 2020
  */
 public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
-	float snr=0;
+	
+	/**
+	* Attribut d'instance : 'snr' le rapport signal/bruit
+	*/
+	float snr;
+	/**
+	* Attribut d'instance : 'seed' la graine de génération aléatoire. Valeur par default NULL.
+	*/
 	Integer seed=null;
+	/**
+	* Attribut d'instance : 'informationConverti' information recue avec ajout de bruit. 
+	*/
 	private Information<Float> informationConverti=new Information<>();
+	/**
+	* Attribut d'instance : 'informationDecale' Somme de signaux decale et modifie en amplitude selon un coeff. 
+	*/
 	private Information<Float> informationDecale=new Information<>();
+	/**
+	* Attribut d'instance : 'parametres' Decalage(s) et coefficient(s) des multiTrajets. 
+	*/
 	private ArrayList<Float> parametres=new ArrayList<Float>();
+	/**
+	* Attribut d'instance : 'nbEchantillon' nombre d'echantillon par bit. 
+	*/
 	int nbEchantillon=30;
 
+	/**
+     * Constructeur de TransmetteurAnalogiqueBruitReel avec 4 parametres
+     * @param seed : graine de generation aleatoire
+     * @param snr : rapport signal sur bruit
+     * @param nbEchantillon : Nombre d'echantillon par symbole
+     * @param parametres : paramettre du/des multi-trajet(s)
+     */
 	public TransmetteurAnalogiqueBruitReel(int seed, float snr, int nbEchantillon, ArrayList<Float> parametres) {
 		super();
 		this.seed=seed;
@@ -34,6 +62,12 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 		this.parametres=parametres;
 	}
 
+	/**
+     * Constructeur de TransmetteurAnalogiqueBruitReel avec 3 parametres
+     * @param snr : rapport signal sur bruit
+     * @param nbEchantillon : Nombre d'echantillon par symbole
+     * @param parametres : paramettre du/des multi-trajet(s)
+     */
 	public TransmetteurAnalogiqueBruitReel(float snr, int nbEchantillon, ArrayList<Float> parametres) {
 		super();
 		this.snr=snr;
@@ -41,7 +75,12 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 		this.parametres=parametres;
 
 	}
-
+	
+	/**
+     * Constructeur de TransmetteurAnalogiqueBruitReel avec 2 parametres
+     * @param snr : rapport signal sur bruit
+     * @param parametres : paramettre du/des multi-trajet(s)
+     */
 	public TransmetteurAnalogiqueBruitReel(float snr, ArrayList<Float> parametres ) {
 		super();
 		this.snr=snr;
@@ -71,6 +110,11 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
         informationEmise = informationConverti;//transmetteur parfait src=dest
 
     }
+    
+    /**
+     * Calcul les multitrajets et les ajoute dans informationDecale sous la forme d'une somme des signaux decales.
+     *
+     */
 	private void ajoutDecalage() {
 		ArrayList<Information<Float>> listeInformationsDecalees=new ArrayList<Information<Float>>();
 		
@@ -107,6 +151,12 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 		
 	}
 	
+	/**
+     * Somme des arrayList de float
+     * @param destResultat : destination de la somme
+     * @param arraysofArrays : Liste des ArraysList à sommer
+     *
+     */
 	private void sommerArray(Information<Float> destResultat, ArrayList<Information<Float>> arraysofArrays){
 		if(!arraysofArrays.isEmpty()) {
 			destResultat=arraysofArrays.get(0);
@@ -115,15 +165,15 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 					destResultat.setIemeElement(j, destResultat.iemeElement(j)+arraysofArrays.get(i).iemeElement(j));
 				}
 			}
-			informationDecale=arraysofArrays.get(0);
+			informationDecale=destResultat;
 		}
-		
-		
-		
-		
-		
+
 	}
 	
+	/**
+     * Permet d'ajouter le bruit sur le signal recue. Le signal bruite est stocke dans informationConverti.
+     * 
+     */
 	private void ajoutBruit() {
     	float sigma=calculSigma();
     	Random rand1;
@@ -145,6 +195,10 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
     	
     }
     
+	/**
+     * Permet de calculer la racine carré de la puissance du bruit (sigma)
+     * 
+     */
     private float calculSigma() {
     	float Ps=0f;
     	float Sigma=0f;

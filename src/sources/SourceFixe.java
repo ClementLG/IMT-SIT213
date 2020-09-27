@@ -10,6 +10,8 @@ import information.InformationNonConforme;
  * @author c.legruiec
  * @author e.leduc
  * @author b.demoulin
+ * 
+ * @version R1.0 - Sept 2020
  */
 
 public class SourceFixe extends Source<Boolean> {
@@ -19,7 +21,7 @@ public class SourceFixe extends Source<Boolean> {
      * Si m est une suite de 0 et de 1 de longueur au moins egale à 7
      * m est le message à emettre
      *
-     * @param s
+     * @param 'm' : le message a transmettre
      */
     public SourceFixe(String m) {
         super();//Appels des attributs de la classe mere

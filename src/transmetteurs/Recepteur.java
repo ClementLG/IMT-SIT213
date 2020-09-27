@@ -12,23 +12,36 @@ import information.InformationNonConforme;
  * @author p.maquin
  * @author g.fraignac
  * @author m.lejeune
+ * 
+ * @version R1.0 - Sept 2020
  */
 public class Recepteur extends Transmetteur<Float, Boolean>{
-	private float Amax;
-	private float Amin;
-	private int nbEchantillon;
-	private String decodeType;
-	private Information<Boolean> informationConverti;
+	/**
+	* Attribut d'instance : 'Amax' amplitude maximum du signal. Valeur par default 5V.
+	*/
+	private float Amax=5;
+	/**
+	* Attribut d'instance : 'Amin' amplitude minimale du signal. Valeur par default 0V.
+	*/
+	private float Amin=0;
+	/**
+	* Attribut d'instance : 'nbEchantillon' le nombre d'echantillon par bit. Valeur par default 30.
+	*/
+	private int nbEchantillon=30;
+	/**
+	* Attribut d'instance : 'decodeType' la forme du signal. Valeur par default RZ.
+	*/
+	private String decodeType="RZ";
+	/**
+	* Attribut d'instance : 'informationConverti' information recue avec ajout de bruit. 
+	*/
+	private Information<Boolean> informationConverti=new Information<>();
 	
 	/**
 	 * Constructeur par defaut de Recepteur sans parametre
 	 */
 	public Recepteur() {
-		Amax=5;
-		Amin=0;
-		decodeType="RZ";
-		nbEchantillon=30;
-		informationConverti =new Information<>();
+		super();
 
 	}
 	
@@ -40,11 +53,11 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
      * @param decodeType : le type de conversion analogique (NRZ,NRZT,RZ)
      */
 	public Recepteur(float Amax, float Amin, int nbEchantillon, String decodeType) {
+		super();
 		this.Amax=Amax;
 		this.Amin=Amin;
 		this.nbEchantillon=nbEchantillon;
 		this.decodeType=decodeType;
-		informationConverti =new Information<>();
 	}
 	
 	/**
@@ -72,8 +85,8 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
     
     
     /**
-     * Permet de selectionner le type de conversion a effectuer
-     * Permettra d'effectuer des operations personaliser si besoin
+     * Permet de selectionner le type de conversion a effectuer.
+     * Permettra d'effectuer des operations personaliser si besoin.
      */
     private void CAN() throws InformationNonConforme {
     	switch (decodeType) {

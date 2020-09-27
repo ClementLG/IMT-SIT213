@@ -8,43 +8,68 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe TransmetteurAnalogiqueParfait hÃ©ritÃ© de la classe Transmetteur
+ * Classe TransmetteurAnalogiqueParfait herite de la classe Transmetteur
  *
  * @author c.legruiec
  * @author e.leduc
  * @author p.maquin
  * @author g.fraignac
  * @author m.lejeune
+ * 
+ * @version R1.0 - Sept 2020
  */
 public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
-	float snr=0;
+	
+	/**
+	* Attribut d'instance : 'snr' le rapport signal/bruit
+	*/
+	float snr;
+	/**
+	* Attribut d'instance : 'seed' la graine de génération aléatoire. Valeur par default NULL.
+	*/
 	Integer seed=null;
-	private Information<Float> informationConverti;
+	/**
+	* Attribut d'instance : 'informationConverti' information recue avec ajout de bruit. 
+	*/
+	private Information<Float> informationConverti=new Information<>();
+	/**
+	* Attribut d'instance : 'nbEchantillon'  nombre d'echantillon par bit. Valeur par default 30.
+	*/
 	int nbEchantillon=30;
 	
+	
+	/**
+	* Constructeur à 3 paramètres de la classe.
+	* @param seed : la graine de génération aléatoire
+	* @param snr : le rapport signal/bruit
+	* @param nbEchantillon : nombre d'echantillon par bit
+	*/
 	public TransmetteurAnalogiqueBruite(int seed, float snr, int nbEchantillon) {
+		super();
 		this.seed=seed;
 		this.snr=snr;
 		this.nbEchantillon=nbEchantillon;
-		informationConverti =new Information<>();
-
 	}
 	
+	/**
+	* Constructeur à 2 paramètres de la classe.
+	* @param snr : le rapport signal/bruit
+	* @param nbEchantillon : nombre d'echantillon par bit
+	*/
 	public TransmetteurAnalogiqueBruite(float snr, int nbEchantillon) {
 		super();
 		this.snr=snr;
 		this.nbEchantillon=nbEchantillon;
-		informationConverti =new Information<>();
 
 	}
 	
+	/**
+	* Constructeur à 2 paramètres de la classe.
+	* @param snr : le rapport signal/bruit
+	*/
 	public TransmetteurAnalogiqueBruite(float snr ) {
 		super();
 		this.snr=snr;
-		this.nbEchantillon=nbEchantillon;
-		informationConverti =new Information<>();
-		nbEchantillon=30;
-
 	}
 	
 	/**
@@ -70,6 +95,10 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 
     }
     
+    /**
+     * Permet d'ajouter le bruit sur le signal recue. Le signal bruite est stocke dans informationConverti.
+     * 
+     */
     private void ajoutBruit() {
     	float sigma=calculSigma();
     	Random rand1;
@@ -90,6 +119,11 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
     	
     }
     
+    
+    /**
+     * Permet de calculer la racine carré de la puissance du bruit (sigma)
+     * 
+     */
     private float calculSigma() {
     	float Ps=0f;
     	float Sigma=0f;
@@ -104,8 +138,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
         Sigma= (float) ((float) (Ps)/(2*Math.pow(10,snr/10)));
         Sigma=(float) Math.sqrt(Sigma);
     	
-    	//calcul de la puissance moyenne
-    	System.out.println("sigma:"+Sigma);
+    	//System.out.println("sigma:"+Sigma); //debug
     	return Sigma;
     }
     
