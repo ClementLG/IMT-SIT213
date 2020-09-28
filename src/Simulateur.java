@@ -409,7 +409,7 @@ public class Simulateur {
     	if(export) {
     		try
     		{
-    		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
+                String filename= new File(".").getAbsolutePath() + "\\export.txt";
     			//String filename= export;
     		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
     		    fw.write(TEB+";"+snr+"\n");//appends the string to the file
@@ -445,7 +445,7 @@ public class Simulateur {
         try {
             simulateur.execute();
             float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
-            //simulateur.exportDuTEB(tauxErreurBinaire);
+            simulateur.exportDuTEB(tauxErreurBinaire);
             String s = "java  Simulateur  ";
             for (String arg : args) {
                 s += arg + "  ";
