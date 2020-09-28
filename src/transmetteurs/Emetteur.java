@@ -5,42 +5,58 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe Emetteur hérité de la classe Transmetteur
+ * Classe Emetteur herite de la classe Transmetteur
  *
  * @author c.legruiec
  * @author e.leduc
  * @author p.maquin
  * @author g.fraignac
  * @author m.lejeune
+ *
+ * @version R1.0 - Sept 2020
  */
+
+
 public class Emetteur extends Transmetteur<Boolean, Float>{
-	private float Amax;
-	private float Amin;
-	private int nbEchantillon;
-	private String encodeType;
-	private Information<Float> informationConverti;
+
+	/**
+	* Attribut d'instance : 'Amax' amplitude maximum du signal. Valeur par default 5V.
+	*/
+	private float Amax=5;
+	/**
+	* Attribut d'instance : 'Amin' amplitude minimale du signal. Valeur par default 0V.
+	*/
+	private float Amin=0;
+	/**
+	* Attribut d'instance : 'nbEchantillon' le nombre d'echantillon par bit. Valeur par default 30.
+	*/
+	private int nbEchantillon=30;
+	/**
+	* Attribut d'instance : 'encodeType' la forme du signal. Valeur par default RZ.
+	*/
+	private String encodeType="RZ";
+	/**
+	* Attribut d'instance : 'informationConverti' information recue avec ajout de bruit.
+	*/
+	private Information<Float> informationConverti=new Information<>();
 
 
 	/**
      * Constructeur par default de Emetteur sans parametre
      */
 	public Emetteur() {
-		Amax=5;
-		Amin=-0;
-		encodeType="RZ";
-		nbEchantillon=30;
-		informationConverti =new Information<>();
-
+		super();
 	}
 
 	/**
-     * Constructeur de Emetteur à parametrer avec des infos de base
+     * Constructeur de Emetteur a parametrer avec des infos de base
      * @param Amax : Amplitude Max
      * @param Amin : Amplitude Min
      * @param nbEchantillon : Nombre d'echantillon par symbole
      * @param encodeType : le type de conversion analogique (NRZ,NRZT,RZ)
      */
 	public Emetteur(float Amax, float Amin, int nbEchantillon, String encodeType) {
+		super();
 		this.Amax=Amax;
 		this.Amin=Amin;
 		this.nbEchantillon=nbEchantillon;
@@ -65,12 +81,11 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
      */
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
-            destinationConnectee.recevoir(informationConverti);
+        	destinationConnectee.recevoir(informationConverti);
         }
         informationEmise = informationConverti;//transmetteur parfait src=dest
 
     }
-
 
     /**
      * Permet de selectionner le type de conversion a effectuer
@@ -91,7 +106,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 			break;
 
 		default:
-			System.out.println("Aucun type d'encodage ne correspond à l'entree saisie");
+			System.out.println("Aucun type d'encodage ne correspond a l'entree saisie");
 			throw new InformationNonConforme();
 		}
 	}
@@ -172,7 +187,9 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 
         for (int i = 1; i < nbElem-1; i++) {
 
+        	//bit suivant
             checkAfter = informationRecue.iemeElement(i + 1);
+            //bit precedent
             checkBefore = informationRecue.iemeElement(i - 1);
 
             if (informationRecue.iemeElement(i)) {
@@ -333,5 +350,4 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
             }
         }
     }
-
 }

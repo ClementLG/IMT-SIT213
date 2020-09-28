@@ -12,12 +12,13 @@
 public class ExportTEB {
 
 	public static void main(String[] args) {
-			//lance 100k fois la simu
+
 			String arguments;
-			arguments="-seed 40 -form NRZT -ampl -5 5 -snrpb -20 -export ./test.txt";
-			args= arguments.split(" ");
-			for (int i = 0; i < 100000; i++) {
-				Simulateur.main(args);
+			for (float i = -50; i < 21; i+=0.1) {
+					arguments="-seed 40 -form RZ -ampl -5 5 -nbEch 30 -snrpb "+i+" -export";
+					args= arguments.split(" ");
+					Simulateur.main(args);
+
 			}
 			
 			

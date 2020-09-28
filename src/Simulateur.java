@@ -1,15 +1,11 @@
 import sources.*;
 import destinations.*;
 import transmetteurs.*;
-
 import information.*;
-
 import visualisations.*;
-
 import java.util.regex.*;
 import java.util.*;
 import java.lang.Math;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.BufferedWriter;
@@ -38,7 +34,6 @@ public class Simulateur {
      * indique si le Simulateur utilise des sondes d'affichage
      */
     private boolean affichage = false;
-
     /**
      * indique si le Simulateur utilise un message genere de maniere aleatoire
      */
@@ -101,66 +96,15 @@ public class Simulateur {
     private float max = 1;
 
     /**
+     *  Parametres multitrajet. 5 Couples max. (decalageEnEchantillon:coeffReflexion)
+     */
+    private ArrayList<Float> tdi = new ArrayList<Float>();
+    /**
      *  'export' precise la destination de l'export du TEB
      */
-    private String export = null;
+    private Boolean export = false;
 
 
-    public boolean isAffichage() {
-        return affichage;
-    }
-
-    public boolean isMessageAleatoire() {
-        return messageAleatoire;
-    }
-
-    public boolean isAleatoireAvecGerme() {
-        return aleatoireAvecGerme;
-    }
-
-    public Integer getSeed() {
-        return seed;
-    }
-
-    public int getNbBitsMess() {
-        return nbBitsMess;
-    }
-
-    public String getMessageString() {
-        return messageString;
-    }
-
-    public String getForm() {
-        return form;
-    }
-
-    public float getSnr() {
-        return snr;
-    }
-
-    public Source<Boolean> getSource() {
-        return source;
-    }
-
-    public Transmetteur<Boolean, Boolean> getTransmetteurLogique() {
-        return transmetteurLogique;
-    }
-
-    public Destination<Boolean> getDestination() {
-        return destination;
-    }
-
-    public int getNe() {
-        return ne;
-    }
-
-    public float getMin() {
-        return min;
-    }
-
-    public float getMax() {
-        return max;
-    }
 
 
     /**
@@ -189,11 +133,11 @@ public class Simulateur {
 
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
-        Transmetteur<Float, Float> transmetteurAnalogiqueBruite;
+        Transmetteur<Float, Float> transmetteurAnalogiqueBruiteReel;
         if (aleatoireAvecGerme) {
-        	transmetteurAnalogiqueBruite=new TransmetteurAnalogiqueBruite(seed,snr, ne);
+        	transmetteurAnalogiqueBruiteReel=new TransmetteurAnalogiqueBruitReel(seed,snr, ne, tdi);
 		} else {
-			transmetteurAnalogiqueBruite=new TransmetteurAnalogiqueBruite(snr, ne);
+			transmetteurAnalogiqueBruiteReel=new TransmetteurAnalogiqueBruitReel(snr, ne, tdi);
 		}
 
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
@@ -209,25 +153,120 @@ public class Simulateur {
 
         //connexion des blocs ensembles
         source.connecter(emetteur);
-        emetteur.connecter(transmetteurAnalogiqueBruite);
-        //transmetteurAnalogiqueParfait.connecter(recepteur);
-        transmetteurAnalogiqueBruite.connecter(recepteur);
+        emetteur.connecter(transmetteurAnalogiqueBruiteReel);
+        transmetteurAnalogiqueBruiteReel.connecter(recepteur);
         recepteur.connecter(destination);
 
         if(affichage) {
         	source.connecter(viewSrc);
         	emetteur.connecter(viewEmet);
-        	//transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
-        	transmetteurAnalogiqueBruite.connecter(viewTransmitAna);
+        	transmetteurAnalogiqueBruiteReel.connecter(viewTransmitAna);
         	recepteur.connecter(viewDest);
         }
+    }
 
-        //transmetteurLogique.connecter(destination);
-        //if(affichage) transmetteurLogique.connecter(viewTransmit);
+    /**
+     * Observateur du parametre affichage
+     * @return l etat du champs affichage
+     */
+    public boolean getAffichage() {
+    	return affichage;
+    }
 
+    /**
+     * Observateur du parametre messageAleatoire
+     * @return l etat du champs messageAleatoire
+     */
+    public boolean getMessageAleatoire() {
+    	return messageAleatoire;
+    }
 
+    /**
+     * Observateur du parametre aleatoireAvecGerme
+     * @return l etat du champs aleatoireAvecGerme
+     */
+    public boolean getAleatoireAvecGerme() {
+    	return aleatoireAvecGerme;
+    }
 
+    /**
+     * Observateur du parametre seed
+     * @return l etat du champs seed
+     */
+    public Integer getSeed() {
+    	return seed;
+    }
 
+    /**
+     * Observateur du parametre nbBitsMess
+     * @return l etat du champs nbBitsMess
+     */
+    public int getNbBitsMess() {
+    	return nbBitsMess;
+    }
+
+    /**
+     * Observateur du parametre messageString
+     * @return l etat du champs messageString
+     */
+    public String getMessageString() {
+    	return messageString;
+    }
+
+    /**
+     * Observateur du parametre form
+     * @return l etat du champs form
+     */
+    public String getForm() {
+    	return form;
+    }
+
+    /**
+     * Observateur du parametre snr
+     * @return l etat du champs snr
+     */
+    public float getSnr() {
+    	return snr;
+    }
+
+    /**
+     * Observateur du parametre source
+     * @return l etat du champs source
+     */
+    public Source<Boolean> getSource() {
+        return source;
+    }
+
+    /**
+     * Observateur du parametre destination
+     * @return l etat du champs destination
+     */
+    public Destination<Boolean> getDestination() {
+        return destination;
+    }
+
+    /**
+     * Observateur du parametre ne
+     * @return l etat du champs ne
+     */
+    public int getNe() {
+    	return ne;
+    }
+
+    /**
+     * Observateur du parametre min
+     * @return l etat du champs min
+     */
+    public float getMin() {
+    	return min;
+    }
+
+    /**
+     * Observateur du parametre max
+     * @return l etat du champs max
+     */
+    public float getMax() {
+    	return max;
     }
 
 
@@ -285,7 +324,7 @@ public class Simulateur {
             } else if (args[i].matches("-nbEch")) {
             	i++;
             	// traiter la valeur associee
-            	if(Integer.parseInt(args[i])>0) {
+            	if(Integer.parseInt(args[i])>3) {
             		ne=Integer.parseInt(args[i]);
             		ne -= ne%3;
             	}
@@ -303,9 +342,26 @@ public class Simulateur {
             } else if (args[i].matches("-snrpb")) {
             	i++;
             	snr=Float.parseFloat(args[i]);
+            } else if (args[i].matches("-ti")) {
+            	int k=1;
+            	while ((i+1<args.length) && !args[i+1].matches("^-[a-z]+") && k<11) {
+					i++;
+					k++;
+					if(k%2==1 && args[i].matches("^-?\\d*(\\.\\d+)?$")) {
+						//System.out.println("reflex: "+args[i]);
+						tdi.add(Float.parseFloat(args[i]));
+					} else if (args[i].matches("^-?\\d*$")) {
+						tdi.add(Float.parseFloat(args[i]));
+					}
+					else {
+						throw new ArgumentsException("Decalage(s) ou reflexion(s) invalide(s) :" + args[i]);
+					}
+
+				}
+            	if(tdi.size()%2 != 0) throw new ArgumentsException("les parametres multitrajets doivent etre mis par pair ! (decalage en echantillon et coefficient reflexion");
+            	//for(float param : parametreMultiTrajet) System.out.println("peram="+param);//debug
             }else if (args[i].matches("-export")) {
-            	i++;
-            	export=args[i];
+            	export=true;
             }else throw new ArgumentsException("Option invalide :" + args[i]);
 
         }
@@ -334,8 +390,8 @@ public class Simulateur {
 
     	//Attention si tailles des tableaux differentes ?? --> demander si possible
 
-    	int nbErr=0;
-    	float TEB=0.0f;
+    	float nbErr=0;
+    	float TEB=0.000f;
     	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
 			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
 		}
@@ -343,20 +399,20 @@ public class Simulateur {
     	if(destination.getInformationRecue().nbElements()!=source.getInformationEmise().nbElements()) {
     		nbErr+=Math.abs(source.getInformationEmise().nbElements()-destination.getInformationRecue().nbElements());
     	}
-    	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());
+    	TEB=(nbErr)/(source.getInformationEmise().nbElements()*1.000f);
 
 
         return TEB;
     }
 
     public void exportDuTEB(float TEB) {
-    	if(export!=null) {
+    	if(export) {
     		try
     		{
-    		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\test.txt";
+    		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
     			//String filename= export;
     		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
-    		    fw.write(TEB+"\n");//appends the string to the file
+    		    fw.write(TEB+";"+snr+"\n");//appends the string to the file
     		    fw.close();
     		}
     		catch(IOException ioe)

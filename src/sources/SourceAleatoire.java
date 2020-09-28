@@ -2,21 +2,28 @@ package sources;
 
 import java.util.Random;
 
+import destinations.DestinationInterface;
 import information.Information;
-
+import information.InformationNonConforme;
 
 /**
- * Classe SourceAleatoire hérité d'un composant source d'informations
+ * Classe SourceAleatoire herite d'un composant source d'informations
  *
  * @author c.legruiec
  * @author e.leduc
- * @author b.demoulin
+ * @author g.fraignac
+ * @author p.Maquin
+ * @author m.Lejeune
+ *
+ * @version R1.1 - Sept 2020
  */
 
 public class SourceAleatoire extends Source<Boolean> {
 	
     /**
+     * Constructeur.
      * Par defaut le simulateur doit generer et transmettre un message de longueur 100.
+     * @param 'seed' : la graine de génération aléatoire à utiliser
      */
     public SourceAleatoire(Integer seed) {
         super();//Appels des attributs de la classe mere
@@ -32,12 +39,14 @@ public class SourceAleatoire extends Source<Boolean> {
     }
 
     /**
-     * Si m comporte au plus 6 chiffres decimaux 
-     * et correspond à la representation en base 10 
+     * Constructeur.
+     * Si m comporte au plus 6 chiffres decimaux
+     * et correspond a la representation en base 10
      * d'un entier, cet entier est la longueur du message 
      * que le simulateur doit generer et transmettre.
      *
-     * @param nbBits
+     * @param 'nbBits' : la taille du message à générer en bit
+     * @param 'seed' : la graine de génération aléatoire à utiliser
      */
     public SourceAleatoire(int nbBits, Integer seed) {
         super();//Appels des attributs de la classe mere

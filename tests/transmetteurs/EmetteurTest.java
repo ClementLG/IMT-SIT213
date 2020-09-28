@@ -1,6 +1,5 @@
 package transmetteurs;
 
-import destinations.DestinationFinale;
 import information.Information;
 import information.InformationNonConforme;
 import org.junit.Test;

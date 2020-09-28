@@ -14,7 +14,7 @@ import information.InformationNonConforme;
 public class DestinationFinale extends Destination<Boolean> {
 
     public DestinationFinale() {
-        super();
+    	super();
     }
 
 

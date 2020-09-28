@@ -5,7 +5,6 @@ import information.Information;
 import information.InformationNonConforme;
 import org.junit.Test;
 
-import javax.print.attribute.standard.Destination;
 
 import static org.junit.Assert.*;
 
