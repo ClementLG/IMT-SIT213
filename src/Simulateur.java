@@ -387,7 +387,7 @@ public class Simulateur {
     	
     	//Attention si tailles des tableaux differentes ?? --> demander si possible
     	
-    	int nbErr=0;
+    	float nbErr=0;
     	float TEB=0.000f;
     	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
 			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
@@ -396,7 +396,7 @@ public class Simulateur {
     	if(destination.getInformationRecue().nbElements()!=source.getInformationEmise().nbElements()) {
     		nbErr+=Math.abs(source.getInformationEmise().nbElements()-destination.getInformationRecue().nbElements());
     	}
-    	TEB=(nbErr*1.000f)/(source.getInformationEmise().nbElements());
+    	TEB=(nbErr)/(source.getInformationEmise().nbElements()*1.000f);
     	
     	
         return TEB;
@@ -409,7 +409,7 @@ public class Simulateur {
     		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
     			//String filename= export;
     		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
-    		    fw.write(TEB+";"+tdi.get(0)+"\n");//appends the string to the file
+    		    fw.write(TEB+";"+snr+"\n");//appends the string to the file
     		    fw.close();
     		}
     		catch(IOException ioe)

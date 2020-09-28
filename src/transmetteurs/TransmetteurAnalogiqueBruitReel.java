@@ -208,13 +208,20 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 		}
         //on a enlevé le nombre d'echantillon par bit dans les calculs suite à une simplication.
         //il ne reste que le calcul de l'esperance des Ak².
-        Ps=Ps/informationRecue.nbElements(); 
-        //calcul de sigmaCarre
-        Sigma= (float) ((float) (Ps)/(2*Math.pow(10,snr/10)));
+        Ps=Ps/(float)informationRecue.nbElements(); 
+        //System.out.println("ps:"+Ps);
+        
+        ////calcul de sigmaCarre
+        //Trop bon par rapport au théorique
+        //Sigma= (float) ((float) (Ps)/(2f*Math.pow(10,snr/10))); 
+        //Sigma=(float) Math.sqrt(Sigma);
+        
+        //Plus realiste et plus simple
+        //cf: https://en.wikipedia.org/wiki/Signal-to-noise_ratio#:~:text=SNR%20is%20defined%20as%20the,by%20the%20Shannon%E2%80%93Hartley%20theorem.
+        Sigma=(float) Math.pow(10, (Math.log10(Ps) - Math.log10(Math.pow(10,snr/10))));
         Sigma=(float) Math.sqrt(Sigma);
-    	
-    	//calcul de la puissance moyenne
     	//System.out.println("sigma:"+Sigma);
+        
     	return Sigma;
     }
 

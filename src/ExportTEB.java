@@ -23,13 +23,13 @@ public class ExportTEB {
 			}*/
 			
 			
-			String arguments;
+			/*String arguments;
 			for (float i = 0; i < 15; i+=0.1) {
-					arguments="-mess 999999 -seed 40 -form RZ -ampl 0 1 -snrpb "+i+" -export";
+					arguments="-mess 999999 -seed 40 -form RZ -ampl 0 5 -nbEch 60 -snrpb "+i+" -export";
 					args= arguments.split(" ");
 					Simulateur.main(args);
 
-			}
+			}*/
 			
 			/*String arguments;
 			for (int i = 0; i < 20*30; i+=1) {
@@ -38,6 +38,14 @@ public class ExportTEB {
 					Simulateur.main(args);
 	
 			}*/
+		
+			String arguments;
+			for (float i = -50; i < 21; i+=0.1) {
+					arguments="-seed 40 -form RZ -ampl -5 5 -nbEch 30 -snrpb "+i+" -export";
+					args= arguments.split(" ");
+					Simulateur.main(args);
+	
+			}
 			
 
 
