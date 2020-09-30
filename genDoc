@@ -1,0 +1,3 @@
+#!/bin/bash
+cd ./src/
+javadoc -encoding ISO-8859-1 *.java ./*/*.java -exclude ./src/tests/ -d ../docs/
