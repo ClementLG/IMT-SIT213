@@ -8,43 +8,68 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe TransmetteurAnalogiqueParfait hÃ©ritÃ© de la classe Transmetteur
+ * Classe TransmetteurAnalogiqueParfait herite de la classe Transmetteur
  *
  * @author c.legruiec
  * @author e.leduc
  * @author p.maquin
  * @author g.fraignac
  * @author m.lejeune
+ * 
+ * @version R1.0 - Sept 2020
  */
 public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
-	float snr=0;
+	
+	/**
+	* Attribut d'instance : 'snr' le rapport signal/bruit
+	*/
+	float snr;
+	/**
+	* Attribut d'instance : 'seed' la graine de génération aléatoire. Valeur par default NULL.
+	*/
 	Integer seed=null;
-	private Information<Float> informationConverti;
+	/**
+	* Attribut d'instance : 'informationConverti' information recue avec ajout de bruit. 
+	*/
+	private Information<Float> informationConverti=new Information<>();
+	/**
+	* Attribut d'instance : 'nbEchantillon'  nombre d'echantillon par bit. Valeur par default 30.
+	*/
 	int nbEchantillon=30;
 	
+	
+	/**
+	* Constructeur à 3 paramètres de la classe.
+	* @param seed : la graine de génération aléatoire
+	* @param snr : le rapport signal/bruit
+	* @param nbEchantillon : nombre d'echantillon par bit
+	*/
 	public TransmetteurAnalogiqueBruite(int seed, float snr, int nbEchantillon) {
+		super();
 		this.seed=seed;
 		this.snr=snr;
 		this.nbEchantillon=nbEchantillon;
-		informationConverti =new Information<>();
-
 	}
 	
+	/**
+	* Constructeur à 2 paramètres de la classe.
+	* @param snr : le rapport signal/bruit
+	* @param nbEchantillon : nombre d'echantillon par bit
+	*/
 	public TransmetteurAnalogiqueBruite(float snr, int nbEchantillon) {
 		super();
 		this.snr=snr;
 		this.nbEchantillon=nbEchantillon;
-		informationConverti =new Information<>();
 
 	}
 	
+	/**
+	* Constructeur à 2 paramètres de la classe.
+	* @param snr : le rapport signal/bruit
+	*/
 	public TransmetteurAnalogiqueBruite(float snr ) {
 		super();
 		this.snr=snr;
-		this.nbEchantillon=nbEchantillon;
-		informationConverti =new Information<>();
-		nbEchantillon=30;
-
 	}
 	
 	/**
@@ -70,9 +95,12 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 
     }
     
+    /**
+     * Permet d'ajouter le bruit sur le signal recue. Le signal bruite est stocke dans informationConverti.
+     * 
+     */
     private void ajoutBruit() {
     	float sigma=calculSigma();
-    	int k=1;
     	Random rand1;
     	Random rand2;
     	if (seed!=null) {
@@ -83,17 +111,19 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 			rand2=new Random();
 		}
     	float bruit=0f;
-    	for (int i = 0; i < informationRecue.nbElements(); i+=nbEchantillon) {
+    	for (float info : informationRecue) {
     		//sigma=calculSigma(i);
-    		for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
-        		bruit=(float) ((float) sigma*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
-        		informationConverti.add(informationRecue.iemeElement(j)+bruit);
-    		}
-    		k++;
-		}
+        	bruit=(float) ((float) sigma*(Math.sqrt(-2*Math.log(1-rand1.nextFloat())))*(Math.cos(2*Math.PI*rand2.nextFloat())));
+        	informationConverti.add(info+bruit);
+    	}
     	
     }
     
+    
+    /**
+     * Permet de calculer la racine carré de la puissance du bruit (sigma)
+     * 
+     */
     private float calculSigma() {
     	float Ps=0f;
     	float Sigma=0f;
@@ -101,13 +131,14 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
         for (float info : informationRecue) {
         	Ps+=Math.pow(info, 2);
 		}
-        Ps=Ps/informationRecue.nbElements();
+        //on a enlevé le nombre d'echantillon par bit dans les calculs suite à une simplication.
+        //il ne reste que le calcul de l'esperance des Ak².
+        Ps=Ps/informationRecue.nbElements(); 
         //calcul de sigmaCarre
-        Sigma= (float) ((float) (Ps*nbEchantillon)/(2*Math.pow(10,snr/10)));
+        Sigma= (float) ((float) (Ps)/(2*Math.pow(10,snr/10)));
         Sigma=(float) Math.sqrt(Sigma);
     	
-    	//calcul de la puissance moyenne
-    	
+    	//System.out.println("sigma:"+Sigma); //debug
     	return Sigma;
     }
     

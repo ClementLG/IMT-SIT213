@@ -11,6 +11,8 @@ import information.InformationNonConforme;
  * @author c.legruiec
  * @author e.leduc
  * @author b.demoulin
+ * 
+ * @version R1.0 - Sept 2020
  */
 
 public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {

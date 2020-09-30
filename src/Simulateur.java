@@ -31,6 +31,9 @@ import java.io.PrintWriter;
  * @author p.maquin
  * @author g.fraignac
  * @author m.lejeune
+ * 
+ * @version R1.0 - Sept 2020
+ * 
  */
 public class Simulateur {
 
@@ -100,9 +103,14 @@ public class Simulateur {
     private float max = 1;
     
     /**
+     *  Parametres multitrajet. 5 Couples max. (decalageEnEchantillon:coeffReflexion)
+     */
+    private ArrayList<Float> tdi = new ArrayList<Float>();
+    
+    /**
      *  'export' precise la destination de l'export du TEB
      */
-    private String export = null;
+    private Boolean export = false;
 
     /**
      * Le constructeur de Simulateur construit une chaine de
@@ -130,11 +138,11 @@ public class Simulateur {
         
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
         Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
-        Transmetteur<Float, Float> transmetteurAnalogiqueBruitee;
+        Transmetteur<Float, Float> transmetteurAnalogiqueBruiteReel;
         if (aleatoireAvecGerme) {
-        	transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruite(seed,snr, ne);
+        	transmetteurAnalogiqueBruiteReel=new TransmetteurAnalogiqueBruitReel(seed,snr, ne, tdi);
 		} else {
-			transmetteurAnalogiqueBruitee=new TransmetteurAnalogiqueBruite(snr, ne);
+			transmetteurAnalogiqueBruiteReel=new TransmetteurAnalogiqueBruitReel(snr, ne, tdi);
 		}
         
         Transmetteur<Float, Boolean> recepteur=new Recepteur(max, min, ne, form);
@@ -150,16 +158,16 @@ public class Simulateur {
         
         //connexion des blocs ensembles
         source.connecter(emetteur);
-        emetteur.connecter(transmetteurAnalogiqueBruitee);
+        emetteur.connecter(transmetteurAnalogiqueBruiteReel);
         //transmetteurAnalogiqueParfait.connecter(recepteur);
-        transmetteurAnalogiqueBruitee.connecter(recepteur);
+        transmetteurAnalogiqueBruiteReel.connecter(recepteur);
         recepteur.connecter(destination);
         
         if(affichage) {
         	source.connecter(viewSrc);
         	emetteur.connecter(viewEmet);
         	//transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
-        	transmetteurAnalogiqueBruitee.connecter(viewTransmitAna);
+        	transmetteurAnalogiqueBruiteReel.connecter(viewTransmitAna);
         	recepteur.connecter(viewDest);
         }
         
@@ -203,11 +211,12 @@ public class Simulateur {
     	return seed;
     }
     
+    
     /**
      * Observateur du parametre nbBitsMess
      * @return l etat du champs nbBitsMess
      */
-    public Integer getNbBitsMess() {
+    public int getNbBitsMess() {
     	return nbBitsMess;
     }
     
@@ -332,9 +341,27 @@ public class Simulateur {
             } else if (args[i].matches("-snrpb")) {
             	i++;
             	snr=Float.parseFloat(args[i]);
+            } else if (args[i].matches("-ti")) {
+            	int k=1;
+            	while ((i+1<args.length) && !args[i+1].matches("^-[a-z]+") && k<11) {
+					i++;
+					k++;
+					if(k%2==1 && args[i].matches("^-?\\d*(\\.\\d+)?$")) {
+						//System.out.println("reflex: "+args[i]);
+						tdi.add(Float.parseFloat(args[i]));
+					} else if (args[i].matches("^-?\\d*$")) {
+						tdi.add(Float.parseFloat(args[i]));
+					}
+					else {
+						throw new ArgumentsException("Decalage(s) ou reflexion(s) invalide(s) :" + args[i]);
+					}
+					
+				}
+            	if(tdi.size()%2 != 0) throw new ArgumentsException("les paramètres multitrajets doivent etre mis par pair ! (decalage en echantillon et coefficient reflexion");
+            	//for(float param : parametreMultiTrajet) System.out.println("param="+param);//debug
+            	
             }else if (args[i].matches("-export")) {
-            	i++;
-            	export=args[i];
+            	export=true;
             }else throw new ArgumentsException("Option invalide :" + args[i]);
             
         }
@@ -364,8 +391,8 @@ public class Simulateur {
     	
     	//Attention si tailles des tableaux differentes ?? --> demander si possible
     	
-    	int nbErr=0;
-    	float TEB=0.0f;
+    	float nbErr=0;
+    	float TEB=0.000f;
     	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
 			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
 		}
@@ -373,20 +400,20 @@ public class Simulateur {
     	if(destination.getInformationRecue().nbElements()!=source.getInformationEmise().nbElements()) {
     		nbErr+=Math.abs(source.getInformationEmise().nbElements()-destination.getInformationRecue().nbElements());
     	}
-    	TEB=(nbErr*1.0f)/(source.getInformationEmise().nbElements());
+    	TEB=(nbErr)/(source.getInformationEmise().nbElements()*1.000f);
     	
     	
         return TEB;
     }
     
     public void exportDuTEB(float TEB) {
-    	if(export!=null) {
+    	if(export) {
     		try
     		{
-    		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\test.txt";
+    		    String filename= "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
     			//String filename= export;
     		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
-    		    fw.write(TEB+"\n");//appends the string to the file
+    		    fw.write(TEB+";"+snr+"\n");//appends the string to the file
     		    fw.close();
     		}
     		catch(IOException ioe)
@@ -419,7 +446,7 @@ public class Simulateur {
         try {
             simulateur.execute();
             float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
-            //simulateur.exportDuTEB(tauxErreurBinaire);
+            simulateur.exportDuTEB(tauxErreurBinaire);
             String s = "java  Simulateur  ";
             for (int i = 0; i < args.length; i++) {
                 s += args[i] + "  ";
