@@ -134,7 +134,7 @@ public class Simulateur {
 
 
         Transmetteur<Boolean, Float> emetteur = new Emetteur(max, min, ne, form);
-        Transmetteur<Float, Float> transmetteurAnalogiqueParfait=new TransmetteurAnalogiqueParfait();
+        Transmetteur<Boolean, Boolean> codageEmission=new CodageEmission();
 
         Transmetteur<Float, Float> transmetteurAnalogiqueBruitReel;
         if (aleatoireAvecGerme) {
@@ -156,7 +156,8 @@ public class Simulateur {
 
 
         //connexion des blocs ensembles
-        source.connecter(emetteur);
+        source.connecter(codageEmission);
+        codageEmission.connecter(emetteur);
 
         emetteur.connecter(transmetteurAnalogiqueBruitReel);
         //transmetteurAnalogiqueParfait.connecter(recepteur);

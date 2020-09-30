@@ -17,6 +17,7 @@ public class CodageEmission extends Transmetteur<Boolean, Boolean> {
 
     //canal Rx Information (abstract dans la classe mere)
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
+        informationRecue = new Information<>();
         for (boolean info : information) {
             if (info) {
                 informationRecue.add(true);
