@@ -31,6 +31,9 @@ import java.io.PrintWriter;
  * @author p.maquin
  * @author g.fraignac
  * @author m.lejeune
+ * 
+ * @version R1.0 - Sept 2020
+ * 
  */
 public class Simulateur {
 
@@ -208,11 +211,12 @@ public class Simulateur {
     	return seed;
     }
     
+    
     /**
      * Observateur du parametre nbBitsMess
      * @return l etat du champs nbBitsMess
      */
-    public Integer getNbBitsMess() {
+    public int getNbBitsMess() {
     	return nbBitsMess;
     }
     

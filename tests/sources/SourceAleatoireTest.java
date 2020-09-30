@@ -1,6 +1,6 @@
 package sources;
-import information.InformationNonConforme;
 
+import information.InformationNonConforme;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
