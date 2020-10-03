@@ -4,19 +4,30 @@ clc
 RZ1T1 = importdata('C:\Users\clegruiec\OneDrive - RETIS\IMT\IMT-SIT213\extract\TEBdecalage\NRZT-m100-1traj-coeff1.txt',';',2);
 RZ1T075 = importdata('C:\Users\clegruiec\OneDrive - RETIS\IMT\IMT-SIT213\extract\TEBdecalage\NRZT-m100-1traj-coeff075.txt',';',2);
 RZ1T05 = importdata('C:\Users\clegruiec\OneDrive - RETIS\IMT\IMT-SIT213\extract\TEBdecalage\NRZT-m100-1traj-coeff05.txt',';',2);
-
+CRZ1T1 = importdata('C:\Users\clegruiec\OneDrive - RETIS\IMT\IMT-SIT213\extract\TEBdecalage\NRZTcodeur-m100-1traj-coeff1.txt',';',2);
+CRZ1T075 = importdata('C:\Users\clegruiec\OneDrive - RETIS\IMT\IMT-SIT213\extract\TEBdecalage\NRZTcodeur-m100-1traj-coeff075.txt',';',2);
+CRZ1T05 = importdata('C:\Users\clegruiec\OneDrive - RETIS\IMT\IMT-SIT213\extract\TEBdecalage\NRZTcodeur-m100-1traj-coeff05.txt',';',2);
 datasRZ1T1 = RZ1T1.data;
 datasRZ1T075 = RZ1T075.data;
 datasRZ1T05 = RZ1T05.data;
+datasCRZ1T1 = CRZ1T1.data;
+datasCRZ1T075 = CRZ1T075.data;
+datasCRZ1T05 = CRZ1T05.data;
 
 figure(1);
 subplot(211);
 plot(datasRZ1T1(:,2:end),datasRZ1T1(:,1),'b');
 hold on
-plot(datasRZ1T075(:,2:end),datasRZ1T075(:,1), 'm');
+plot(datasCRZ1T1(:,2:end),datasCRZ1T1(:,1),'k');
 hold on
-plot(datasRZ1T05(:,2:end),datasRZ1T05(:,1),'r');
-grid on
+% plot(datasRZ1T075(:,2:end),datasRZ1T075(:,1), 'm');
+% hold on
+% plot(datasCRZ1T075(:,2:end),datasCRZ1T075(:,1), 'g');
+% hold on
+% plot(datasRZ1T05(:,2:end),datasRZ1T05(:,1),'r');
+% hold on
+% plot(datasCRZ1T05(:,2:end),datasCRZ1T05(:,1),'r');
+% grid on
 xlabel("decalage en nombre d'echantillon");
 ylabel("TEB");
 title('TEB en fonction du decalage (1 trajet indirect) - linear');
@@ -27,9 +38,15 @@ hold on
 subplot(212);
 semilogy(datasRZ1T1(:,2),datasRZ1T1(:,1),'b');
 hold on
-semilogy(datasRZ1T075(:,2),datasRZ1T075(:,1), 'm');
+semilogy(datasCRZ1T1(:,2),datasCRZ1T1(:,1),'k');
 hold on
-semilogy(datasRZ1T05(:,2),datasRZ1T05(:,1),'r');
+% semilogy(datasRZ1T075(:,2),datasRZ1T075(:,1), 'm');
+% hold on
+% semilogy(datasCRZ1T075(:,2),datasCRZ1T075(:,1),'g');
+% hold on
+% semilogy(datasRZ1T05(:,2),datasRZ1T05(:,1),'r');
+% hold on
+% semilogy(datasCRZ1T05(:,2),datasCRZ1T05(:,1),'r');
 legend('coeff 1', ' coeff 0.75', 'coeff 0.5')
 xlabel("decalage en nombre d'echantillon");
 ylabel("TEB (log)");

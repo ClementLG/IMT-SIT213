@@ -1,15 +1,12 @@
 import sources.*;
 import destinations.*;
 import transmetteurs.*;
-
 import information.*;
-
 import visualisations.*;
 
 import java.util.regex.*;
 import java.util.*;
 import java.lang.Math;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.BufferedWriter;
@@ -32,8 +29,7 @@ import java.io.PrintWriter;
  * @author g.fraignac
  * @author m.lejeune
  * 
- * @version R1.0 - Sept 2020
- * 
+ * @version R4.0 - Sept 2020
  */
 public class Simulateur {
 
@@ -61,51 +57,46 @@ public class Simulateur {
      * la chaine de caracteres correspondant a m dans l'argument -mess m
      */
     private String messageString = "100";
-    
     /**
      * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
      */
     private String form = "RZ";
-    
     /**
-     * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
+     * la valeur du snr (rapport signal sur bruit).
      */
     private float snr = 10000000f;
+    /**
+     * précise si le snr est utilisé.
+     */
+    private boolean utilisationSNR=false;
     /**
      * le  composant Source de la chaine de transmission
      */
     private Source<Boolean> source = null;
-    
     /**
      * le  composant Transmetteur parfait logique de la chaine de transmission
      */
     private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
-    
     /**
      * le  composant Destination de la chaine de transmission
      */
     private Destination<Boolean> destination = null;
-    
     /**
      * 'ne' precise le nombre d’échantillons par bit
      */
     private int ne = 30;
-    
     /**
      * 'min' precise l'amplitude minimale du signale analogique
      */
     private float min = 0;
-    
     /**
      * 'max' precise l'amplitude maximale du signale analogique
      */
     private float max = 1;
-    
     /**
      * Parametres multitrajet. 5 Couples max. (decalageEnEchantillon:coeffReflexion)
      */
-    private ArrayList<Float> tdi = new ArrayList<Float>();
-    
+    private ArrayList<Float> ti = new ArrayList<Float>();
     /**
      * 'export' precise la destination de l'export du TEB
      */
@@ -114,6 +105,7 @@ public class Simulateur {
      * 'codeur' precise si on encode le message à envoyer
      */
     private Boolean codeur = false;
+
 
     /**
      * Le constructeur de Simulateur construit une chaine de
@@ -127,85 +119,86 @@ public class Simulateur {
      * @throws ArgumentsException si un des arguments est incorrect
      */
     public Simulateur(String[] args) throws ArgumentsException {
-    	//Analyse des arguments
+
+        //Analyse des arguments
         analyseArguments(args);
-        
-        //Instanciations des differents blocs de traitement
+
+        //Instanciations des differents blocs
         if (messageAleatoire) {
             source = new SourceAleatoire(nbBitsMess, seed);
         } else {
             source = new SourceFixe(messageString);
         }
         destination = new DestinationFinale();
-        if(snr>=10000000f && codeur){SimulateurParfaitCodeur();}
-        else if(snr>=10000000f){SimulateurParfait();}
+        if(codeur && !utilisationSNR){SimulateurParfaitCodeur();}
+        else if(!utilisationSNR){SimulateurParfait();}
         else if(codeur){SimulateurCodeur();}
         else {SimulateurBruite();}
 
     }
+    
 
     private void SimulateurParfait() {
         TransmetteurAnalogiqueParfait transmetteurAnalogiqueParfait = new TransmetteurAnalogiqueParfait();
-        Recepteur recepteur = new Recepteur(max, min, ne, form);
         Emetteur emetteur = new Emetteur(max, min, ne, form);
+        Recepteur recepteur = new Recepteur(max, min, ne, form);
         source.connecter(emetteur);
         emetteur.connecter(transmetteurAnalogiqueParfait);
         transmetteurAnalogiqueParfait.connecter(recepteur);
         recepteur.connecter(destination);
-            SondeAnalogique viewEmet = new SondeAnalogique("ViewEmet");
-            SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
         if (affichage) {
             //Instanciations des differentes sondes
+            SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
+            SondeAnalogique viewEmet = new SondeAnalogique("ViewEmet");
             SondeAnalogique viewTransmitAna = new SondeAnalogique("ViewTransmitAna");
-    }
-        }
-            recepteur.connecter(viewDest);
-            source.connecter(viewSrc);
             SondeLogique viewDest = new SondeLogique("ViewDest", 720);
+            //Connexion des differentes sondes
+            source.connecter(viewSrc);
             emetteur.connecter(viewEmet);
-            //Connexion des differentes sondes
             transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
-        CodageEmission codeurE = new CodageEmission();
-        Recepteur recepteur = new Recepteur(max, min, ne, form);
-        Emetteur emetteur = new Emetteur(max, min, ne, form);
-        TransmetteurAnalogiqueParfait transmetteurAnalogiqueParfait = new TransmetteurAnalogiqueParfait();
-    private void SimulateurParfaitCodeur() {
+            recepteur.connecter(viewDest);
+        }
+    }
 
-            //Instanciations des differentes sondes
-        if (affichage) {
-        decodeurR.connecter(destination);
-        recepteur.connecter(decodeurR);
-        transmetteurAnalogiqueParfait.connecter(recepteur);
-        emetteur.connecter(transmetteurAnalogiqueParfait);
-        codeurE.connecter(emetteur);
-        source.connecter(codeurE);
+    private void SimulateurParfaitCodeur() {
+        TransmetteurAnalogiqueParfait transmetteurAnalogiqueParfait = new TransmetteurAnalogiqueParfait();
+        Emetteur emetteur = new Emetteur(max, min, ne, form);
+        Recepteur recepteur = new Recepteur(max, min, ne, form);
+        CodageEmission codeurE = new CodageEmission();
         DecodageReception decodeurR = new DecodageReception();
-            source.connecter(viewSrc);
-            //Connexion des differentes sondes
-            SondeAnalogique viewTransmitAna = new SondeAnalogique("ViewTransmitAna");
-            SondeAnalogique viewEmet = new SondeAnalogique("ViewEmet");
+        source.connecter(codeurE);
+        codeurE.connecter(emetteur);
+        emetteur.connecter(transmetteurAnalogiqueParfait);
+        transmetteurAnalogiqueParfait.connecter(recepteur);
+        recepteur.connecter(decodeurR);
+        decodeurR.connecter(destination);
+        if (affichage) {
+            //Instanciations des differentes sondes
             SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
+            SondeAnalogique viewEmet = new SondeAnalogique("ViewEmet");
+            SondeAnalogique viewTransmitAna = new SondeAnalogique("ViewTransmitAna");
             SondeLogique viewDest = new SondeLogique("ViewDest", 720);
+            //Connexion des differentes sondes
+            source.connecter(viewSrc);
+            emetteur.connecter(viewEmet);
+            transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
+            decodeurR.connecter(viewDest);
+        }
+    }
+
     private void SimulateurBruite() {
 
-    }
-        }
-            decodeurR.connecter(viewDest);
-            emetteur.connecter(viewEmet);
-            transmetteurAnalogiqueParfait.connecter(viewTransmitAna);
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snr, ne, tdi);
-        if (aleatoireAvecGerme) {
-
-        Recepteur recepteur = new Recepteur(max, min, ne, form);
+        TransmetteurAnalogiqueBruitReel transmetteurAnalogiqueBruiteReel;
         Emetteur emetteur = new Emetteur(max, min, ne, form);
-        TransmetteurAnalogiqueBruitReel transmetteurAnalogiqueBruiteReel = null;
+        Recepteur recepteur = new Recepteur(max, min, ne, form);
 
+        if (aleatoireAvecGerme) {
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snr, ne, ti);
         } else {
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snr, ne, tdi);
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snr, ne, ti);
         }
         source.connecter(emetteur);
         emetteur.connecter(transmetteurAnalogiqueBruiteReel);
-        //transmetteurAnalogiqueParfait.connecter(recepteur);
         transmetteurAnalogiqueBruiteReel.connecter(recepteur);
         recepteur.connecter(destination);
         if (affichage) {
@@ -221,38 +214,39 @@ public class Simulateur {
             recepteur.connecter(viewDest);
         }
     }
-    private void SimulateurCodeur() {
 
-        TransmetteurAnalogiqueBruitReel transmetteurAnalogiqueBruiteReel = null;
+    private void SimulateurCodeur() {
+        TransmetteurAnalogiqueBruitReel transmetteurAnalogiqueBruiteReel;
         Emetteur emetteur = new Emetteur(max, min, ne, form);
         Recepteur recepteur = new Recepteur(max, min, ne, form);
-        DecodageReception decodeurR = new DecodageReception();
         CodageEmission codeurE = new CodageEmission();
-        } else {
+        DecodageReception decodeurR = new DecodageReception();
         if (aleatoireAvecGerme) {
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snr, ne, tdi);
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snr, ne, tdi);
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snr, ne, ti);
+        } else {
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snr, ne, ti);
         }
         source.connecter(codeurE);
         codeurE.connecter(emetteur);
+        emetteur.connecter(transmetteurAnalogiqueBruiteReel);
         transmetteurAnalogiqueBruiteReel.connecter(recepteur);
-            SondeAnalogique viewEmet = new SondeAnalogique("ViewEmet");
-            //Instanciations des differentes sondes
-        decodeurR.connecter(destination);
         recepteur.connecter(decodeurR);
+        decodeurR.connecter(destination);
         if (affichage) {
+            //Instanciations des differentes sondes
             SondeLogique viewSrc = new SondeLogique("ViewSrc", 720);
-            source.connecter(viewSrc);
-            //Connexion des differentes sondes
-            SondeLogique viewDest = new SondeLogique("ViewDest", 720);
+            SondeAnalogique viewEmet = new SondeAnalogique("ViewEmet");
             SondeAnalogique viewTransmitAna = new SondeAnalogique("ViewTransmitAna");
+            SondeLogique viewDest = new SondeLogique("ViewDest", 720);
+            //Connexion des differentes sondes
+            source.connecter(viewSrc);
             emetteur.connecter(viewEmet);
             transmetteurAnalogiqueBruiteReel.connecter(viewTransmitAna);
             decodeurR.connecter(viewDest);
     }
-
-
     }
+
+
     /**
      * Observateur du parametre affichage
      *
@@ -261,7 +255,7 @@ public class Simulateur {
     public boolean getAffichage() {
         return affichage;
     }
-    
+
     /**
      * Observateur du parametre messageAleatoire
      *
@@ -270,7 +264,7 @@ public class Simulateur {
     public boolean getMessageAleatoire() {
         return messageAleatoire;
     }
-    
+
     /**
      * Observateur du parametre aleatoireAvecGerme
      *
@@ -279,7 +273,7 @@ public class Simulateur {
     public boolean getAleatoireAvecGerme() {
         return aleatoireAvecGerme;
     }
-    
+
     /**
      * Observateur du parametre seed
      *
@@ -288,8 +282,7 @@ public class Simulateur {
     public Integer getSeed() {
         return seed;
     }
-    
-    
+
     /**
      * Observateur du parametre nbBitsMess
      *
@@ -298,7 +291,7 @@ public class Simulateur {
     public int getNbBitsMess() {
         return nbBitsMess;
     }
-    
+
     /**
      * Observateur du parametre messageString
      *
@@ -307,7 +300,7 @@ public class Simulateur {
     public String getMessageString() {
         return messageString;
     }
-    
+
     /**
      * Observateur du parametre form
      *
@@ -316,7 +309,7 @@ public class Simulateur {
     public String getForm() {
         return form;
     }
-  
+
     /**
      * Observateur du parametre snr
      *
@@ -325,7 +318,7 @@ public class Simulateur {
     public float getSnr() {
         return snr;
     }
-    
+
     /**
      * Observateur du parametre source
      *
@@ -334,13 +327,13 @@ public class Simulateur {
     public Source<Boolean> getSource() {
         return source;
     }
-     *
-     * Observateur du parametre destination
-    /**
 
-    public Destination<Boolean> getDestination() {
-     */
+    /**
+     * Observateur du parametre destination
+     *
      * @return l etat du champs destination
+     */
+    public Destination<Boolean> getDestination() {
         return destination;
     }
 
@@ -352,7 +345,7 @@ public class Simulateur {
     public int getNe() {
         return ne;
     }
-    
+
     /**
      * Observateur du parametre min
      *
@@ -383,7 +376,7 @@ public class Simulateur {
      *             <br>
      *             <dl>
      *             <dt> -mess m  </dt><dd> m (String) constitue de 7 ou plus digits a 0 | 1, le message a transmettre</dd>
-     *             <dt> -mess m  </dt><dd> m (int) constitue de 1 a 6 digits, le nombre de bits du message "aleatoire" a  transmettre</dd>
+     *             <dt> -mess m  </dt><dd> m (int) constitue de 1 a 6 digits, le nombre de bits du message "aleatoire" a  transmettre</dd>
      *             <dt> -s </dt><dd> utilisation des sondes d'affichage</dd>
      *             <dt> -seed v </dt><dd> v (int) d'initialisation pour les generateurs aleatoires</dd>
      *             </dl>
@@ -443,6 +436,7 @@ public class Simulateur {
             } else if (args[i].matches("-snrpb")) {
                 i++;
                 snr = Float.parseFloat(args[i]);
+                utilisationSNR=true;
             } else if (args[i].matches("-ti")) {
                 int k = 1;
                 while ((i + 1 < args.length) && !args[i + 1].matches("^-[a-z]+") && k < 11) {
@@ -450,15 +444,15 @@ public class Simulateur {
                     k++;
                     if (k % 2 == 1 && args[i].matches("^-?\\d*(\\.\\d+)?$")) {
                         //System.out.println("reflex: "+args[i]);
-                        tdi.add(Float.parseFloat(args[i]));
+                        ti.add(Float.parseFloat(args[i]));
                     } else if (args[i].matches("^-?\\d*$")) {
-                        tdi.add(Float.parseFloat(args[i]));
+                        ti.add(Float.parseFloat(args[i]));
                     } else {
                         throw new ArgumentsException("Decalage(s) ou reflexion(s) invalide(s) :" + args[i]);
                     }
 
                 }
-                if (tdi.size() % 2 != 0)
+                if (ti.size() % 2 != 0)
                     throw new ArgumentsException("les parametres multitrajets doivent etre mis par pair ! (decalage en echantillon et coefficient reflexion");
                 //for(float param : parametreMultiTrajet) System.out.println("peram="+param);//debug
             } else if (args[i].matches("-export")) {
@@ -488,31 +482,32 @@ public class Simulateur {
      * @return La valeur du Taux dErreur Binaire.
      */
     public float calculTauxErreurBinaire() {
-    	
-    	//Attention si tailles des tableaux differentes ?? --> demander si possible
-    	
-    	float nbErr=0;
-    	float TEB=0.000f;
-    	for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
-			if(destination.getInformationRecue().iemeElement(i)!=source.getInformationEmise().iemeElement(i)) nbErr++;
-		}
-    	//si taille differente on compte les bits manquant comme erreurs
-    	if(destination.getInformationRecue().nbElements()!=source.getInformationEmise().nbElements()) {
-    		nbErr+=Math.abs(source.getInformationEmise().nbElements()-destination.getInformationRecue().nbElements());
-    	}
-    	TEB=(nbErr)/(source.getInformationEmise().nbElements()*1.000f);
-    	
-    	
+
+        //Attention si tailles des tableaux differentes ?? --> demander si possible
+
+        float nbErr = 0;
+        float TEB = 0.000f;
+        for (int i = 0; i < destination.getInformationRecue().nbElements(); i++) {
+            if (destination.getInformationRecue().iemeElement(i) != source.getInformationEmise().iemeElement(i))
+                nbErr++;
+        }
+        //si taille differente on compte les bits manquant comme erreurs
+        if (destination.getInformationRecue().nbElements() != source.getInformationEmise().nbElements()) {
+            nbErr += Math.abs(source.getInformationEmise().nbElements() - destination.getInformationRecue().nbElements());
+        }
+        TEB = (nbErr) / (source.getInformationEmise().nbElements() * 1.000f);
+
+
         return TEB;
     }
-    
+
     public void exportDuTEB(float TEB) {
         if (export) {
             try {
-                String filename = new File(".").getAbsolutePath() + "\\export.txt";
+                String filename = "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
                 //String filename= export;
                 FileWriter fw = new FileWriter(filename, true); //the true will append the new data
-                fw.write(TEB + ";" + snr + "\n");//appends the string to the file
+                fw.write(TEB + ";" + ti.get(0) + "\n");//appends the string to the file
                 fw.close();
             } catch (IOException ioe) {
                 System.err.println("IOException: " + ioe.getMessage());
@@ -544,8 +539,8 @@ public class Simulateur {
             float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
             simulateur.exportDuTEB(tauxErreurBinaire);
             String s = "java  Simulateur  ";
-            for (int i = 0; i < args.length; i++) {
-                s += args[i] + "  ";
+            for (String arg : args) {
+                s += arg + "  ";
             }
             System.out.println(s + "  =>   TEB : " + tauxErreurBinaire);
         } catch (Exception e) {
@@ -554,8 +549,4 @@ public class Simulateur {
             System.exit(-2);
         }
     }
-    
-    
-    
 }
-
