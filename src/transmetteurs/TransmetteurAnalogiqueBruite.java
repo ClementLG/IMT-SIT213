@@ -90,7 +90,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float> {
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
             destinationConnectee.recevoir(informationConverti);
         }
-        informationEmise = informationConverti;//transmetteur parfait src=dest
+        informationEmise = informationConverti;
 
     }
 

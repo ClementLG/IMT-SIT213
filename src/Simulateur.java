@@ -25,6 +25,8 @@ import java.util.ArrayList;
  * @author p.maquin
  * @author g.fraignac
  * @author m.lejeune
+ *
+ * @version R4.0 - Sept 2020
  */
 public class Simulateur {
 
@@ -57,9 +59,13 @@ public class Simulateur {
      */
     private String form = "RZ";
     /**
-     * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
+     * la valeur du snr (rapport signal sur bruit).
      */
     private float snr = 10000000f;
+    /**
+     * precise si le snr est utilis√©.
+     */
+    private boolean utilisationSNR=false;
     /**
      * le  composant Source de la chaine de transmission
      */
@@ -73,7 +79,7 @@ public class Simulateur {
      */
     private Destination<Boolean> destination = null;
     /**
-     * 'ne' precise le nombre d?Èchantillons par bit
+     * 'ne' precise le nombre d'echantillons par bit
      */
     private int ne = 30;
     /**
@@ -87,7 +93,7 @@ public class Simulateur {
     /**
      * Parametres multitrajet. 5 Couples max. (decalageEnEchantillon:coeffReflexion)
      */
-    private ArrayList<Float> tdi = new ArrayList<Float>();
+    private ArrayList<Float> ti = new ArrayList<Float>();
     /**
      * 'export' precise la destination de l'export du TEB
      */
@@ -121,17 +127,12 @@ public class Simulateur {
             source = new SourceFixe(messageString);
         }
         destination = new DestinationFinale();
-        if (snr >= 10000000f && codeur) {
-            SimulateurParfaitCodeur();
-        } else if (snr >= 10000000f) {
-            SimulateurParfait();
-        } else if (codeur) {
-            SimulateurCodeur();
-        } else {
-            SimulateurBruite();
+        if(codeur && !utilisationSNR){SimulateurParfaitCodeur();}
+        else if(!utilisationSNR){SimulateurParfait();}
+        else if(codeur){SimulateurCodeur();}
+        else {SimulateurBruite();}
         }
 
-    }
 
     private void SimulateurParfait() {
         TransmetteurAnalogiqueParfait transmetteurAnalogiqueParfait = new TransmetteurAnalogiqueParfait();
@@ -183,14 +184,14 @@ public class Simulateur {
 
     private void SimulateurBruite() {
 
-        TransmetteurAnalogiqueBruitReel transmetteurAnalogiqueBruiteReel = null;
+        TransmetteurAnalogiqueBruitReel transmetteurAnalogiqueBruiteReel;
         Emetteur emetteur = new Emetteur(max, min, ne, form);
         Recepteur recepteur = new Recepteur(max, min, ne, form);
 
         if (aleatoireAvecGerme) {
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snr, ne, tdi);
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snr, ne, ti);
         } else {
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snr, ne, tdi);
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snr, ne, ti);
         }
         source.connecter(emetteur);
         emetteur.connecter(transmetteurAnalogiqueBruiteReel);
@@ -211,15 +212,15 @@ public class Simulateur {
     }
 
     private void SimulateurCodeur() {
-        TransmetteurAnalogiqueBruitReel transmetteurAnalogiqueBruiteReel = null;
+        TransmetteurAnalogiqueBruitReel transmetteurAnalogiqueBruiteReel;
         Emetteur emetteur = new Emetteur(max, min, ne, form);
         Recepteur recepteur = new Recepteur(max, min, ne, form);
         CodageEmission codeurE = new CodageEmission();
         DecodageReception decodeurR = new DecodageReception();
         if (aleatoireAvecGerme) {
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snr, ne, tdi);
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snr, ne, ti);
         } else {
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snr, ne, tdi);
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snr, ne, ti);
         }
         source.connecter(codeurE);
         codeurE.connecter(emetteur);
@@ -371,13 +372,13 @@ public class Simulateur {
      *             <br>
      *             <dl>
      *             <dt> -mess m  </dt><dd> m (String) constitue de 7 ou plus digits a 0 | 1, le message a transmettre</dd>
-     *             <dt> -mess m  </dt><dd> m (int) constitue de 1 a 6 digits, le nombre de bits du message "aleatoire" a† transmettre</dd>
+     *             <dt> -mess m  </dt><dd> m (int) constitue de 1 a 6 digits, le nombre de bits du message "aleatoire" a  transmettre</dd>
      *             <dt> -s </dt><dd> utilisation des sondes d'affichage</dd>
      *             <dt> -seed v </dt><dd> v (int) d'initialisation pour les generateurs aleatoires</dd>
      *             </dl>
      * @throws ArgumentsException si un des arguments est incorrect.
      */
-    private void analyseArguments(String[] args) throws ArgumentsException {
+    public void analyseArguments(String[] args) throws ArgumentsException {
 
         for (int i = 0; i < args.length; i++) {
 
@@ -438,15 +439,15 @@ public class Simulateur {
                     k++;
                     if (k % 2 == 1 && args[i].matches("^-?\\d*(\\.\\d+)?$")) {
                         //System.out.println("reflex: "+args[i]);
-                        tdi.add(Float.parseFloat(args[i]));
+                        ti.add(Float.parseFloat(args[i]));
                     } else if (args[i].matches("^-?\\d*$")) {
-                        tdi.add(Float.parseFloat(args[i]));
+                        ti.add(Float.parseFloat(args[i]));
                     } else {
                         throw new ArgumentsException("Decalage(s) ou reflexion(s) invalide(s) :" + args[i]);
                     }
 
                 }
-                if (tdi.size() % 2 != 0)
+                if (ti.size() % 2 != 0)
                     throw new ArgumentsException("les parametres multitrajets doivent etre mis par pair ! (decalage en echantillon et coefficient reflexion");
                 //for(float param : parametreMultiTrajet) System.out.println("peram="+param);//debug
             } else if (args[i].matches("-export")) {
@@ -475,7 +476,7 @@ public class Simulateur {
      *
      * @return La valeur du Taux dErreur Binaire.
      */
-    private float calculTauxErreurBinaire() {
+    public float calculTauxErreurBinaire() {
 
         //Attention si tailles des tableaux differentes ?? --> demander si possible
 
@@ -495,7 +496,7 @@ public class Simulateur {
         return TEB;
     }
 
-    private void exportDuTEB(float TEB) {
+    public void exportDuTEB(float TEB) {
         if (export) {
             try {
                 String filename = new File(".").getAbsolutePath() + "\\extract\\export.txt";
