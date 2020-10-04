@@ -127,14 +127,20 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float> {
         for (float info : informationRecue) {
             Ps += Math.pow(info, 2);
         }
-        //on a enlevé le nombre d'echantillon par bit dans les calculs suite à une simplication.
-        //il ne reste que le calcul de l'esperance des Ak².
-        Ps = Ps / informationRecue.nbElements();
+        //on a enleve le nombre d'echantillon par bit dans les calculs suite a une simplication.
+        //il ne reste que le calcul de l'esperance des Ak.
+        Ps = Ps / (float) informationRecue.nbElements();
         //calcul de sigmaCarre
-        Sigma = (float) ((float) (Ps) / (2 * Math.pow(10, snr / 10)));
+        //Trop bon par rapport au theorique
+        //Sigma= (float) ((float) (Ps)/(2f*Math.pow(10,snr/10)));
+        //Sigma=(float) Math.sqrt(Sigma);
+
+        //Plus realiste et plus simple
+        //cf: https://en.wikipedia.org/wiki/Signal-to-noise_ratio#:~:text=SNR%20is%20defined%20as%20the,by%20the%20Shannon%E2%80%93Hartley%20theorem.
+        Sigma = (float) Math.pow(10, (Math.log10(Ps) - Math.log10(Math.pow(10, snr / 10))));
         Sigma = (float) Math.sqrt(Sigma);
 
-        //System.out.println("sigma:"+Sigma); //debug
+        // DEBUG : // System.out.println("sigma:"+Sigma);
         return Sigma;
     }
 }

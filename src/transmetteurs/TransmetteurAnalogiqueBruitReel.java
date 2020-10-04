@@ -84,7 +84,6 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float> 
     public TransmetteurAnalogiqueBruitReel(float snr, ArrayList<Float> parametres) {
         super();
         this.snr = snr;
-
         this.parametres = parametres;
     }
 
@@ -116,36 +115,29 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float> 
     private void ajoutDecalage() {
         ArrayList<Information<Float>> listeInformationsDecalees = new ArrayList<Information<Float>>();
 
-        //System.out.println(parametres[0].length);
-
-
         for (int i = 0; i < parametres.size(); i += 2) {
-            //vidange de la l'info de base
             informationDecale = new Information<Float>();
             //copie du signal normal
             for (float info : informationRecue) {
-                //System.out.println(i+1);
+                //Copie du signal avec le coef choisi en parametre
                 informationDecale.add(parametres.get(i + 1) * info);
             }
 
             if (parametres.get(i) > 0f) {
+                //Si decalage superieur à zero decaller le signal de X echantillons
+                //Ajoute X zero au debut du signal
                 informationDecale.addBefore(new ArrayList<Float>(Collections.nCopies(Math.abs(parametres.get(i).intValue()), 0f)));
+                //Enleve X points à la fin du signal
                 informationDecale.cut(0, informationRecue.nbElements());
             } else {
+                //Si decalage inferieur à zero decaller le signal de -X echantillons
                 informationDecale.cut(Math.abs(parametres.get(i).intValue()), informationDecale.nbElements());
                 informationDecale.add(new ArrayList<Float>(Collections.nCopies(Math.abs(parametres.get(i).intValue()), 0f)));
             }
-
-
-            Information<Float> test = new Information<Float>();
-            for (float essai : informationDecale) {
-                test.add(essai);
-            }
-            listeInformationsDecalees.add(test);
-            test = null;
+            //Liste de tous les signals decales
+            listeInformationsDecalees.add(informationDecale);
         }
         sommerArray(informationDecale, listeInformationsDecalees);
-
 
     }
 
@@ -153,7 +145,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float> 
      * Somme des arrayList de float
      *
      * @param destResultat   : destination de la somme
-     * @param arraysofArrays : Liste des ArraysList ? sommer
+     * @param arraysofArrays : Liste des ArraysList a sommer
      */
     private void sommerArray(Information<Float> destResultat, ArrayList<Information<Float>> arraysofArrays) {
         if (!arraysofArrays.isEmpty()) {
@@ -194,7 +186,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float> 
     }
 
     /**
-     * Permet de calculer la racine carr? de la puissance du bruit (sigma)
+     * Permet de calculer la racine carre de la puissance du bruit (sigma)
      */
     private float calculSigma() {
         float Ps = 0f;
@@ -206,9 +198,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float> 
         //on a enleve le nombre d'echantillon par bit dans les calculs suite a une simplication.
         //il ne reste que le calcul de l'esperance des Ak.
         Ps = Ps / (float) informationRecue.nbElements();
-        //System.out.println("ps:"+Ps);
-
-        ////calcul de sigmaCarre
+        //calcul de sigmaCarre
         //Trop bon par rapport au theorique
         //Sigma= (float) ((float) (Ps)/(2f*Math.pow(10,snr/10)));
         //Sigma=(float) Math.sqrt(Sigma);
@@ -218,7 +208,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float> 
         Sigma = (float) Math.pow(10, (Math.log10(Ps) - Math.log10(Math.pow(10, snr / 10))));
         Sigma = (float) Math.sqrt(Sigma);
 
-        //System.out.println("sigma:"+Sigma);
+        // DEBUG : // System.out.println("sigma:"+Sigma);
         return Sigma;
     }
 
