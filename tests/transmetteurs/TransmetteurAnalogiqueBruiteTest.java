@@ -5,7 +5,6 @@ import information.Information;
 import information.InformationNonConforme;
 import org.junit.Test;
 import sources.SourceFixe;
-import static org.junit.Assert.*;
 
 public class TransmetteurAnalogiqueBruiteTest {
 
@@ -14,7 +13,7 @@ public class TransmetteurAnalogiqueBruiteTest {
         float x = -10f;
         boolean b = false;
         for (int i = 0; i < 5; i++) {
-            if (testTABsnr(x*i)==false) {
+            if (testTABsnr(x * i) == false) {
                 b = true;
             }
         }

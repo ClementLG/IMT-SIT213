@@ -1,8 +1,6 @@
 package sources;
 
-import destinations.DestinationInterface;
 import information.Information;
-import information.InformationNonConforme;
 
 /**
  * Classe SourceFixe herite d'un composant source d'informations
@@ -12,7 +10,6 @@ import information.InformationNonConforme;
  * @author g.fraignac
  * @author p.Maquin
  * @author m.Lejeune
- *
  * @version R1.1 - Sept 2020
  */
 
@@ -29,12 +26,12 @@ public class SourceFixe extends Source<Boolean> {
         super();//Appels des attributs de la classe mere
         informationGeneree = new Information<Boolean>();
         for (int i = 0; i < m.length(); i++) {
-        	//si le caractere vaut 1, le boolean vaut True
+            //si le caractere vaut 1, le boolean vaut True
             if (m.charAt(i) == '1') informationGeneree.add(true);
-            //Sinon le boolean vaut False. Rq: le message m est conforme, verifié avant dans le main
+                //Sinon le boolean vaut False. Rq: le message m est conforme, verifié avant dans le main
             else informationGeneree.add(false);
         }
     }
 
-    
+
 }

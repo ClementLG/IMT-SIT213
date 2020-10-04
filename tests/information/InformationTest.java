@@ -1,6 +1,7 @@
 package information;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class InformationTest {
@@ -39,7 +40,7 @@ public class InformationTest {
         testAdd();
         assertTrue(test1.equals(test1));
         test1.add(true);
-        assertSame( test1.iemeElement(3).getClass().getName(),"java.lang.Boolean");
+        assertSame(test1.iemeElement(3).getClass().getName(), "java.lang.Boolean");
     }
 
     @Test
@@ -54,7 +55,7 @@ public class InformationTest {
         int cpt = 0;
         for (Object x : test1) {
             cpt++;
-            assertSame( x.getClass().getName(),"java.lang.String");
+            assertSame(x.getClass().getName(), "java.lang.String");
         }
         assertEquals(3, cpt);
     }

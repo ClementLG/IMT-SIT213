@@ -6,11 +6,7 @@ package visualisations;
  */
 
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import java.awt.geom.*;
-import java.lang.*;
+import java.awt.geom.Point2D;
 
 public class VueCourbe extends Vue {
 
@@ -125,6 +121,7 @@ public class VueCourbe extends Vue {
 
 
     /**
+     *
      */
     public void paint() {
         paint(getGraphics());

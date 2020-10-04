@@ -1,18 +1,19 @@
 package destinations;
 
-import information.*;
+import information.Information;
+import information.InformationNonConforme;
 
 
 /**
  * Interface d'un composant ayant le comportement d'une destination
- * d'informations dont les Ã©lÃ©ments sont de type T
+ * d'informations dont les éléments sont de type T
  *
  * @author prou
  */
 public interface DestinationInterface<T> {
 
     /**
-     * pour obtenir la derniÃ¨re information reÃ§ue par une destination.
+     * pour obtenir la dernière information reçue par une destination.
      *
      * @return une information
      */
@@ -20,9 +21,9 @@ public interface DestinationInterface<T> {
 
     /**
      * pour recevoir une information de la source qui nous est
-     * connectÃ©e
+     * connectée
      *
-     * @param information l'information  Ã  recevoir
+     * @param information l'information  à recevoir
      */
     public void recevoir(Information<T> information) throws InformationNonConforme;
 

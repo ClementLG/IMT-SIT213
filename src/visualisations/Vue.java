@@ -5,12 +5,8 @@ package visualisations;
  * @author B. Prou
  */
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
-import java.awt.geom.*;
-import java.lang.*;
+import java.util.LinkedList;
 
 public class Vue extends JFrame {
     private static LinkedList<Vue> lesVues = new LinkedList<Vue>();

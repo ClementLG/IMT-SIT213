@@ -3,8 +3,8 @@ package visualisations;
 import information.Information;
 
 /**
- * Classe rÃ©alisant l'affichage (textuel) d'information composÃ©e
- * d'Ã©lÃ©ments de type T
+ * Classe réalisant l'affichage (textuel) d'information composée
+ * d'éléments de type T
  *
  * @author prou
  */
@@ -13,7 +13,7 @@ public class SondeTextuelle<T> extends Sonde<T> {
     /**
      * pour construire une sonde textuelle
      *
-     * @param nom le nom de la fenÃªtre d'affichage
+     * @param nom le nom de la fenêtre d'affichage
      */
     public SondeTextuelle(String nom) {
         super(nom);

@@ -24,15 +24,6 @@ public class DecodageReception extends Transmetteur<Boolean, Boolean> {
     private Information<Boolean> informationConverti = new Information<>();
 
     /**
-     * Constructeur par defaut de DecodageReception sans parametre
-     */
-    public DecodageReception() {
-        super();
-
-    }
-
-
-    /**
      * canal Rx Information (abstract dans la classe mere)
      */
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {

@@ -1,19 +1,16 @@
-import sources.*;
-import destinations.*;
+import destinations.Destination;
+import destinations.DestinationFinale;
+import sources.Source;
+import sources.SourceAleatoire;
+import sources.SourceFixe;
 import transmetteurs.*;
-import information.*;
-import visualisations.*;
+import visualisations.SondeAnalogique;
+import visualisations.SondeLogique;
 
-import java.util.regex.*;
-import java.util.*;
-import java.lang.Math;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 
 
 /**
@@ -76,7 +73,7 @@ public class Simulateur {
      */
     private Destination<Boolean> destination = null;
     /**
-     * 'ne' precise le nombre dâ€™Ã©chantillons par bit
+     * 'ne' precise le nombre d?échantillons par bit
      */
     private int ne = 30;
     /**
@@ -96,7 +93,7 @@ public class Simulateur {
      */
     private Boolean export = false;
     /**
-     * 'codeur' precise si on encode le message Ã  envoyer
+     * 'codeur' precise si on encode le message à envoyer
      */
     private Boolean codeur = false;
 
@@ -124,10 +121,15 @@ public class Simulateur {
             source = new SourceFixe(messageString);
         }
         destination = new DestinationFinale();
-        if(snr>=10000000f && codeur){SimulateurParfaitCodeur();}
-        else if(snr>=10000000f){SimulateurParfait();}
-        else if(codeur){SimulateurCodeur();}
-        else {SimulateurBruite();}
+        if (snr >= 10000000f && codeur) {
+            SimulateurParfaitCodeur();
+        } else if (snr >= 10000000f) {
+            SimulateurParfait();
+        } else if (codeur) {
+            SimulateurCodeur();
+        } else {
+            SimulateurBruite();
+        }
 
     }
 
@@ -236,7 +238,7 @@ public class Simulateur {
             emetteur.connecter(viewEmet);
             transmetteurAnalogiqueBruiteReel.connecter(viewTransmitAna);
             decodeurR.connecter(viewDest);
-    }
+        }
     }
 
 
@@ -369,13 +371,13 @@ public class Simulateur {
      *             <br>
      *             <dl>
      *             <dt> -mess m  </dt><dd> m (String) constitue de 7 ou plus digits a 0 | 1, le message a transmettre</dd>
-     *             <dt> -mess m  </dt><dd> m (int) constitue de 1 a 6 digits, le nombre de bits du message "aleatoire" aÂ  transmettre</dd>
+     *             <dt> -mess m  </dt><dd> m (int) constitue de 1 a 6 digits, le nombre de bits du message "aleatoire" a  transmettre</dd>
      *             <dt> -s </dt><dd> utilisation des sondes d'affichage</dd>
      *             <dt> -seed v </dt><dd> v (int) d'initialisation pour les generateurs aleatoires</dd>
      *             </dl>
      * @throws ArgumentsException si un des arguments est incorrect.
      */
-    public void analyseArguments(String[] args) throws ArgumentsException {
+    private void analyseArguments(String[] args) throws ArgumentsException {
 
         for (int i = 0; i < args.length; i++) {
 
@@ -473,7 +475,7 @@ public class Simulateur {
      *
      * @return La valeur du Taux dErreur Binaire.
      */
-    public float calculTauxErreurBinaire() {
+    private float calculTauxErreurBinaire() {
 
         //Attention si tailles des tableaux differentes ?? --> demander si possible
 
@@ -493,10 +495,10 @@ public class Simulateur {
         return TEB;
     }
 
-    public void exportDuTEB(float TEB) {
+    private void exportDuTEB(float TEB) {
         if (export) {
             try {
-                String filename = new File(".").getAbsolutePath() + "\\export.txt";
+                String filename = new File(".").getAbsolutePath() + "\\extract\\export.txt";
                 //String filename= export;
                 FileWriter fw = new FileWriter(filename, true); //the true will append the new data
                 fw.write(TEB + ";" + snr + "\n");//appends the string to the file

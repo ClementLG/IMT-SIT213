@@ -8,13 +8,15 @@ import information.InformationNonConforme;
  *
  * @author c.legruiec
  * @author e.leduc
- * @author b.demoulin
+ * @author g.fraignac
+ * @author p.Maquin
+ * @author m.Lejeune
  */
 
 public class DestinationFinale extends Destination<Boolean> {
 
     public DestinationFinale() {
-    	super();
+        super();
     }
 
 

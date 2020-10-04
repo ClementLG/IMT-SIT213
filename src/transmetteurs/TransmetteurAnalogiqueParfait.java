@@ -5,21 +5,19 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe TransmetteurAnalogiqueParfait hÃ©ritÃ© de la classe Transmetteur
+ * Classe TransmetteurAnalogiqueParfait hérité de la classe Transmetteur
  *
  * @author c.legruiec
  * @author e.leduc
  * @author p.maquin
  * @author g.fraignac
  * @author m.lejeune
- *
  * @version R1.0 - Sept 2020
  */
-public class TransmetteurAnalogiqueParfait extends Transmetteur<Float, Float>{
+public class TransmetteurAnalogiqueParfait extends Transmetteur<Float, Float> {
 
-	/**
+    /**
      * canal Rx Information (abstract dans la classe mere)
-     *
      */
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
@@ -29,11 +27,10 @@ public class TransmetteurAnalogiqueParfait extends Transmetteur<Float, Float>{
 
     /**
      * canal Tx Information (abstract dans la classe mere)
-     *
      */
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
-        	destinationConnectee.recevoir(informationRecue);
+            destinationConnectee.recevoir(informationRecue);
         }
         informationEmise = informationRecue;//transmetteur parfait src=dest
 

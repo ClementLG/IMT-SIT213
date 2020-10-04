@@ -1,22 +1,22 @@
 package visualisations;
 
-import information.Information;
 import destinations.Destination;
+import information.Information;
 
 /**
- * Classe Abstraite d'un composant destination rÃ©alisant un affichage
+ * Classe Abstraite d'un composant destination réalisant un affichage
  *
  * @author prou
  */
 public abstract class Sonde<T> extends Destination<T> {
 
     /**
-     * nom de la fenÃªtre d'affichage
+     * nom de la fenêtre d'affichage
      */
     protected String nom;
 
     /**
-     * @param nom le nom de la fenÃªtre d'affichage
+     * @param nom le nom de la fenêtre d'affichage
      */
     public Sonde(String nom) {
         this.nom = nom;
@@ -24,9 +24,9 @@ public abstract class Sonde<T> extends Destination<T> {
 
     /**
      * pour recevoir et afficher l'information transmise par la source
-     * qui nous est connectÃ©e
+     * qui nous est connectée
      *
-     * @param information l'information  Ã  recevoir
+     * @param information l'information  à recevoir
      */
     public abstract void recevoir(Information<T> information);
 }

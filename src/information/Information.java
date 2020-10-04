@@ -1,6 +1,7 @@
 package information;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author prou
@@ -84,11 +85,11 @@ public class Information<T> implements Iterable<T> {
     /**
      * Coupe le tableau entre 2 index
      *
-     * @param id, index d�pard
-     * @param ia, index arriv�e
+     * @param id, index d?pard
+     * @param ia, index arriv?e
      */
     public void cut(int id, int ia) {
-    	content=new ArrayList<T>(content.subList(id, ia)) ;
+        content = new ArrayList<T>(content.subList(id, ia));
     }
 
 

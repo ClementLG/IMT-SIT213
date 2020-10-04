@@ -1,6 +1,7 @@
 package destinations;
 
-import information.*;
+import information.Information;
+import information.InformationNonConforme;
 
 /**
  * Classe Abstraite d'un composant destination d'informations dont les

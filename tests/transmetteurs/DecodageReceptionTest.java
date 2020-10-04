@@ -6,7 +6,7 @@ import information.InformationNonConforme;
 import org.junit.Test;
 import sources.SourceFixe;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DecodageReceptionTest {
 

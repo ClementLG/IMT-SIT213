@@ -17,12 +17,6 @@ import information.InformationNonConforme;
 
 public class CodageEmission extends Transmetteur<Boolean, Boolean> {
 
-    /**
-     * Constructeur par defaut de CodageReception sans parametre
-     */
-    public CodageEmission() {
-        super();
-    }
 
     /**
      * Attribut d'instance : 'informationConverti'.
@@ -30,7 +24,7 @@ public class CodageEmission extends Transmetteur<Boolean, Boolean> {
     private Information<Boolean> informationConverti = new Information<>();
 
     //canal Rx Information (abstract dans la classe mere)
-    public void recevoir(Information<Boolean> information) throws InformationNonConforme{
+    public void recevoir(Information<Boolean> information) throws InformationNonConforme {
 
         for (boolean info : information) {
             if (info) {
@@ -48,7 +42,7 @@ public class CodageEmission extends Transmetteur<Boolean, Boolean> {
 
     //canal Tx Information (abstract dans la classe mere)
     public void emettre() throws InformationNonConforme {
-        for ( DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
+        for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
             destinationConnectee.recevoir(informationConverti);
         }
         informationEmise = informationConverti;//transmetteur parfait src=dest
