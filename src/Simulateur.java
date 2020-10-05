@@ -452,6 +452,7 @@ public class Simulateur {
                     k++;
                     if (k % 2 == 1 && args[i].matches("^-?\\d*(\\.\\d+)?$")) {
                         //System.out.println("reflex: "+args[i]);
+                    	if(Float.parseFloat(args[i]) >1) throw new ArgumentsException("Coefficient de reflexion supérieur à 1 ! (impossible)" + args[i]);
                         ti.add(Float.parseFloat(args[i]));
                     } else if (args[i].matches("^-?\\d*$")) {
                         ti.add(Float.parseFloat(args[i]));

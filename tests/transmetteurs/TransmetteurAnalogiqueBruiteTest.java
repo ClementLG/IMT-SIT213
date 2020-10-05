@@ -5,7 +5,6 @@ import information.Information;
 import information.InformationNonConforme;
 import org.junit.Test;
 import sources.SourceFixe;
-import static org.junit.Assert.*;
 
 public class TransmetteurAnalogiqueBruiteTest {
 

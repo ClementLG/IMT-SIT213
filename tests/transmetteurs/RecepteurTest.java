@@ -10,13 +10,14 @@ import static org.junit.Assert.*;
 public class RecepteurTest {
     @Test
     public void testRecepteur() {
-        DestinationFinale df=new DestinationFinale();
+        DestinationFinale df = new DestinationFinale();
         Recepteur tRecep = new Recepteur(5, -5, 10, "RZ");
         tRecep.connecter(df);
         assertTrue(tRecep.destinationsConnectees.contains(df));
         tRecep.deconnecter(df);
         assertFalse(tRecep.destinationsConnectees.contains(df));
     }
+
     @Test
     public void recevoir() throws InformationNonConforme {
         TransmetteurAnalogiqueParfait tf = new TransmetteurAnalogiqueParfait();

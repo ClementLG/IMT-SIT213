@@ -8,23 +8,27 @@ import sources.SourceFixe;
 
 import static org.junit.Assert.assertEquals;
 
-public class CodageEmissionTest {
+public class DecodageReceptionTest {
 
     @Test
-    public void testCodage() throws InformationNonConforme {
-        SourceFixe sf = new SourceFixe("01");
-        CodageEmission crTest = new CodageEmission();
+    public void testDecode() throws InformationNonConforme {
+        SourceFixe sf = new SourceFixe("000010110011111101001100");
+        DecodageReception drTest = new DecodageReception();
         DestinationFinale df = new DestinationFinale();
-        sf.connecter(crTest);
-        crTest.connecter(df);
+        sf.connecter(drTest);
+        drTest.connecter(df);
         sf.emettre();
         Information<Boolean> bools = new Information();
         bools.add(false);
-        bools.add(true);
+        bools.add(false);
+        bools.add(false);
         bools.add(false);
         bools.add(true);
-        bools.add(false);
         bools.add(true);
-        assertEquals(bools, crTest.informationEmise);
+        bools.add(true);
+        bools.add(true);
+        assertEquals(bools, drTest.informationEmise);
+
     }
+
 }
