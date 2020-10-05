@@ -251,7 +251,6 @@ public class Simulateur {
     public boolean getAffichage() {
         return affichage;
     }
-
     /**
      * Observateur du parametre messageAleatoire
      *
@@ -260,7 +259,6 @@ public class Simulateur {
     public boolean getMessageAleatoire() {
         return messageAleatoire;
     }
-
     /**
      * Observateur du parametre aleatoireAvecGerme
      *
@@ -269,7 +267,6 @@ public class Simulateur {
     public boolean getAleatoireAvecGerme() {
         return aleatoireAvecGerme;
     }
-
     /**
      * Observateur du parametre seed
      *
@@ -278,7 +275,6 @@ public class Simulateur {
     public Integer getSeed() {
         return seed;
     }
-
     /**
      * Observateur du parametre nbBitsMess
      *
@@ -287,7 +283,6 @@ public class Simulateur {
     public int getNbBitsMess() {
         return nbBitsMess;
     }
-
     /**
      * Observateur du parametre messageString
      *
@@ -296,7 +291,6 @@ public class Simulateur {
     public String getMessageString() {
         return messageString;
     }
-
     /**
      * Observateur du parametre form
      *
@@ -305,7 +299,6 @@ public class Simulateur {
     public String getForm() {
         return form;
     }
-
     /**
      * Observateur du parametre snr
      *
@@ -314,7 +307,6 @@ public class Simulateur {
     public float getSnr() {
         return snr;
     }
-
     /**
      * Observateur du parametre source
      *
@@ -323,7 +315,6 @@ public class Simulateur {
     public Source<Boolean> getSource() {
         return source;
     }
-
     /**
      * Observateur du parametre destination
      *
@@ -332,7 +323,6 @@ public class Simulateur {
     public Destination<Boolean> getDestination() {
         return destination;
     }
-
     /**
      * Observateur du parametre ne
      *
@@ -341,7 +331,6 @@ public class Simulateur {
     public int getNe() {
         return ne;
     }
-
     /**
      * Observateur du parametre min
      *
@@ -350,7 +339,6 @@ public class Simulateur {
     public float getMin() {
         return min;
     }
-
     /**
      * Observateur du parametre max
      *
@@ -360,6 +348,14 @@ public class Simulateur {
         return max;
     }
     /**
+     * Observateur de l'ArrayList ti
+     *
+     * @return ti
+     */
+    public ArrayList<Float> getTi() {
+        return ti;
+    }
+    /**
      * Observateur du parametre codeur
      *
      * @return l etat du champs codeur
@@ -367,7 +363,6 @@ public class Simulateur {
     public Boolean getCodeur() {
         return codeur;
     }
-
 
     /**
      * La methode analyseArguments extrait d'un tableau de chaines de
@@ -440,6 +435,7 @@ public class Simulateur {
             } else if (args[i].matches("-snrpb")) {
                 i++;
                 snr = Float.parseFloat(args[i]);
+                utilisationSNR=true;
             } else if (args[i].matches("-ti")) {
                 int k = 1;
                 while ((i + 1 < args.length) && !args[i + 1].matches("^-[a-z]+") && k < 11) {
@@ -447,6 +443,7 @@ public class Simulateur {
                     k++;
                     if (k % 2 == 1 && args[i].matches("^-?\\d*(\\.\\d+)?$")) {
                         //System.out.println("reflex: "+args[i]);
+                    	if(Math.abs(Float.parseFloat(args[i])) >1 || Float.parseFloat(args[i])==0) throw new ArgumentsException("Coefficient de reflexion superieur a 1 ou egale a 0 ! (impossible)" + args[i]);
                         ti.add(Float.parseFloat(args[i]));
                     } else if (args[i].matches("^-?\\d*$")) {
                         ti.add(Float.parseFloat(args[i]));

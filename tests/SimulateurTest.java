@@ -2,6 +2,8 @@ import destinations.DestinationFinale;
 import org.junit.Test;
 import sources.SourceAleatoire;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -204,16 +206,66 @@ public class SimulateurTest {
         String[] args = {"-codeur"};
         simulateur_test = new Simulateur(args);
         assertEquals(true, simulateur_test.getCodeur());
+        simulateur_test = new Simulateur(null_args);
+        assertEquals(false, simulateur_test.getCodeur());
 
 
     }
 
     @Test
     public void analyseArgumentsMultitrajet() throws ArgumentsException {
-        String[] null_args = {};
-        String[] args = {"-codeur"};
+        //Cas de fct normal
+        String[] args = {};
+        ArrayList<Float> wanted = new ArrayList<>();
+        String arguments = "-ti 30 0.5"; // Decallage 30 Ampl 0.5
+        wanted.add(30f);
+        wanted.add(0.5f);
+        args = arguments.split(" ");
         simulateur_test = new Simulateur(args);
-        assertEquals(true, simulateur_test.getCodeur());
+        assertEquals(wanted, simulateur_test.getTi());
+
+        arguments = "-ti -30 0.5"; // Decallage -30 Ampl 0.5
+        wanted=new ArrayList<>();
+        wanted.add(-30f);
+        wanted.add(0.5f);
+        args = arguments.split(" ");
+        simulateur_test = new Simulateur(args);
+        assertEquals(wanted, simulateur_test.getTi());
+
+        // Cas avec erreur
+        arguments = "-ti 30 2"; // Amplitude a 2
+        args = arguments.split(" ");
+        try {
+            simulateur_test = new Simulateur(args);
+            assert false;
+        } catch (ArgumentsException a) {
+            assert true;
+        }
+        arguments = "-ti 30 -2"; // Amplitude a -2
+        args = arguments.split(" ");
+        try {
+            simulateur_test = new Simulateur(args);
+            assert false;
+        } catch (ArgumentsException a) {
+            assert true;
+        }
+        arguments = "-ti 30 0"; // Amplitude a 0
+        args = arguments.split(" ");
+        try {
+            simulateur_test = new Simulateur(args);
+            assert false;
+        } catch (ArgumentsException a) {
+            assert true;
+        }
+        arguments = "-ti 0.5 1"; // Decallage a 0.5
+        args = arguments.split(" ");
+        try {
+            simulateur_test = new Simulateur(args);
+            assert false;
+        } catch (ArgumentsException a) {
+            assert true;
+        }
+
 
 
     }
@@ -261,8 +313,8 @@ public class SimulateurTest {
 
     }
 
-    @Test
+    /*@Test
     public void calculTauxErreurBinaire() {
-    }
+    }*/
 
 }
