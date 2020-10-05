@@ -66,6 +66,10 @@ public class Simulateur {
      */
     private float snr = 10000000f;
     /**
+     * precise si le snr est utilise.
+     */
+    private boolean utilisationSNR=false;
+    /**
      * le  composant Source de la chaine de transmission
      */
     private Source<Boolean> source = null;
@@ -358,6 +362,14 @@ public class Simulateur {
      */
     public float getMax() {
         return max;
+    }
+    /**
+     * Observateur du parametre codeur
+     *
+     * @return l etat du champs codeur
+     */
+    public Boolean getCodeur() {
+        return codeur;
     }
 
 
