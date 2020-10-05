@@ -14,7 +14,7 @@ public class SimulateurTest {
             + "            Simulateur.main(args);";
 
     @Test
-    public void analyseArguments() throws ArgumentsException {
+    public void analyseArgumentsCourant() throws ArgumentsException {
 
         String[] null_args = {};
         simulateur_test = new Simulateur(null_args);
@@ -196,6 +196,26 @@ public class SimulateurTest {
         String[] args14 = {"-nbEch", "63"};
         simulateur_test = new Simulateur(args14);
         assertEquals(63, simulateur_test.getNe());
+    }
+
+    @Test
+    public void analyseArgumentsCodeur() throws ArgumentsException {
+        String[] null_args = {};
+        String[] args = {"-codeur"};
+        simulateur_test = new Simulateur(args);
+        assertEquals(true, simulateur_test.getCodeur());
+
+
+    }
+
+    @Test
+    public void analyseArgumentsMultitrajet() throws ArgumentsException {
+        String[] null_args = {};
+        String[] args = {"-codeur"};
+        simulateur_test = new Simulateur(args);
+        assertEquals(true, simulateur_test.getCodeur());
+
+
     }
 
     @Test

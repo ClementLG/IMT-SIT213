@@ -63,7 +63,7 @@ public class Simulateur {
      */
     private float snr = 10000000f;
     /**
-     * precise si le snr est utilisé.
+     * precise si le snr est utilise.
      */
     private boolean utilisationSNR=false;
     /**
@@ -358,6 +358,14 @@ public class Simulateur {
      */
     public float getMax() {
         return max;
+    }
+    /**
+     * Observateur du parametre codeur
+     *
+     * @return l etat du champs codeur
+     */
+    public Boolean getCodeur() {
+        return codeur;
     }
 
 
