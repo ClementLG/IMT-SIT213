@@ -11,24 +11,24 @@ public class TransmetteurAnalogiqueBruiteTest {
 
     @Test
     public void testTAB() throws InformationNonConforme {
-        float x = -10f;
-        boolean b = false;
+        float snr = -10f; // Rapport snr bas pour declencher une erreur
+        boolean error = false;
         for (int i = 0; i < 5; i++) {
-            if (testTABsnr(x*i)==false) {
-                b = true;
+            if (testTABsnr(snr * i) == false) { // Detection d'une erreur
+                error = true;
             }
         }
-        if (b) assert true;
-        else assert false;
+        if (error) assert true; // Si il y a une erreur alors il y a bien du bruit dans le signal
+        else assert false; // Si aucune erreur est detecte le generateur de bruit ne fct pas
     }
 
-    public boolean testTABsnr(float snr) throws InformationNonConforme {
+    private boolean testTABsnr(float snr) throws InformationNonConforme {
         SourceFixe sf = new SourceFixe("11001");
         Emetteur cna = new Emetteur();
         Recepteur can = new Recepteur();
         TransmetteurAnalogiqueBruite testTp = new TransmetteurAnalogiqueBruite(snr);
         DestinationFinale df = new DestinationFinale();
-        Information bools = new Information();
+        Information bools = new Information(); // Signal en bool
         bools.add(true);
         bools.add(true);
         bools.add(false);
@@ -39,7 +39,7 @@ public class TransmetteurAnalogiqueBruiteTest {
         testTp.connecter(can);
         can.connecter(df);
         sf.emettre();
-        return (bools.equals(df.getInformationRecue()));
+        return (bools.equals(df.getInformationRecue())); // Verifie si signal bool = signal recu
 
     }
 }

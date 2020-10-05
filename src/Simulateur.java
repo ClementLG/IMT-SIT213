@@ -66,10 +66,6 @@ public class Simulateur {
      */
     private float snr = 10000000f;
     /**
-     * précise si le snr est utilisé.
-     */
-    private boolean utilisationSNR=false;
-    /**
      * le  composant Source de la chaine de transmission
      */
     private Source<Boolean> source = null;
@@ -82,7 +78,7 @@ public class Simulateur {
      */
     private Destination<Boolean> destination = null;
     /**
-     * 'ne' precise le nombre d’échantillons par bit
+     * 'ne' precise le nombre d'echantillons par bit
      */
     private int ne = 30;
     /**

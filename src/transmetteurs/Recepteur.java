@@ -79,7 +79,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
         for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
         	destinationConnectee.recevoir(informationConverti);
         }
-        informationEmise = informationConverti;//transmetteur parfait src=dest
+        informationEmise = informationConverti;
 
     }
     

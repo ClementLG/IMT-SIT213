@@ -51,6 +51,6 @@ public class CodageEmission extends Transmetteur<Boolean, Boolean> {
         for ( DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
             destinationConnectee.recevoir(informationConverti);
         }
-        informationEmise = informationConverti;//transmetteur parfait src=dest
+        informationEmise = informationConverti;
     }
 }
