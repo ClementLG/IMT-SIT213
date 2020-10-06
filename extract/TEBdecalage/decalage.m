@@ -20,38 +20,39 @@ plot(datasRZ1T1(:,2:end),datasRZ1T1(:,1),'b');
 hold on
 plot(datasCRZ1T1(:,2:end),datasCRZ1T1(:,1),'k');
 hold on
-% plot(datasRZ1T075(:,2:end),datasRZ1T075(:,1), 'm');
-% hold on
-% plot(datasCRZ1T075(:,2:end),datasCRZ1T075(:,1), 'g');
-% hold on
-% plot(datasRZ1T05(:,2:end),datasRZ1T05(:,1),'r');
-% hold on
-% plot(datasCRZ1T05(:,2:end),datasCRZ1T05(:,1),'r');
-% grid on
+plot(datasRZ1T075(:,2:end),datasRZ1T075(:,1), 'm');
+hold on
+plot(datasCRZ1T075(:,2:end),datasCRZ1T075(:,1), 'g');
+hold on
+plot(datasRZ1T05(:,2:end),datasRZ1T05(:,1),'r');
+hold on
+plot(datasCRZ1T05(:,2:end),datasCRZ1T05(:,1),'c');
+grid on
 xlabel("decalage en nombre d'echantillon");
 ylabel("TEB");
 title('TEB en fonction du decalage (1 trajet indirect) - linear');
-legend('coeff 1', ' coeff 0.75', 'coeff 0.5')
+legend('coeff 1', 'coeff 1 cod',' coeff 0.75', 'coeff 0.75 cod', 'coeff 0.5', 'coeff 0.5 cod')
 hold on
 
 
 subplot(212);
-semilogy(datasRZ1T1(:,2),datasRZ1T1(:,1),'b');
+ semilogy(datasRZ1T1(:,2),datasRZ1T1(:,1),'b');
 hold on
 semilogy(datasCRZ1T1(:,2),datasCRZ1T1(:,1),'k');
+ hold on
+ semilogy(datasRZ1T075(:,2),datasRZ1T075(:,1), 'm');
 hold on
-% semilogy(datasRZ1T075(:,2),datasRZ1T075(:,1), 'm');
-% hold on
-% semilogy(datasCRZ1T075(:,2),datasCRZ1T075(:,1),'g');
-% hold on
-% semilogy(datasRZ1T05(:,2),datasRZ1T05(:,1),'r');
-% hold on
-% semilogy(datasCRZ1T05(:,2),datasCRZ1T05(:,1),'r');
-legend('coeff 1', ' coeff 0.75', 'coeff 0.5')
+semilogy(datasCRZ1T075(:,2),datasCRZ1T075(:,1),'g');
+hold on
+ semilogy(datasRZ1T05(:,2),datasRZ1T05(:,1),'r');
+hold on
+semilogy(datasCRZ1T05(:,2),datasCRZ1T05(:,1),'c');
+legend('coeff 1', 'coeff 1 cod',' coeff 0.75', 'coeff 0.75 cod', 'coeff 0.5', 'coeff 0.5 cod')
 xlabel("decalage en nombre d'echantillon");
 ylabel("TEB (log)");
 title('TEB en fonction du decalage (1 trajet indirect)- Log');
 grid on;
+set(gca, 'YScale', 'log')
 
 %2 trajets parasites
 
