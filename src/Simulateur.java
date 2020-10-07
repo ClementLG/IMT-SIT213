@@ -36,7 +36,7 @@ public class Simulateur {
     /**
      * indique si le Simulateur utilise des sondes d'affichage
      */
-    private boolean affichage = false;
+    private boolean affichage = true;
     /**
      * indique si le Simulateur utilise un message genere de maniere aleatoire
      */
@@ -465,6 +465,11 @@ public class Simulateur {
                 codeur = true;
             } else throw new ArgumentsException("Option invalide :" + args[i]);
         }
+
+        if (affichage == true && export == true) {
+            System.out.println("erreur: on ne peut pas export en meme temps qu'afficher");
+            System.exit(1);
+        }
     }
 
 
@@ -507,10 +512,12 @@ public class Simulateur {
 
     public void exportDuTEB(float TEB) {
         if (export) {
+            System.err.println("ok: ");
             try {
-                String filename = "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
+                String filename = "F:\\Travail\\IMT\\S3\\SIT213\\src\\export.txt";
                 //String filename= export;
                 FileWriter fw = new FileWriter(filename, true); //the true will append the new data
+
                 fw.write(TEB + ";" + ti.get(0) + "\n");//appends the string to the file
                 fw.close();
             } catch (IOException ioe) {
