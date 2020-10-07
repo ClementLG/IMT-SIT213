@@ -514,7 +514,7 @@ public class Simulateur {
         if (export) {
             System.err.println("ok: ");
             try {
-                String filename = "F:\\Travail\\IMT\\S3\\SIT213\\src\\export.txt";
+                String filename = "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
                 //String filename= export;
                 FileWriter fw = new FileWriter(filename, true); //the true will append the new data
 
