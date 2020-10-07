@@ -36,7 +36,7 @@ public class Simulateur {
     /**
      * indique si le Simulateur utilise des sondes d'affichage
      */
-    private boolean affichage = true;
+    private boolean affichage = false;
     /**
      * indique si le Simulateur utilise un message genere de maniere aleatoire
      */
@@ -512,7 +512,6 @@ public class Simulateur {
 
     public void exportDuTEB(float TEB) {
         if (export) {
-            System.err.println("ok: ");
             try {
                 String filename = "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
                 //String filename= export;
