@@ -12,6 +12,8 @@ import information.InformationNonConforme;
  * @author p.maquin
  * @author g.fraignac
  * @author m.lejeune
+ * 
+ * @version R1.0 - Sept 2020
  */
 public class TransmetteurAnalogiqueParfait extends Transmetteur<Float, Float>{
 

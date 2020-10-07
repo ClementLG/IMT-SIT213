@@ -11,6 +11,8 @@ import information.InformationNonConforme;
  * @author c.legruiec
  * @author e.leduc
  * @author b.demoulin
+ * 
+ * @version R1.0 - Sept 2020
  */
 
 public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
@@ -22,7 +24,7 @@ public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
 
     }
 
-    //canal Tx Information (abstract dans la classe mere)
+    //canl Tx Information (abstract dans la classe mere)
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
         	destinationConnectee.recevoir(informationRecue);

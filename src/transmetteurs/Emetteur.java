@@ -12,25 +12,40 @@ import information.InformationNonConforme;
  * @author p.maquin
  * @author g.fraignac
  * @author m.lejeune
+ * 
+ * @version R1.0 - Sept 2020
  */
+
+
 public class Emetteur extends Transmetteur<Boolean, Float>{
-	private float Amax;
-	private float Amin;
-	private int nbEchantillon;
-	private String encodeType;
-	private Information<Float> informationConverti;
+	
+	/**
+	* Attribut d'instance : 'Amax' amplitude maximum du signal. Valeur par default 5V.
+	*/
+	private float Amax=5;
+	/**
+	* Attribut d'instance : 'Amin' amplitude minimale du signal. Valeur par default 0V.
+	*/
+	private float Amin=0;
+	/**
+	* Attribut d'instance : 'nbEchantillon' le nombre d'echantillon par bit. Valeur par default 30.
+	*/
+	private int nbEchantillon=30;
+	/**
+	* Attribut d'instance : 'encodeType' la forme du signal. Valeur par default RZ.
+	*/
+	private String encodeType="RZ";
+	/**
+	* Attribut d'instance : 'informationConverti' information recue avec ajout de bruit. 
+	*/
+	private Information<Float> informationConverti=new Information<>();
 	
 	
 	/**
      * Constructeur par default de Emetteur sans parametre
      */
 	public Emetteur() {
-		Amax=5;
-		Amin=-0;
-		encodeType="RZ";
-		nbEchantillon=30;
-		informationConverti =new Information<>();
-		
+		super();		
 	}
 	
 	/**
@@ -41,6 +56,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
      * @param encodeType : le type de conversion analogique (NRZ,NRZT,RZ)
      */
 	public Emetteur(float Amax, float Amin, int nbEchantillon, String encodeType) {
+		super();
 		this.Amax=Amax;
 		this.Amin=Amin;
 		this.nbEchantillon=nbEchantillon;
@@ -67,7 +83,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
         for (DestinationInterface<Float> destinationConnectee : destinationsConnectees) {
         	destinationConnectee.recevoir(informationConverti);
         }
-        informationEmise = informationConverti;//transmetteur parfait src=dest
+        informationEmise = informationConverti;
 
     }
     
@@ -120,29 +136,31 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
      * Permet de convertir un signal logique en analogigue NRZT
      */
 	private void ConvertToNRZT() {
+		float moy=(Amax+Amin)/2;
         int divTrois = nbEchantillon / 3;
-        float quantumP = Amax / divTrois;
-        float quantumM = Amin / divTrois;
+        float quantumP = (Amax-moy) / divTrois;
+        float quantumM = -1*Math.abs((Amin-moy) / divTrois);
         int nbElem=informationRecue.nbElements();
         boolean checkAfter = false;
         boolean checkBefore = false;
         checkAfter = informationRecue.iemeElement(1);
+        
 
         if (informationRecue.iemeElement(0)) {
             if (!checkAfter){
             for (int j = 0; j < divTrois; j++) {
-                informationConverti.add(quantumP * j);
+                informationConverti.add(moy+(quantumP * j));
             }
             for (int j = 0; j < divTrois; j++) {
                 informationConverti.add(Amax);
             }
             for (int j = 0; j < divTrois; j++) {
-                informationConverti.add(Amax - (quantumP * j));
+                informationConverti.add(Amax - (moy+(quantumP * j)));
             }
             }
             else{
                 for (int j = 0; j < divTrois; j++) {
-                    informationConverti.add(quantumP * j);
+                    informationConverti.add(moy+(quantumP * j));
                 }
                 for (int j = 0; j < 2* divTrois; j++) {
                     informationConverti.add(Amax);
@@ -152,18 +170,18 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
         else {
             if (checkAfter){
                 for (int j = 0; j < divTrois; j++) {
-                    informationConverti.add(quantumM * j);
+                    informationConverti.add(moy+(quantumM * j));
                 }
                 for (int j = 0; j < divTrois; j++) {
                     informationConverti.add(Amin);
                 }
                 for (int j = 0; j < divTrois; j++) {
-                    informationConverti.add(Amin - (quantumM * j));
+                    informationConverti.add(Amin - (moy+(quantumM * j)));
                 }
             }
             else{
                 for (int j = 0; j < divTrois; j++) {
-                    informationConverti.add(quantumM * j);
+                    informationConverti.add(moy+(quantumM * j));
                 }
                 for (int j = 0; j < 2* divTrois; j++) {
                     informationConverti.add(Amin);
@@ -172,15 +190,17 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
         }
 
         for (int i = 1; i < nbElem-1; i++) {
-
+        	
+        	//bit suivant
             checkAfter = informationRecue.iemeElement(i + 1);
+            //bit precedent
             checkBefore = informationRecue.iemeElement(i - 1);
 
             if (informationRecue.iemeElement(i)) {
                 if (!checkAfter && !checkBefore) {
 
                     for (int j = 0; j < divTrois; j++) {
-                        informationConverti.add(quantumP * j);
+                        informationConverti.add(moy+(quantumP * j));
                     }
                     for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(Amax);
@@ -198,7 +218,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 
                 else if (checkAfter && !checkBefore) {
                     for (int j = 0; j < divTrois; j++) {
-                        informationConverti.add(quantumP * j);
+                        informationConverti.add(moy+(quantumP * j));
                     }
                     for (int j = 0; j < 2 * divTrois; j++) {
                         informationConverti.add(Amax);
@@ -221,7 +241,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
                 if (checkAfter && checkBefore) {
 
                     for (int j = 0; j < divTrois; j++) {
-                        informationConverti.add(quantumM * j);
+                        informationConverti.add(moy+(quantumM * j));
                     }
                     for (int j = 0; j < divTrois; j++) {
                         informationConverti.add(Amin);
@@ -241,7 +261,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 
                 else if (!checkAfter && checkBefore) {
                     for (int j = 0; j < divTrois; j++) {
-                        informationConverti.add(quantumM * j);
+                        informationConverti.add(moy+(quantumM * j));
                     }
                     for (int j = 0; j < 2 * divTrois; j++) {
                         informationConverti.add(Amin);
@@ -263,7 +283,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
         if (informationRecue.iemeElement(nbElem-1)) {
             if (!checkBefore){
                 for (int j = 0; j < divTrois; j++) {
-                    informationConverti.add(quantumP * j);
+                    informationConverti.add(moy+(quantumP * j));
                 }
                 for (int j = 0; j < divTrois; j++) {
                     informationConverti.add(Amax);
@@ -285,7 +305,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
         else {
             if (checkBefore){
                 for (int j = 0; j < divTrois; j++) {
-                    informationConverti.add(quantumM * j);
+                    informationConverti.add(moy+(quantumM * j));
                 }
                 for (int j = 0; j < divTrois; j++) {
                     informationConverti.add(Amin);

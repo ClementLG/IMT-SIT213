@@ -12,12 +12,16 @@ import information.InformationNonConforme;
  * @author c.legruiec
  * @author e.leduc
  * @author b.demoulin
+ * 
+ * @version R1.0 - Sept 2020
  */
 
 public class SourceAleatoire extends Source<Boolean> {
 	
     /**
+     * Constructeur.
      * Par defaut le simulateur doit generer et transmettre un message de longueur 100.
+     * @param 'seed' : la graine de génération aléatoire à utiliser
      */
     public SourceAleatoire(Integer seed) {
         super();//Appels des attributs de la classe mere
@@ -33,12 +37,14 @@ public class SourceAleatoire extends Source<Boolean> {
     }
 
     /**
+     * Constructeur.
      * Si m comporte au plus 6 chiffres decimaux 
      * et correspond a la representation en base 10 
      * d'un entier, cet entier est la longueur du message 
      * que le simulateur doit generer et transmettre.
      *
-     * @param nbBits
+     * @param 'nbBits' : la taille du message à générer en bit
+     * @param 'seed' : la graine de génération aléatoire à utiliser
      */
     public SourceAleatoire(int nbBits, Integer seed) {
         super();//Appels des attributs de la classe mere

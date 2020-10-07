@@ -61,6 +61,35 @@ public class Information<T> implements Iterable<T> {
     public void add(T valeur) {
         this.content.add(valeur);
     }
+    
+    /**
+     * pour ajouter des element a  la fin de l'information
+     *
+     * @param valeurs liste les elements a  rajouter
+     */
+    public void add(ArrayList<T> valeurs) {
+        this.content.addAll(valeurs);
+    }
+    
+       
+    /**
+     * pour ajouter des element au début de l'information
+     *
+     * @param valeurs liste les elements a  rajouter
+     */
+    public void addBefore(ArrayList<T> valeurs) {
+        this.content.addAll(0, valeurs);
+    }
+    
+    /**
+     * Coupe le tableau entre 2 index
+     *
+     * @param id, index dépard
+     * @param ia, index arrivée
+     */
+    public void cut(int id, int ia) {
+    	content=new ArrayList<T>(content.subList(id, ia)) ;
+    }
 
 
     /**
