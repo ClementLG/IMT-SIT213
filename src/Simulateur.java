@@ -122,10 +122,12 @@ public class Simulateur {
             source = new SourceFixe(messageString);
         }
         destination = new DestinationFinale();
-        if(codeur && !utilisationSNR){SimulateurParfaitCodeur();}
-        else if(!utilisationSNR){SimulateurParfait();}
-        else if(codeur){SimulateurCodeur();}
-        else {SimulateurBruite();}
+        if(codeur && !utilisationSNR && ti.size()==0)SimulateurParfaitCodeur();
+        else if(codeur && ti.size()>0 && !utilisationSNR) SimulateurBruitCodeur();
+        else if(ti.size()>0 && !utilisationSNR) SimulateurBruite();
+        else if(!utilisationSNR)SimulateurParfait();
+        else if(codeur)SimulateurBruitCodeur();
+        else SimulateurBruite();
         }
 
     private void SimulateurParfait() {
@@ -205,7 +207,7 @@ public class Simulateur {
         }
     }
 
-    private void SimulateurCodeur() {
+    private void SimulateurBruitCodeur() {
         TransmetteurAnalogiqueBruitReel transmetteurAnalogiqueBruiteReel;
         Emetteur emetteur = new Emetteur(max, min, ne, form);
         Recepteur recepteur = new Recepteur(max, min, ne, form);
@@ -418,11 +420,14 @@ public class Simulateur {
             } else if (args[i].matches("-ampl")) {
                 i++;
                 // traiter la valeur associee
-                if (args[i].matches("^-?\\d*(\\.\\d+)?$")) min = Float.parseFloat(args[i]);
-                else throw new ArgumentsException("Amplitude min incorecte :" + args[i]);
+                if (args[i].matches("^-?\\d*(\\.\\d+)?$")) {
+                	min = Float.parseFloat(args[i]);
+                	if(min>=0) throw new ArgumentsException("Amplitude min incorecte (doit etre inferieur ou egale a 0) : " + args[i]);
+                }
+                else throw new ArgumentsException("Amplitude min incorecte (doit etre un nombre inferieur ou egale a 0) : " + args[i]);
                 i++;
-                if (args[i].matches("^-?\\d*(\\.\\d+)?$")) max = Float.parseFloat(args[i]);
-                else throw new ArgumentsException("Amplitude max incorecte :" + args[i]);
+                if (args[i].matches("^\\d*(\\.\\d+)?$")) max = Float.parseFloat(args[i]);
+                else throw new ArgumentsException("Amplitude max incorecte (doit etre un nombre superieur a 0): " + args[i]);
                 if (min > max) throw new ArgumentsException("Amplitudes incorectes (min>max) : " + min + ">" + max);
 
             } else if (args[i].matches("-snrpb")) {
@@ -454,6 +459,10 @@ public class Simulateur {
                 codeur = true;
             } else throw new ArgumentsException("Option invalide :" + args[i]);
         }
+        if (affichage == true && export == true) {
+            System.out.println("erreur: on ne peut pas export en meme temps qu'afficher");
+            System.exit(1);
+    }
     }
 
     /**

@@ -130,7 +130,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float> {
         }
         //Calcul de la puissance par echantillon
         Ps = Ps / (float) informationRecue.nbElements();
-        //Calcul du snrpb en fonction du nombre d'echantillon et du snrpb par bit en dB
+        //Calcul du snr en fonction du nombre d'echantillon et du snr par bit en dB
         snr = snrpb - 10 * (float) Math.log10(nbEchantillon / 2);
         //System.out.println("snrpb = " + snrpb); //DEBUG
         //System.out.println("snrpb =" + snrpb);//DEBUG
