@@ -71,10 +71,6 @@ public class Simulateur {
      */
     private Source<Boolean> source = null;
     /**
-     * le  composant Transmetteur parfait logique de la chaine de transmission
-     */
-    private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
-    /**
      * le  composant Destination de la chaine de transmission
      */
     private Destination<Boolean> destination = null;
@@ -550,4 +546,3 @@ public class Simulateur {
         }
     }
 }
-

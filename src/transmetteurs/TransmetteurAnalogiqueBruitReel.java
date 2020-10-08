@@ -20,9 +20,9 @@ import java.util.Random;
  */
 public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float> {
     /**
-     * Attribut d'instance : 'snr' le rapport signal/bruit
+     * Attribut d'instance : 'snrpb' le rapport signal/bruit
      */
-    float snr;
+    float snrpb;
     /**
      * Attribut d'instance : 'seed' la graine de generation aleatoire. Valeur par default NULL.
      */
@@ -48,14 +48,14 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float> 
      * Constructeur de TransmetteurAnalogiqueBruitReel avec 4 parametres
      *
      * @param seed          : graine de generation aleatoire
-     * @param snr           : rapport signal sur bruit
+     * @param snrpb         : rapport signal sur bruit
      * @param nbEchantillon : Nombre d'echantillon par symbole
      * @param parametres    : paramettre du/des multi-trajet(s)
      */
-    public TransmetteurAnalogiqueBruitReel(int seed, float snr, int nbEchantillon, ArrayList<Float> parametres) {
+    public TransmetteurAnalogiqueBruitReel(int seed, float snrpb, int nbEchantillon, ArrayList<Float> parametres) {
         super();
         this.seed = seed;
-        this.snr = snr;
+        this.snrpb = snrpb;
         this.nbEchantillon = nbEchantillon;
         this.parametres = parametres;
     }
@@ -63,13 +63,13 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float> 
     /**
      * Constructeur de TransmetteurAnalogiqueBruitReel avec 3 parametres
      *
-     * @param snr           : rapport signal sur bruit
+     * @param snrpb         : rapport signal sur bruit
      * @param nbEchantillon : Nombre d'echantillon par symbole
      * @param parametres    : paramettre du/des multi-trajet(s)
      */
-    public TransmetteurAnalogiqueBruitReel(float snr, int nbEchantillon, ArrayList<Float> parametres) {
+    public TransmetteurAnalogiqueBruitReel(float snrpb, int nbEchantillon, ArrayList<Float> parametres) {
         super();
-        this.snr = snr;
+        this.snrpb = snrpb;
         this.nbEchantillon = nbEchantillon;
         this.parametres = parametres;
 
@@ -78,12 +78,12 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float> 
     /**
      * Constructeur de TransmetteurAnalogiqueBruitReel avec 2 parametres
      *
-     * @param snr        : rapport signal sur bruit
+     * @param snrpb      : rapport signal sur bruit
      * @param parametres : paramettre du/des multi-trajet(s)
      */
-    public TransmetteurAnalogiqueBruitReel(float snr, ArrayList<Float> parametres) {
+    public TransmetteurAnalogiqueBruitReel(float snrpb, ArrayList<Float> parametres) {
         super();
-        this.snr = snr;
+        this.snrpb = snrpb;
         this.parametres = parametres;
     }
 
@@ -190,26 +190,24 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float> 
      */
     private float calculSigma() {
         float Ps = 0f;
-        float Sigma = 0f;
-
+        float sigma;
+        float snr;
+        //Calcul de la puissance totale du signal
         for (float info : informationRecue) {
             Ps += Math.pow(info, 2);
         }
-        //on a enleve le nombre d'echantillon par bit dans les calculs suite a une simplication.
-        //il ne reste que le calcul de l'esperance des Ak.
+        //Calcul de la puissance par echantillon
         Ps = Ps / (float) informationRecue.nbElements();
-        //calcul de sigmaCarre
-        //Trop bon par rapport au theorique
-        //Sigma= (float) ((float) (Ps)/(2f*Math.pow(10,snr/10)));
-        //Sigma=(float) Math.sqrt(Sigma);
-
-        //Plus realiste et plus simple
-        //cf: https://en.wikipedia.org/wiki/Signal-to-noise_ratio#:~:text=SNR%20is%20defined%20as%20the,by%20the%20Shannon%E2%80%93Hartley%20theorem.
-        Sigma = (float) Math.pow(10, (Math.log10(Ps) - Math.log10(Math.pow(10, snr / 10))));
-        Sigma = (float) Math.sqrt(Sigma);
-
-        // DEBUG : // System.out.println("sigma:"+Sigma);
-        return Sigma;
+        //Calcul du snr en fonction du nombre d'echantillon et du snr par bit en dB
+        snr = snrpb - 10 * (float) Math.log10(nbEchantillon / 2);
+        //System.out.println("snr = " + snr); //DEBUG
+        //System.out.println("snrpb =" + snrpb);//DEBUG
+        //Calcul de sigma au carre
+        sigma =  Ps  / (float) Math.pow(10, (snr / 10));
+        //Calcul de sigma
+        sigma = (float) Math.sqrt(sigma);
+        //System.out.println("sigma =" + sigma);//DEBUG
+        return sigma;
     }
 
 }

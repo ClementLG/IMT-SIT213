@@ -18,9 +18,9 @@ import java.util.Random;
  */
 public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float> {
     /**
-     * Attribut d'instance : 'snr' le rapport signal/bruit
+     * Attribut d'instance : 'snrpb' le rapport signal/bruit
      */
-    float snr;
+    float snrpb;
     /**
      * Attribut d'instance : 'seed' la graine de génération aléatoire. Valeur par default NULL.
      */
@@ -38,13 +38,13 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float> {
      * Constructeur à 3 paramètres de la classe.
      *
      * @param seed          : la graine de génération aléatoire
-     * @param snr           : le rapport signal/bruit
+     * @param snrpb           : le rapport signal/bruit
      * @param nbEchantillon : nombre d'echantillon par bit
      */
-    public TransmetteurAnalogiqueBruite(int seed, float snr, int nbEchantillon) {
+    public TransmetteurAnalogiqueBruite(int seed, float snrpb, int nbEchantillon) {
         super();
         this.seed = seed;
-        this.snr = snr;
+        this.snrpb = snrpb;
         this.nbEchantillon = nbEchantillon;
 
     }
@@ -52,12 +52,12 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float> {
     /**
      * Constructeur à 2 paramètres de la classe.
      *
-     * @param snr           : le rapport signal/bruit
+     * @param snrpb           : le rapport signal/bruit
      * @param nbEchantillon : nombre d'echantillon par bit
      */
-    public TransmetteurAnalogiqueBruite(float snr, int nbEchantillon) {
+    public TransmetteurAnalogiqueBruite(float snrpb, int nbEchantillon) {
         super();
-        this.snr = snr;
+        this.snrpb = snrpb;
         this.nbEchantillon = nbEchantillon;
 
     }
@@ -65,11 +65,11 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float> {
     /**
      * Constructeur à 2 paramètres de la classe.
      *
-     * @param snr : le rapport signal/bruit
+     * @param snrpb : le rapport signal/bruit
      */
-    public TransmetteurAnalogiqueBruite(float snr) {
+    public TransmetteurAnalogiqueBruite(float snrpb) {
         super();
-        this.snr = snr;
+        this.snrpb = snrpb;
 
     }
 
@@ -122,25 +122,23 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float> {
      */
     private float calculSigma() {
         float Ps = 0f;
-        float Sigma = 0f;
-
+        float sigma;
+        float snr;
+        //Calcul de la puissance totale du signal
         for (float info : informationRecue) {
             Ps += Math.pow(info, 2);
         }
-        //on a enleve le nombre d'echantillon par bit dans les calculs suite a une simplication.
-        //il ne reste que le calcul de l'esperance des Ak.
+        //Calcul de la puissance par echantillon
         Ps = Ps / (float) informationRecue.nbElements();
-        //calcul de sigmaCarre
-        //Trop bon par rapport au theorique
-        //Sigma= (float) ((float) (Ps)/(2f*Math.pow(10,snr/10)));
-        //Sigma=(float) Math.sqrt(Sigma);
-
-        //Plus realiste et plus simple
-        //cf: https://en.wikipedia.org/wiki/Signal-to-noise_ratio#:~:text=SNR%20is%20defined%20as%20the,by%20the%20Shannon%E2%80%93Hartley%20theorem.
-        Sigma = (float) Math.pow(10, (Math.log10(Ps) - Math.log10(Math.pow(10, snr / 10))));
-        Sigma = (float) Math.sqrt(Sigma);
-
-        // DEBUG : // System.out.println("sigma:"+Sigma);
-        return Sigma;
+        //Calcul du snrpb en fonction du nombre d'echantillon et du snrpb par bit en dB
+        snr = snrpb - 10 * (float) Math.log10(nbEchantillon / 2);
+        //System.out.println("snrpb = " + snrpb); //DEBUG
+        //System.out.println("snrpb =" + snrpb);//DEBUG
+        //Calcul de sigma au carre
+        sigma =  Ps  / (float) Math.pow(10, (snr / 10));
+        //Calcul de sigma
+        sigma = (float) Math.sqrt(sigma);
+        //System.out.println("sigma =" + sigma);//DEBUG
+        return sigma;
     }
 }
