@@ -5,8 +5,11 @@ package visualisations;
  * @author B. Prou
  */
 
+
+import java.util.*;
 import javax.swing.*;
-import java.util.LinkedList;
+
+import java.lang.*;
 
 public class Vue extends JFrame {
     private static LinkedList<Vue> lesVues = new LinkedList<Vue>();

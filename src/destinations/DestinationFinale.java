@@ -4,7 +4,7 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe DestinationFinale herite d'un composant destination
+ * Classe DestinationFinale herite d un composant destination
  *
  * @author c.legruiec
  * @author e.leduc
@@ -16,7 +16,7 @@ import information.InformationNonConforme;
 public class DestinationFinale extends Destination<Boolean> {
 
     public DestinationFinale() {
-        super();
+    	super();
     }
 
 

@@ -4,16 +4,11 @@ import sources.SourceAleatoire;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SimulateurTest {
 
-    Simulateur simulateur_test = null;
-    String arguments = "String arguments;\r\n"
-            + "            arguments=\"-seed 40 -form NRZT -ampl -5 5 -snrpb -20 -export ./test.txt\";\r\n"
-            + "            args= arguments.split(\" \");\r\n"
-            + "            Simulateur.main(args);";
+	Simulateur simulateur_test = null;
 
     @Test
     public void analyseArgumentsCourant() throws ArgumentsException {
@@ -21,10 +16,10 @@ public class SimulateurTest {
         String[] null_args = {};
         simulateur_test = new Simulateur(null_args);
         float delta = 0;
-        assertEquals(false, simulateur_test.getAffichage());
-        assertEquals(true, simulateur_test.getMessageAleatoire());
-        assertEquals(false, simulateur_test.getAleatoireAvecGerme());
-        assertEquals(null, simulateur_test.getSeed());
+        assertFalse(simulateur_test.getAffichage());
+        assertTrue(simulateur_test.getMessageAleatoire());
+        assertFalse(simulateur_test.getAleatoireAvecGerme());
+        assertNull(simulateur_test.getSeed());
         assertEquals(100, simulateur_test.getNbBitsMess());
         assertEquals("100", simulateur_test.getMessageString());
         assertEquals("RZ", simulateur_test.getForm());
@@ -37,7 +32,7 @@ public class SimulateurTest {
 
         String[] args = {"-s"};
         simulateur_test = new Simulateur(args);
-        assertEquals(true, simulateur_test.getAffichage());
+        assertTrue(simulateur_test.getAffichage());
 
         simulateur_test = null;
 
@@ -93,7 +88,7 @@ public class SimulateurTest {
 
         String[] args5 = {"-mess", "101001011010"};
         simulateur_test = new Simulateur(args5);
-        assertEquals(false, simulateur_test.getMessageAleatoire());
+        assertFalse(simulateur_test.getMessageAleatoire());
         assertEquals(12, simulateur_test.getNbBitsMess());
         assertEquals("101001011010", simulateur_test.getMessageString());
 
@@ -101,8 +96,8 @@ public class SimulateurTest {
 
         String[] args6 = {"-seed", "784511"};
         simulateur_test = new Simulateur(args6);
-        assertEquals(true, simulateur_test.getMessageAleatoire());
-        assertEquals(true, simulateur_test.getAleatoireAvecGerme());
+        assertTrue(simulateur_test.getMessageAleatoire());
+        assertTrue(simulateur_test.getAleatoireAvecGerme());
         assertEquals(784511, simulateur_test.getSeed(), delta);
 
         simulateur_test = null;
@@ -215,7 +210,7 @@ public class SimulateurTest {
     @Test
     public void analyseArgumentsMultitrajet() throws ArgumentsException {
         //Cas de fct normal
-        String[] args = {};
+        String[] args;
         ArrayList<Float> wanted = new ArrayList<>();
         String arguments = "-ti 30 0.5"; // Decallage 30 Ampl 0.5
         wanted.add(30f);

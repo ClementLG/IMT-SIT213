@@ -21,14 +21,14 @@ public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
     //canal Rx Information (abstract dans la classe mere)
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
-        emettre();//envoie l'information
+        emettre();//envoie l information
 
     }
 
     //canal Tx Information (abstract dans la classe mere)
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Boolean> destinationConnectee : destinationsConnectees) {
-            destinationConnectee.recevoir(informationRecue);
+        	destinationConnectee.recevoir(informationRecue);
         }
         informationEmise = informationRecue;//transmetteur parfait src=dest
 

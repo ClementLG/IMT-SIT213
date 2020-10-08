@@ -4,8 +4,7 @@ import destinations.DestinationFinale;
 import information.Information;
 import information.InformationNonConforme;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class SourceFixeTest {
     @Test
