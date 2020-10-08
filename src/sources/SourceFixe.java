@@ -30,7 +30,7 @@ public class SourceFixe extends Source<Boolean> {
         informationGeneree = new Information<Boolean>();
         for (int i = 0; i < m.length(); i++) {
         	//si le caractere vaut 1, le boolean vaut True
-            if (m.charAt(i) ==  1 ) informationGeneree.add(true);
+            if (m.charAt(i) ==  '1' ) informationGeneree.add(true);
             //Sinon le boolean vaut False. Rq: le message m est conforme, verifié avant dans le main
             else informationGeneree.add(false);
         }
