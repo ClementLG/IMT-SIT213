@@ -18,8 +18,8 @@ import java.io.PrintWriter;
 
 /**
  * La classe Simulateur permet de construire et simuler une chaine de
- * transmission composee d'une Source, d'un nombre variable de
- * Transmetteur(s) et d'une Destination.
+ * transmission composee d une Source, d un nombre variable de
+ * Transmetteur(s) et d une Destination.
  *
  * @author cousin
  * @author prou
@@ -34,7 +34,7 @@ import java.io.PrintWriter;
 public class Simulateur {
 
     /**
-     * indique si le Simulateur utilise des sondes d'affichage
+     * indique si le Simulateur utilise des sondes d affichage
      */
     private boolean affichage = false;
     /**
@@ -50,23 +50,23 @@ public class Simulateur {
      */
     private Integer seed = null;
     /**
-     * la longueur du message aleatoire a transmettre si un message n'est pas impose
+     * la longueur du message aleatoire a transmettre si un message n est pas impose
      */
     private int nbBitsMess = 100;
     /**
-     * la chaine de caracteres correspondant a m dans l'argument -mess m
+     * la chaine de caracteres correspondant a m dans l argument -mess m
      */
     private String messageString = "100";
     /**
-     * la forme correspondant a f dans l'argument -form f. 3 choix possible NRZ, NRZT, RZ.
+     * la forme correspondant a f dans l argument -form f. 3 choix possible NRZ, NRZT, RZ.
      */
     private String form = "RZ";
     /**
-     * la valeur du snr (rapport signal sur bruit).
+     * la valeur du snrpb (rapport signal sur bruit).
      */
     private float snrpb = 10000000f;
     /**
-     * precise si le snr est utilise.
+     * precise si le snrpb est utilise.
      */
     private boolean utilisationSNR=false;
     /**
@@ -74,23 +74,19 @@ public class Simulateur {
      */
     private Source<Boolean> source = null;
     /**
-     * le  composant Transmetteur parfait logique de la chaine de transmission
-     */
-    private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
-    /**
      * le  composant Destination de la chaine de transmission
      */
     private Destination<Boolean> destination = null;
     /**
-     * ne precise le nombre d'echantillons par bit
+     * ne precise le nombre d echantillons par bit
      */
     private int ne = 30;
     /**
-     * min precise l'amplitude minimale du signale analogique
+     * min precise l amplitude minimale du signale analogique
      */
     private float min = 0;
     /**
-     * max precise l'amplitude maximale du signale analogique
+     * max precise l amplitude maximale du signale analogique
      */
     private float max = 1;
     /**
@@ -98,18 +94,18 @@ public class Simulateur {
      */
     private ArrayList<Float> ti = new ArrayList<Float>();
     /**
-     * export precise la destination de l'export du TEB
+     * export precise la destination de l export du TEB
      */
     private Boolean export = false;
     /**
-     * codeur precise si on encode le message à envoyer
+     * codeur precise si on encode le message a envoyer
      */
     private Boolean codeur = false;
 
 
     /**
      * Le constructeur de Simulateur construit une chaine de
-     * transmission composee d'une Source <Boolean>, d'une Destination
+     * transmission composee d une Source <Boolean>, d une Destination
      * <Boolean> et de Transmetteur(s) [voir la methode
      * analyseArguments]...  <br> Les differents composants de la
      * chaine de transmission (Source, Transmetteur(s), Destination,
@@ -306,9 +302,9 @@ public class Simulateur {
         return form;
     }
     /**
-     * Observateur du parametre snr
+     * Observateur du parametre snrpb
      *
-     * @return l etat du champs snr
+     * @return l etat du champs snrpb
      */
     public float getSnr() {
         return snrpb;
@@ -354,7 +350,7 @@ public class Simulateur {
         return max;
     }
     /**
-     * Observateur de l'ArrayList ti
+     * Observateur de l ArrayList ti
      *
      * @return ti
      */
@@ -371,7 +367,7 @@ public class Simulateur {
     }
 
     /**
-     * La methode analyseArguments extrait d'un tableau de chaines de
+     * La methode analyseArguments extrait d un tableau de chaines de
      * caracteres les differentes options de la simulation.  Elle met
      * a jour les attributs du Simulateur.
      *
@@ -382,8 +378,8 @@ public class Simulateur {
      *             <dl>
      *             <dt> -mess m  </dt><dd> m (String) constitue de 7 ou plus digits a 0 | 1, le message a transmettre</dd>
      *             <dt> -mess m  </dt><dd> m (int) constitue de 1 a 6 digits, le nombre de bits du message "aleatoire" a  transmettre</dd>
-     *             <dt> -s </dt><dd> utilisation des sondes d'affichage</dd>
-     *             <dt> -seed v </dt><dd> v (int) d'initialisation pour les generateurs aleatoires</dd>
+     *             <dt> -s </dt><dd> utilisation des sondes d affichage</dd>
+     *             <dt> -seed v </dt><dd> v (int) d initialisation pour les generateurs aleatoires</dd>
      *             </dl>
      * @throws ArgumentsException si un des arguments est incorrect.
      */
@@ -427,18 +423,18 @@ public class Simulateur {
                 if (Integer.parseInt(args[i]) > 3) {
                     ne = Integer.parseInt(args[i]);
                     ne -= ne % 3;
-                } else throw new ArgumentsException("Nombre d'echantillon invalide :" + args[i]);
+                } else throw new ArgumentsException("Nombre d echantillon invalide :" + args[i]);
             } else if (args[i].matches("-ampl")) {
                 i++;
                 // traiter la valeur associee
                 if (args[i].matches("^-?\\d*(\\.\\d+)?$")) {
                 	min = Float.parseFloat(args[i]);
-                	if(min>=0) throw new ArgumentsException("Amplitude min incorecte (doit etre inferieur ou egale à 0) : " + args[i]);
+                	if(min>=0) throw new ArgumentsException("Amplitude min incorecte (doit etre inferieur ou egale a 0) : " + args[i]);
                 }
-                else throw new ArgumentsException("Amplitude min incorecte (doit etre un nombre inferieur ou egale à 0) : " + args[i]);
+                else throw new ArgumentsException("Amplitude min incorecte (doit etre un nombre inferieur ou egale a 0) : " + args[i]);
                 i++;
                 if (args[i].matches("^\\d*(\\.\\d+)?$")) max = Float.parseFloat(args[i]);
-                else throw new ArgumentsException("Amplitude max incorecte (doit etre un nombre superieur à 0): " + args[i]);
+                else throw new ArgumentsException("Amplitude max incorecte (doit etre un nombre superieur a 0): " + args[i]);
                 if (min > max) throw new ArgumentsException("Amplitudes incorectes (min>max) : " + min + ">" + max);
 
             } else if (args[i].matches("-snrpb")) {
@@ -472,7 +468,7 @@ public class Simulateur {
         }
 
         if (affichage == true && export == true) {
-            System.out.println("erreur: on ne peut pas export en meme temps qu'afficher");
+            System.out.println("erreur: on ne peut pas export en meme temps qu afficher");
             System.exit(1);
         }
     }
@@ -482,7 +478,7 @@ public class Simulateur {
      * La methode execute effectue un envoi de message par la source
      * de la chaine de transmission du Simulateur.
      *
-     * @throws Exception si un probleme survient lors de l'execution
+     * @throws Exception si un probleme survient lors de l execution
      */
     public void execute() throws Exception {
         source.emettre();
@@ -490,7 +486,7 @@ public class Simulateur {
 
 
     /**
-     * La methode qui calcule le taux d'erreur binaire en comparant
+     * La methode qui calcule le taux d erreur binaire en comparant
      * les bits du message emis avec ceux du message recu.
      *
      * @return La valeur du Taux dErreur Binaire.
@@ -518,11 +514,11 @@ public class Simulateur {
     public void exportDuTEB(float TEB) {
         if (export) {
             try {
-                String filename = "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
+                String filename = new File(".").getAbsolutePath() + "\\extract\\export.txt";
                 //String filename= export;
                 FileWriter fw = new FileWriter(filename, true); //the true will append the new data
 
-                fw.write(TEB + ";" + ti.get(0) + "\n");//appends the string to the file
+                fw.write(TEB + ";" + snrpb + "\n");//appends the string to the file
                 fw.close();
             } catch (IOException ioe) {
                 System.err.println("IOException: " + ioe.getMessage());
@@ -532,11 +528,11 @@ public class Simulateur {
     }
 
     /**
-     * La fonction main instancie un Simulateur a l'aide des
-     * arguments parametres et affiche le resultat de l'execution
-     * d'une transmission.
+     * La fonction main instancie un Simulateur a l aide des
+     * arguments parametres et affiche le resultat de l execution
+     * d une transmission.
      *
-     * @param args les differents arguments qui serviront a l'instanciation du Simulateur.
+     * @param args les differents arguments qui serviront a l instanciation du Simulateur.
      */
     public static void main(String[] args) {
 

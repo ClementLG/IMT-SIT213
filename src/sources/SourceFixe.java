@@ -9,7 +9,9 @@ import information.InformationNonConforme;
  *
  * @author c.legruiec
  * @author e.leduc
- * @author b.demoulin
+ * @author p.maquin
+ * @author g.fraignac
+ * @author m.lejeune
  * 
  * @version R1.0 - Sept 2020
  */

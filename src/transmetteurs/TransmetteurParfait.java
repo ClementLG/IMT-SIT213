@@ -6,7 +6,7 @@ import information.InformationNonConforme;
 
 
 /**
- * Classe TransmetteurParfait herite d'un composant transmetteur d'informations
+ * Classe TransmetteurParfait herite d un composant transmetteur d informations
  *
  * @author c.legruiec
  * @author e.leduc
@@ -20,7 +20,7 @@ public class TransmetteurParfait extends Transmetteur<Boolean, Boolean> {
     //canal Rx Information (abstract dans la classe mere)
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
-        emettre();//envoie l'information
+        emettre();//envoie l information
 
     }
 

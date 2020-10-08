@@ -5,7 +5,7 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe Emetteur ha©rita© de la classe Transmetteur
+ * Classe Emetteur herite de la classe Transmetteur
  *
  * @author c.legruiec
  * @author e.leduc
@@ -49,7 +49,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 	}
 	
 	/**
-     * Constructeur de Emetteur a  parametrer avec des infos de base
+     * Constructeur de Emetteur a parametrer avec des infos de base
      * @param Amax : Amplitude Max
      * @param Amin : Amplitude Min
      * @param nbEchantillon : Nombre d echantillon par symbole
@@ -106,7 +106,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 			break;
 
 		default:
-			System.out.println("Aucun type d encodage ne correspond a  l entree saisie");
+			System.out.println("Aucun type d encodage ne correspond a l entree saisie");
 			throw new InformationNonConforme();
 		}
 	}
