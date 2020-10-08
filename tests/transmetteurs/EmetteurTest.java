@@ -105,7 +105,7 @@ public class EmetteurTest {
         flo3.add(3f);
         flo3.add(3f);
         flo3.add(3f);
-        flo3.add(-0f); // FIX WTF IS THAT
+        flo3.add(0f);
         flo3.add(-3f);
         flo3.add(-3f);
         flo3.add(-3f);
