@@ -59,11 +59,11 @@ public class Simulateur {
      */
     private String form = "RZ";
     /**
-     * la valeur du snr (rapport signal sur bruit).
+     * la valeur du snrpb (rapport signal sur bruit).
      */
-    private float snr = 10000000f;
+    private float snrpb = 10000000f;
     /**
-     * precise si le snr est utilise.
+     * precise si le snrpb est utilise.
      */
     private boolean utilisationSNR=false;
     /**
@@ -99,7 +99,6 @@ public class Simulateur {
      */
     private Boolean codeur = false;
 
-
     /**
      * Le constructeur de Simulateur construit une chaine de
      * transmission composee d'une Source <Boolean>, d'une Destination
@@ -128,7 +127,6 @@ public class Simulateur {
         else if(codeur){SimulateurCodeur();}
         else {SimulateurBruite();}
         }
-
 
     private void SimulateurParfait() {
         TransmetteurAnalogiqueParfait transmetteurAnalogiqueParfait = new TransmetteurAnalogiqueParfait();
@@ -185,9 +183,9 @@ public class Simulateur {
         Recepteur recepteur = new Recepteur(max, min, ne, form);
 
         if (aleatoireAvecGerme) {
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snr, ne, ti);
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snrpb, ne, ti);
         } else {
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snr, ne, ti);
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snrpb, ne, ti);
         }
         source.connecter(emetteur);
         emetteur.connecter(transmetteurAnalogiqueBruiteReel);
@@ -214,9 +212,9 @@ public class Simulateur {
         CodageEmission codeurE = new CodageEmission();
         DecodageReception decodeurR = new DecodageReception();
         if (aleatoireAvecGerme) {
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snr, ne, ti);
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(seed, snrpb, ne, ti);
         } else {
-            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snr, ne, ti);
+            transmetteurAnalogiqueBruiteReel = new TransmetteurAnalogiqueBruitReel(snrpb, ne, ti);
         }
         source.connecter(codeurE);
         codeurE.connecter(emetteur);
@@ -237,7 +235,6 @@ public class Simulateur {
             decodeurR.connecter(viewDest);
         }
     }
-
 
     /**
      * Observateur du parametre affichage
@@ -296,12 +293,12 @@ public class Simulateur {
         return form;
     }
     /**
-     * Observateur du parametre snr
+     * Observateur du parametre snrpb
      *
-     * @return l etat du champs snr
+     * @return l etat du champs snrpb
      */
     public float getSnr() {
-        return snr;
+        return snrpb;
     }
     /**
      * Observateur du parametre source
@@ -430,7 +427,7 @@ public class Simulateur {
 
             } else if (args[i].matches("-snrpb")) {
                 i++;
-                snr = Float.parseFloat(args[i]);
+                snrpb = Float.parseFloat(args[i]);
                 utilisationSNR=true;
             } else if (args[i].matches("-ti")) {
                 int k = 1;
@@ -459,7 +456,6 @@ public class Simulateur {
         }
     }
 
-
     /**
      * La methode execute effectue un envoi de message par la source
      * de la chaine de transmission du Simulateur.
@@ -469,7 +465,6 @@ public class Simulateur {
     public void execute() throws Exception {
         source.emettre();
     }
-
 
     /**
      * La methode qui calcule le taux d'erreur binaire en comparant
@@ -503,7 +498,7 @@ public class Simulateur {
                 String filename = new File(".").getAbsolutePath() + "\\extract\\export.txt";
                 //String filename= export;
                 FileWriter fw = new FileWriter(filename, true); //the true will append the new data
-                fw.write(TEB + ";" + snr + "\n");//appends the string to the file
+                fw.write(TEB + ";" + snrpb + "\n");//appends the string to the file
                 fw.close();
             } catch (IOException ioe) {
                 System.err.println("IOException: " + ioe.getMessage());
