@@ -17,9 +17,9 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour construire a  partir d'un tableau de T une information
+     * pour construire a  partir d un tableau de T une information
      *
-     * @param content le tableau d'elements pour initialiser l'information construite
+     * @param content le tableau d elements pour initialiser l information construite
      */
     public Information(T[] content) {
         this.content = new ArrayList<T>();
@@ -29,41 +29,41 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour connaitre le nombre d'elements d'une information
+     * pour connaitre le nombre d elements d une information
      *
-     * @return le nombre d'elements de l'information
+     * @return le nombre d elements de l information
      */
     public int nbElements() {
         return this.content.size();
     }
 
     /**
-     * pour renvoyer un element d'une information
+     * pour renvoyer un element d une information
      *
-     * @return le ieme element de l'information
+     * @return le ieme element de l information
      */
     public T iemeElement(int i) {
         return this.content.get(i);
     }
 
     /**
-     * pour modifier le ia¨me element d'une information
+     * pour modifier le ia¨me element d une information
      */
     public void setIemeElement(int i, T v) {
         this.content.set(i, v);
     }
 
     /**
-     * pour ajouter un element a  la fin de l'information
+     * pour ajouter un element a  la fin de l information
      *
-     * @param valeur l'element a  rajouter
+     * @param valeur l element a  rajouter
      */
     public void add(T valeur) {
         this.content.add(valeur);
     }
     
     /**
-     * pour ajouter des element a  la fin de l'information
+     * pour ajouter des element a  la fin de l information
      *
      * @param valeurs liste les elements a  rajouter
      */
@@ -73,7 +73,7 @@ public class Information<T> implements Iterable<T> {
     
        
     /**
-     * pour ajouter des element au début de l'information
+     * pour ajouter des element au début de l information
      *
      * @param valeurs liste les elements a  rajouter
      */
@@ -93,9 +93,9 @@ public class Information<T> implements Iterable<T> {
 
 
     /**
-     * pour comparer l'information courante avec une autre information
+     * pour comparer l information courante avec une autre information
      *
-     * @param o l'information  avec laquelle se comparer
+     * @param o l information  avec laquelle se comparer
      * @return "true" si les 2 informations contiennent les memes
      * elements aux memes places; "false" dans les autres cas
      */

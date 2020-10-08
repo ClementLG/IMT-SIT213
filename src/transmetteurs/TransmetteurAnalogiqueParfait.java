@@ -5,7 +5,7 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe TransmetteurAnalogiqueParfait hérité de la classe Transmetteur
+ * Classe TransmetteurAnalogiqueParfait herite de la classe Transmetteur
  *
  * @author c.legruiec
  * @author e.leduc
@@ -23,7 +23,7 @@ public class TransmetteurAnalogiqueParfait extends Transmetteur<Float, Float>{
      */
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
-        emettre();//envoie l'information
+        emettre();//envoie l information
 
     }
 

@@ -36,8 +36,7 @@ public class VueValeur extends Vue {
     }
 
 
-    //     /**
-    //     */
+    //     
     //        public void paint() {
     //          paint(getGraphics());
     //       }

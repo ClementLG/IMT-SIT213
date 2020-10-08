@@ -13,30 +13,30 @@ import information.InformationNonConforme;
  * @author g.fraignac
  * @author m.lejeune
  * 
- * @version R1.0 - Sept 2020
+ * @version R1.2 - Sept 2020
  */
 
 
 public class Emetteur extends Transmetteur<Boolean, Float>{
 	
 	/**
-	* Attribut d'instance : 'Amax' amplitude maximum du signal. Valeur par default 5V.
+	* Attribut d instance :  Amax  amplitude maximum du signal. Valeur par default 5V.
 	*/
 	private float Amax=5;
 	/**
-	* Attribut d'instance : 'Amin' amplitude minimale du signal. Valeur par default 0V.
+	* Attribut d instance :  Amin  amplitude minimale du signal. Valeur par default 0V.
 	*/
 	private float Amin=0;
 	/**
-	* Attribut d'instance : 'nbEchantillon' le nombre d'echantillon par bit. Valeur par default 30.
+	* Attribut d instance :  nbEchantillon  le nombre d echantillon par bit. Valeur par default 30.
 	*/
 	private int nbEchantillon=30;
 	/**
-	* Attribut d'instance : 'encodeType' la forme du signal. Valeur par default RZ.
+	* Attribut d instance :  encodeType  la forme du signal. Valeur par default RZ.
 	*/
 	private String encodeType="RZ";
 	/**
-	* Attribut d'instance : 'informationConverti' information recue avec ajout de bruit. 
+	* Attribut d instance :  informationConverti  information recue avec ajout de bruit. 
 	*/
 	private Information<Float> informationConverti=new Information<>();
 	
@@ -52,7 +52,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
      * Constructeur de Emetteur a  parametrer avec des infos de base
      * @param Amax : Amplitude Max
      * @param Amin : Amplitude Min
-     * @param nbEchantillon : Nombre d'echantillon par symbole
+     * @param nbEchantillon : Nombre d echantillon par symbole
      * @param encodeType : le type de conversion analogique (NRZ,NRZT,RZ)
      */
 	public Emetteur(float Amax, float Amin, int nbEchantillon, String encodeType) {
@@ -89,7 +89,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
     
     /**
      * Permet de selectionner le type de conversion a effectuer
-     * Permettra d'effectuer des operations personaliser si besoin
+     * Permettra d effectuer des operations personaliser si besoin
      */
 	public void CNA() throws InformationNonConforme {
 		switch (encodeType) {
@@ -106,7 +106,7 @@ public class Emetteur extends Transmetteur<Boolean, Float>{
 			break;
 
 		default:
-			System.out.println("Aucun type d'encodage ne correspond a  l'entree saisie");
+			System.out.println("Aucun type d encodage ne correspond a  l entree saisie");
 			throw new InformationNonConforme();
 		}
 	}

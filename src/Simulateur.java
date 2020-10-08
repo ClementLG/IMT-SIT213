@@ -82,15 +82,15 @@ public class Simulateur {
      */
     private Destination<Boolean> destination = null;
     /**
-     * 'ne' precise le nombre d'echantillons par bit
+     * ne precise le nombre d'echantillons par bit
      */
     private int ne = 30;
     /**
-     * 'min' precise l'amplitude minimale du signale analogique
+     * min precise l'amplitude minimale du signale analogique
      */
     private float min = 0;
     /**
-     * 'max' precise l'amplitude maximale du signale analogique
+     * max precise l'amplitude maximale du signale analogique
      */
     private float max = 1;
     /**
@@ -98,11 +98,11 @@ public class Simulateur {
      */
     private ArrayList<Float> ti = new ArrayList<Float>();
     /**
-     * 'export' precise la destination de l'export du TEB
+     * export precise la destination de l'export du TEB
      */
     private Boolean export = false;
     /**
-     * 'codeur' precise si on encode le message à envoyer
+     * codeur precise si on encode le message à envoyer
      */
     private Boolean codeur = false;
 

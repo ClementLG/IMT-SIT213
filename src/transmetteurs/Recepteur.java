@@ -17,23 +17,23 @@ import information.InformationNonConforme;
  */
 public class Recepteur extends Transmetteur<Float, Boolean>{
 	/**
-	* Attribut d'instance : 'Amax' amplitude maximum du signal. Valeur par default 5V.
+	* Attribut dinstance : Amax amplitude maximum du signal. Valeur par default 5V.
 	*/
 	private float Amax=5;
 	/**
-	* Attribut d'instance : 'Amin' amplitude minimale du signal. Valeur par default 0V.
+	* Attribut dinstance : Amin amplitude minimale du signal. Valeur par default 0V.
 	*/
 	private float Amin=0;
 	/**
-	* Attribut d'instance : 'nbEchantillon' le nombre d'echantillon par bit. Valeur par default 30.
+	* Attribut dinstance : nbEchantillon le nombre dechantillon par bit. Valeur par default 30.
 	*/
 	private int nbEchantillon=30;
 	/**
-	* Attribut d'instance : 'decodeType' la forme du signal. Valeur par default RZ.
+	* Attribut dinstance : decodeType la forme du signal. Valeur par default RZ.
 	*/
 	private String decodeType="RZ";
 	/**
-	* Attribut d'instance : 'informationConverti' information recue avec ajout de bruit. 
+	* Attribut dinstance : informationConverti information recue avec ajout de bruit. 
 	*/
 	private Information<Boolean> informationConverti=new Information<>();
 	
@@ -49,7 +49,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
      * Constructeur de recepteur a  parametrer avec des infos de base
      * @param Amax : Amplitude Max
      * @param Amin : Amplitude Min
-     * @param nbEchantillon : Nombre d'echantillon par symbole
+     * @param nbEchantillon : Nombre dechantillon par symbole
      * @param decodeType : le type de conversion analogique (NRZ,NRZT,RZ)
      */
 	public Recepteur(float Amax, float Amin, int nbEchantillon, String decodeType) {
@@ -86,7 +86,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
     
     /**
      * Permet de selectionner le type de conversion a effectuer.
-     * Permettra d'effectuer des operations personaliser si besoin.
+     * Permettra deffectuer des operations personaliser si besoin.
      */
     private void CAN() throws InformationNonConforme {
     	switch (decodeType) {
@@ -103,13 +103,13 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 			break;
 
 		default:
-			System.out.println("Aucun type d'encodage ne correspond a  l'entree saisie");
+			System.out.println("Aucun type dencodage ne correspond a  lentree saisie");
 			throw new InformationNonConforme();
 		}
     }
     
     /**
-     * Converti le signal en logique qu'ils soient de type NRZ,NRZT ou RZ
+     * Converti le signal en logique quils soient de type NRZ,NRZT ou RZ
      */
     private void toLogique(float seuil) {
     	int k=1;
@@ -121,7 +121,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
 			}
     		moy=moy/nbEchantillon;
     		k++;
-    		//le signal pourrait etre deforme (si c'est pas un 1 on met 0 par default
+    		//le signal pourrait etre deforme (si cest pas un 1 on met 0 par default
     		if(moy>seuil) {
     			informationConverti.add(true);
     		}

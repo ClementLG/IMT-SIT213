@@ -21,19 +21,19 @@ import information.InformationNonConforme;
 public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 	
 	/**
-	* Attribut d'instance : 'snr' le rapport signal/bruit
+	* Attribut dinstance : snr le rapport signal/bruit
 	*/
 	float snrpb;
 	/**
-	* Attribut d'instance : 'seed' la graine de génération aléatoire. Valeur par default NULL.
+	* Attribut dinstance : seed la graine de génération aléatoire. Valeur par default NULL.
 	*/
 	Integer seed=null;
 	/**
-	* Attribut d'instance : 'informationConverti' information recue avec ajout de bruit. 
+	* Attribut dinstance : informationConverti information recue avec ajout de bruit. 
 	*/
 	private Information<Float> informationConverti=new Information<>();
 	/**
-	* Attribut d'instance : 'nbEchantillon'  nombre d'echantillon par bit. Valeur par default 30.
+	* Attribut dinstance : nbEchantillon  nombre dechantillon par bit. Valeur par default 30.
 	*/
 	int nbEchantillon=30;
 	
@@ -42,7 +42,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 	* Constructeur à 3 paramètres de la classe.
 	* @param seed : la graine de génération aléatoire
 	* @param snr : le rapport signal/bruit
-	* @param nbEchantillon : nombre d'echantillon par bit
+	* @param nbEchantillon : nombre dechantillon par bit
 	*/
 	public TransmetteurAnalogiqueBruite(int seed, float snr, int nbEchantillon) {
 		super();
@@ -54,7 +54,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 	/**
 	* Constructeur à 2 paramètres de la classe.
 	* @param snr : le rapport signal/bruit
-	* @param nbEchantillon : nombre d'echantillon par bit
+	* @param nbEchantillon : nombre dechantillon par bit
 	*/
 	public TransmetteurAnalogiqueBruite(float snr, int nbEchantillon) {
 		super();
@@ -79,7 +79,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
         ajoutBruit();
-        emettre();//envoie l'information
+        emettre();//envoie linformation
 
     }
 
@@ -96,7 +96,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
     }
     
     /**
-     * Permet d'ajouter le bruit sur le signal recue. Le signal bruite est stocke dans informationConverti.
+     * Permet dajouter le bruit sur le signal recue. Le signal bruite est stocke dans informationConverti.
      * 
      */
     private void ajoutBruit() {
@@ -136,7 +136,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
         //Calcul de la puissance par echantillon
         Ps = Ps / (float) informationRecue.nbElements();
 
-        //Calcul du snr en fonction du nombre d'echantillon et du snr par bit en dB
+        //Calcul du snr en fonction du nombre dechantillon et du snr par bit en dB
         snr = snrpb - 10 * (float) Math.log10(nbEchantillon / 2);
         
         sigma =  Ps  / (float) Math.pow(10, (snr / 10));
