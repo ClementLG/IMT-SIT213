@@ -33,19 +33,26 @@ public class ExportTEB {
 			
 			/*String arguments;
 			for (int i = 0; i < 20*30; i+=1) {
-					arguments="-seed 40 -form NRZT -ampl -5 5 -snrpb 3 -ti "+i+" 0.5 "+-i+" 0.5 -export";
+					arguments="-seed 40 -form NRZT -ampl -5 5 -snrpb 3 -ti "+i+" 1 "+" -codeur -export";
 					args= arguments.split(" ");
 					Simulateur.main(args);
 	
 			}*/
-		
 			String arguments;
+			for (int i = 0; i < 601; i++) {
+				arguments="-mess 100000 -seed 40 -form NRZT -ampl -5 5 -snrpb 3 -ti "+i+" 1 -export";
+				args= arguments.split(" ");
+				Simulateur.main(args);
+
+			}
+		
+			/*String arguments;
 			for (float i = -50; i < 21; i+=0.1) {
-					arguments="-seed 40 -form RZ -ampl -5 5 -nbEch 30 -snrpb "+i+" -export";
+					arguments="-seed 40 -form RZ -ampl -5 5 -nbEch 30 -snrpb 3"+i+" -export";
 					args= arguments.split(" ");
 					Simulateur.main(args);
 	
-			}
+			}*/
 			
 
 
