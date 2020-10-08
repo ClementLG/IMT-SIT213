@@ -23,7 +23,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 	/**
 	* Attribut d'instance : 'snr' le rapport signal/bruit
 	*/
-	float snr;
+	float snrpb;
 	/**
 	* Attribut d'instance : 'seed' la graine de génération aléatoire. Valeur par default NULL.
 	*/
@@ -47,7 +47,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 	public TransmetteurAnalogiqueBruite(int seed, float snr, int nbEchantillon) {
 		super();
 		this.seed=seed;
-		this.snr=snr;
+		this.snrpb=snr;
 		this.nbEchantillon=nbEchantillon;
 	}
 	
@@ -58,7 +58,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 	*/
 	public TransmetteurAnalogiqueBruite(float snr, int nbEchantillon) {
 		super();
-		this.snr=snr;
+		this.snrpb=snr;
 		this.nbEchantillon=nbEchantillon;
 
 	}
@@ -69,7 +69,7 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
 	*/
 	public TransmetteurAnalogiqueBruite(float snr ) {
 		super();
-		this.snr=snr;
+		this.snrpb=snr;
 	}
 	
 	/**
@@ -125,21 +125,29 @@ public class TransmetteurAnalogiqueBruite extends Transmetteur<Float, Float>{
      * 
      */
     private float calculSigma() {
-    	float Ps=0f;
-    	float Sigma=0f;
+    	float Ps = 0f;
+        float sigma;
+        float snr;
   
+        //Calcul de la puissance totale du signal
         for (float info : informationRecue) {
-        	Ps+=Math.pow(info, 2);
-		}
-        //on a enlevé le nombre d'echantillon par bit dans les calculs suite à une simplication.
-        //il ne reste que le calcul de l'esperance des Ak².
-        Ps=Ps/informationRecue.nbElements(); 
-        //calcul de sigmaCarre
-        Sigma= (float) ((float) (Ps)/(2*Math.pow(10,snr/10)));
-        Sigma=(float) Math.sqrt(Sigma);
-    	
-    	//System.out.println("sigma:"+Sigma); //debug
-    	return Sigma;
+            Ps += Math.pow(info, 2);
+        }
+        //Calcul de la puissance par echantillon
+        Ps = Ps / (float) informationRecue.nbElements();
+
+        //Calcul du snr en fonction du nombre d'echantillon et du snr par bit en dB
+        snr = snrpb - 10 * (float) Math.log10(nbEchantillon / 2);
+        
+        sigma =  Ps  / (float) Math.pow(10, (snr / 10));
+        //Calcul de sigma
+        sigma = (float) Math.sqrt(sigma);      
+        //cf: https://en.wikipedia.org/wiki/Signal-to-noise_ratio#:~:text=SNR%20is%20defined%20as%20the,by%20the%20Shannon%E2%80%93Hartley%20theorem.
+        //System.out.println("Ps: "+Ps);
+    	//System.out.println("sigma:"+sigma);
+    	//System.out.println("Eb/n0:"+snrpb);
+    	//System.out.println("SNR:"+snr);
+    	return sigma;
     }
     
     
