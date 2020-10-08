@@ -19,7 +19,7 @@ public class DecodageReception extends Transmetteur<Boolean, Boolean> {
 
 
     /**
-     * Attribut d'instance : 'informationConverti'.
+     * Attribut d instance :  informationConverti .
      */
     private Information<Boolean> informationConverti = new Information<>();
 

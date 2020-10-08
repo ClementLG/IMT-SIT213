@@ -3,7 +3,7 @@ package destinations;
 import information.*;
 
 /**
- * Classe Abstraite d'un composant destination d'informations dont les
+ * Classe Abstraite d un composant destination d informations dont les
  * elements sont de type T
  *
  * @author prou
@@ -11,7 +11,7 @@ import information.*;
 public abstract class Destination<T> implements DestinationInterface<T> {
 
     /**
-     * l'information recue par la destination
+     * l information recue par la destination
      */
     protected Information<T> informationRecue;
 
@@ -35,7 +35,7 @@ public abstract class Destination<T> implements DestinationInterface<T> {
     /**
      * recoit une information
      *
-     * @param information l'information  a recevoir
+     * @param information l information  a recevoir
      */
     public abstract void recevoir(Information<T> information) throws InformationNonConforme;
 }

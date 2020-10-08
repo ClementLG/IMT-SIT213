@@ -5,7 +5,7 @@ import information.Information;
 import information.InformationNonConforme;
 
 /**
- * Classe TransmetteurParfait herite d'un composant transmetteur d'informations
+ * Classe TransmetteurParfait herite d un composant transmetteur d informations
  *
  * @author c.legruiec
  * @author e.leduc
@@ -25,7 +25,7 @@ public class CodageEmission extends Transmetteur<Boolean, Boolean> {
     }
 
     /**
-     * Attribut d'instance : 'informationConverti'.
+     * Attribut d instance :  informationConverti .
      */
     private Information<Boolean> informationConverti = new Information<>();
 
@@ -43,7 +43,7 @@ public class CodageEmission extends Transmetteur<Boolean, Boolean> {
                 informationConverti.add(false);
             }
         }
-        emettre();//envoie l'information
+        emettre();//envoie l information
     }
 
     //canal Tx Information (abstract dans la classe mere)

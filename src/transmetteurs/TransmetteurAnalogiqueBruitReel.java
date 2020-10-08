@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
- * Classe TransmetteurAnalogiqueParfait hï¿½rite de la classe Transmetteur
+ * Classe TransmetteurAnalogiqueParfait herite de la classe Transmetteur
  *
  * @author c.legruiec
  * @author e.leduc
@@ -23,27 +23,27 @@ import java.util.Random;
 public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 	
 	/**
-	* Attribut d'instance : 'snr' le rapport signal/bruit
+	* Attribut dinstance : snr le rapport signal/bruit
 	*/
 	float snrpb;
 	/**
-	* Attribut d'instance : 'seed' la graine de génération aléatoire. Valeur par default NULL.
+	* Attribut dinstance : seed la graine de génération aléatoire. Valeur par default NULL.
 	*/
 	Integer seed=null;
 	/**
-	* Attribut d'instance : 'informationConverti' information recue avec ajout de bruit. 
+	* Attribut dinstance : informationConverti information recue avec ajout de bruit. 
 	*/
 	private Information<Float> informationConverti=new Information<>();
 	/**
-	* Attribut d'instance : 'informationDecale' Somme de signaux decale et modifie en amplitude selon un coeff. 
+	* Attribut dinstance : informationDecale Somme de signaux decale et modifie en amplitude selon un coeff. 
 	*/
 	private Information<Float> informationDecale=new Information<>();
 	/**
-	* Attribut d'instance : 'parametres' Decalage(s) et coefficient(s) des multiTrajets. 
+	* Attribut dinstance : parametres Decalage(s) et coefficient(s) des multiTrajets. 
 	*/
 	private ArrayList<Float> parametres=new ArrayList<Float>();
 	/**
-	* Attribut d'instance : 'nbEchantillon' nombre d'echantillon par bit. 
+	* Attribut dinstance : nbEchantillon nombre dechantillon par bit. 
 	*/
 	int nbEchantillon=30;
 
@@ -51,7 +51,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
      * Constructeur de TransmetteurAnalogiqueBruitReel avec 4 parametres
      * @param seed : graine de generation aleatoire
      * @param snr : rapport signal sur bruit
-     * @param nbEchantillon : Nombre d'echantillon par symbole
+     * @param nbEchantillon : Nombre dechantillon par symbole
      * @param parametres : paramettre du/des multi-trajet(s)
      */
 	public TransmetteurAnalogiqueBruitReel(int seed, float snr, int nbEchantillon, ArrayList<Float> parametres) {
@@ -65,7 +65,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 	/**
      * Constructeur de TransmetteurAnalogiqueBruitReel avec 3 parametres
      * @param snr : rapport signal sur bruit
-     * @param nbEchantillon : Nombre d'echantillon par symbole
+     * @param nbEchantillon : Nombre dechantillon par symbole
      * @param parametres : paramettre du/des multi-trajet(s)
      */
 	public TransmetteurAnalogiqueBruitReel(float snr, int nbEchantillon, ArrayList<Float> parametres) {
@@ -95,7 +95,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
         informationRecue = information;
         ajoutDecalage();
         ajoutBruit();
-        emettre();//envoie l'information
+        emettre();//envoie linformation
 
     }
 
@@ -112,7 +112,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
     }
     
     /**
-     * Calcul les multitrajets et les ajoute dans informationDecale sous la forme d'une somme des signaux decales.
+     * Calcul les multitrajets et les ajoute dans informationDecale sous la forme dune somme des signaux decales.
      *
      */
 	private void ajoutDecalage() {
@@ -122,7 +122,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 		
 		
 		for (int i = 0; i < parametres.size(); i+=2) {
-			//vidange de la l'info de base
+			//vidange de la linfo de base
 			informationDecale=new Information<Float>();
 			//copie du signal normal
 			for (float info : informationRecue) {
@@ -139,12 +139,8 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 			}
 			
 			
-			Information<Float> test = new Information<Float>();
-			for (float essai : informationDecale) {
-				test.add(essai);
-			}
-			listeInformationsDecalees.add(test);
-			test=null;
+			listeInformationsDecalees.add(informationDecale);
+			
 		}
 		sommerArray(informationDecale, listeInformationsDecalees);
 		
@@ -171,7 +167,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
 	}
 	
 	/**
-     * Permet d'ajouter le bruit sur le signal recue. Le signal bruite est stocke dans informationConverti.
+     * Permet dajouter le bruit sur le signal recue. Le signal bruite est stocke dans informationConverti.
      * 
      */
 	private void ajoutBruit() {
@@ -211,7 +207,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
         //Calcul de la puissance par echantillon
         Ps = Ps / (float) informationRecue.nbElements();
 
-        //Calcul du snr en fonction du nombre d'echantillon et du snr par bit en dB
+        //Calcul du snr en fonction du nombre dechantillon et du snr par bit en dB
         snr = snrpb - 10 * (float) Math.log10(nbEchantillon / 2);
         
         sigma =  Ps  / (float) Math.pow(10, (snr / 10));

@@ -7,11 +7,11 @@ import information.*;
 import java.util.*;
 
 /**
- * Classe Abstraite d'un composant transmetteur d'informations dont
+ * Classe Abstraite d un composant transmetteur d informations dont
  * les elements sont de type R en entree et de type E en sortie;
- * l'entree du transmetteur implemente l'interface
+ * l entree du transmetteur implemente l interface
  * DestinationInterface, la sortie du transmetteur implemente
- * l'interface SourceInterface
+ * l interface SourceInterface
  *
  * @author prou
  */
@@ -23,12 +23,12 @@ public abstract class Transmetteur<R, E> implements DestinationInterface<R>, Sou
     protected LinkedList<DestinationInterface<E>> destinationsConnectees;
 
     /**
-     * l'information recue en entree du transmetteur
+     * l information recue en entree du transmetteur
      */
     protected Information<R> informationRecue;
 
     /**
-     * l'information emise en sortie du transmetteur
+     * l information emise en sortie du transmetteur
      */
     protected Information<E> informationEmise;
 
@@ -81,15 +81,15 @@ public abstract class Transmetteur<R, E> implements DestinationInterface<R>, Sou
     }
 
     /**
-     * recoit une information.  Cette methode, en fin d'execution,
+     * recoit une information.  Cette methode, en fin d execution,
      * appelle la methode emettre.
      *
-     * @param information l'information  recue
+     * @param information l information  recue
      */
     public abstract void recevoir(Information<R> information) throws InformationNonConforme;
 
     /**
-     * emet l'information construite par le transmetteur
+     * emet l information construite par le transmetteur
      */
     public abstract void emettre() throws InformationNonConforme;
 }

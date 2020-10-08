@@ -6,7 +6,7 @@ import destinations.DestinationInterface;
 import java.util.*;
 
 /**
- * Classe Abstraite d'un composant source d'informations dont les
+ * Classe Abstraite d un composant source d informations dont les
  * elements sont de type T
  *
  * @author prou
@@ -19,12 +19,12 @@ public abstract class Source<T> implements SourceInterface<T> {
     protected LinkedList<DestinationInterface<T>> destinationsConnectees;
 
     /**
-     * l'information generee par la source
+     * l information generee par la source
      */
     protected Information<T> informationGeneree;
 
     /**
-     * l'information emise par la source
+     * l information emise par la source
      */
     protected Information<T> informationEmise;
 
@@ -66,7 +66,7 @@ public abstract class Source<T> implements SourceInterface<T> {
     }
 
     /**
-     * emet l'information generee
+     * emet l information generee
      */
     public void emettre() throws InformationNonConforme {
         // emission vers les composants connectes
