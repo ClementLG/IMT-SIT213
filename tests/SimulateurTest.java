@@ -66,7 +66,7 @@ public class SimulateurTest {
         String[] args2 = {"-mess", "10"};
         simulateur_test = new Simulateur(args2);
         assertTrue(simulateur_test.getMessageAleatoire());
-        //assertEquals(10, simulateur_test.getNbBitsMess());
+        assertEquals(10, simulateur_test.getNbBitsMess());
         assertEquals("10", simulateur_test.getMessageString());
 
         simulateur_test = null;
@@ -74,7 +74,7 @@ public class SimulateurTest {
         String[] args3 = {"-mess", "123456"};
         simulateur_test = new Simulateur(args3);
         assertTrue(simulateur_test.getMessageAleatoire());
-        //assertEquals(123456, simulateur_test.getNbBitsMess());
+        assertEquals(123456, simulateur_test.getNbBitsMess());
         assertEquals("123456", simulateur_test.getMessageString());
 
         simulateur_test = null;
@@ -94,7 +94,7 @@ public class SimulateurTest {
         String[] args5 = {"-mess", "101001011010"};
         simulateur_test = new Simulateur(args5);
         assertEquals(false, simulateur_test.getMessageAleatoire());
-        //assertEquals(12, simulateur_test.getNbBitsMess());
+        assertEquals(12, simulateur_test.getNbBitsMess());
         assertEquals("101001011010", simulateur_test.getMessageString());
 
         simulateur_test = null;
