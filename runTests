@@ -1,8 +1,7 @@
 #!/bin/bash
 echo -e "\n --- début des tests  --- \n"
 
-echo -e "Pas de tests à executer pour l'instant"
-echo -e "\nLes tests (jUnit4) sont écrits mais pas complétement intégrés pour l'instant"
-echo -e "nous n'arrivons pas à compiler --> error: cannot find symbol (voir M. Cousin)"
+cd bin
+java -cp .:../lib/* org.junit.runner.JUnitCore AllTests
 
 echo -e "\n --- fin des tests  --- \n"

@@ -1,7 +1,12 @@
 #!/bin/bash
+
+echo "">erreurs.log
+echo -e "\n +Compilation du Simulateur \n"
 cd ./src
-javac -encoding ISO-8859-1 Simulateur.java -d ../bin/ 2>../erreurs.log
+javac -encoding ISO-8859-1 Simulateur.java -d ../bin/ 2>>../erreurs.log
+echo -e "\n +Compilation des Tests \n"
+cd ../tests
+javac -d ../bin -encoding ISO-8859-1 -cp .:../lib/*:../src AllTests.java 2>>../erreurs.log
 more ../erreurs.log
 
-	
 

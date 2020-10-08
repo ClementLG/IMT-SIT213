@@ -18,47 +18,72 @@ Ecole d'ingénieur IMT Atlantique - FIP - Brest
 
 Fichiers contenus dans l'archive:
 
-bin/
-cleanAll
-compile
-docs/
-erreurs.log
-genDoc
-readMe.txt
-runTests
-Simulateur
-src/
-src/visualisations/
-src/visualisations/Sonde.java
-src/visualisations/SondeAnalogique.java
-src/visualisations/SondeLogique.java
-src/visualisations/SondePuissance.java
-src/visualisations/SondeTextuelle.java
-src/visualisations/Vue.java
-src/visualisations/VueCourbe.java
-src/visualisations/VueValeur.java
-src/transmetteurs/
-src/transmetteurs/Emetteur.java
-src/transmetteurs/Recepteur.java
-src/transmetteurs/Transmetteur.java
-src/transmetteurs/TransmetteurParfait.java
-src/transmetteurs/TransmetteurParfaitAnalogique.java
-src/transmetteurs/TransmetteurAnalogiqueBruite.java
-src/transmetteurs/TransmetteurAnalogiqueBruitReel.java
-src/sources/
-src/sources/Source.java
-src/sources/SourceAleatoire.java
-src/sources/SourceFixe.java
-src/sources/SourceInterface.java
-src/information/
-src/information/Information.java
-src/information/InformationNonConforme.java
-src/destinations/
-src/destinations/Destination.java
-src/destinations/DestinationFinale.java
-src/destinations/DestinationInterface.java
-src/Simulateur.java
-src/ArgumentsException.java
+./bin/
+./cleanAll
+./compile
+./docs/
+./erreurs.log
+./genDoc
+./lib/
+./lib/org.hamcrest.core_1.3.0.v20180420-1519.jar
+./lib/junit.jar
+./README.md
+./README.txt
+./runTests
+./simulateur
+./src/
+./src/ArgumentsException.java
+./src/destinations/
+./src/destinations/Destination.java
+./src/destinations/DestinationFinale.java
+./src/destinations/DestinationInterface.java
+./src/ExportTEB.java
+./src/information/
+./src/information/Information.java
+./src/information/InformationNonConforme.java
+./src/Simulateur.java
+./src/sources/
+./src/sources/Source.java
+./src/sources/SourceAleatoire.java
+./src/sources/SourceFixe.java
+./src/sources/SourceInterface.java
+./src/transmetteurs/
+./src/transmetteurs/CodageEmission.java
+./src/transmetteurs/DecodageReception.java
+./src/transmetteurs/Emetteur.java
+./src/transmetteurs/Recepteur.java
+./src/transmetteurs/Transmetteur.java
+./src/transmetteurs/TransmetteurAnalogiqueBruite.java
+./src/transmetteurs/TransmetteurAnalogiqueBruitReel.java
+./src/transmetteurs/TransmetteurAnalogiqueParfait.java
+./src/transmetteurs/TransmetteurParfait.java
+./src/visualisations/
+./src/visualisations/Sonde.java
+./src/visualisations/SondeAnalogique.java
+./src/visualisations/SondeLogique.java
+./src/visualisations/SondePuissance.java
+./src/visualisations/SondeTextuelle.java
+./src/visualisations/Vue.java
+./src/visualisations/VueCourbe.java
+./src/visualisations/VueValeur.java
+./tests/
+./tests/AllTests.java
+./tests/information/
+./tests/information/InformationTest.java
+./tests/SimulateurTest.java
+./tests/sources/
+./tests/sources/SourceAleatoireTest.java
+./tests/sources/SourceFixeTest.java
+./tests/transmetteurs/
+./tests/transmetteurs/CodageEmissionTest.java
+./tests/transmetteurs/DecodageReceptionTest.java
+./tests/transmetteurs/EmetteurTest.java
+./tests/transmetteurs/RecepteurTest.java
+./tests/transmetteurs/TransmetteurAnalogiqueBruiteTest.java
+./tests/transmetteurs/TransmetteurAnalogiqueBruitReelTest.java
+./tests/transmetteurs/TransmetteurAnalogiqueParfaitTest.java
+./tests/transmetteurs/TransmetteurParfaitTest.java
+
 
 #################################################
 
@@ -108,6 +133,9 @@ autant de trajets indirects.
 Par défaut le simulateur ne simule pas de trajets indirects, ce qui correspond à des valeurs 0 et 0.0f
 pour tous les trajets indirects
 
+-codeur
+précise l’utilisation d’un codeur (en émission) et d’un décodeur (en réception).
+Par défaut le simulateur n’utilise pas de codage de canal
 
 
 Exemple
