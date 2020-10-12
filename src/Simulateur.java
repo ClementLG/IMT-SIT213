@@ -433,7 +433,7 @@ public class Simulateur {
                 // traiter la valeur associee
                 if (args[i].matches("^-?\\d*(\\.\\d+)?$")) {
                 	min = Float.parseFloat(args[i]);
-                	if(min>=0) throw new ArgumentsException("Amplitude min incorecte (doit etre inferieur ou egale à 0) : " + args[i]);
+                	if(min>0) throw new ArgumentsException("Amplitude min incorecte (doit etre inferieur ou egale à 0) : " + args[i]);
                 }
                 else throw new ArgumentsException("Amplitude min incorecte (doit etre un nombre inferieur ou egale à 0) : " + args[i]);
                 i++;
@@ -522,7 +522,7 @@ public class Simulateur {
                 //String filename= export;
                 FileWriter fw = new FileWriter(filename, true); //the true will append the new data
 
-                fw.write(TEB + ";" + ti.get(0) + "\n");//appends the string to the file
+                fw.write(TEB + ";" + snrpb + "\n");//appends the string to the file
                 fw.close();
             } catch (IOException ioe) {
                 System.err.println("IOException: " + ioe.getMessage());

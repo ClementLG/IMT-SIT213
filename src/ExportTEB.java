@@ -39,8 +39,8 @@ public class ExportTEB {
 	
 			}*/
 			String arguments;
-			for (int i = 0; i < 601; i++) {
-				arguments="-mess 100000 -seed 40 -form NRZT -ampl -5 5 -snrpb 3 -ti "+i+" 1 -export";
+			for (float i = 0; i < 20; i+=0.1) {
+				arguments="-mess 500000 -seed 40 -form NRZ -nbEch 60 -ampl -5 5 -snrpb "+i+" -export";
 				args= arguments.split(" ");
 				Simulateur.main(args);
 

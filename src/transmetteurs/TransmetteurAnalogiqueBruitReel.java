@@ -214,10 +214,10 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
         //Calcul de sigma
         sigma = (float) Math.sqrt(sigma);      
         //cf: https://en.wikipedia.org/wiki/Signal-to-noise_ratio#:~:text=SNR%20is%20defined%20as%20the,by%20the%20Shannon%E2%80%93Hartley%20theorem.
-        //System.out.println("Ps: "+Ps);
-    	//System.out.println("sigma:"+sigma);
-    	//System.out.println("Eb/n0:"+snrpb);
-    	//System.out.println("SNR:"+snr);
+        System.out.println("Ps: "+Ps);
+    	System.out.println("sigma:"+sigma);
+    	System.out.println("Eb/n0:"+snrpb);
+    	System.out.println("SNR:"+snr);
     	return sigma;
     }
 
