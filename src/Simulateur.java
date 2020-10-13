@@ -424,7 +424,7 @@ public class Simulateur {
             } else if (args[i].matches("-nbEch")) {
                 i++;
                 // traiter la valeur associee
-                if (Integer.parseInt(args[i]) > 3) {
+                if (Integer.parseInt(args[i]) >= 3) {
                     ne = Integer.parseInt(args[i]);
                     ne -= ne % 3;
                 } else throw new ArgumentsException("Nombre d'echantillon invalide :" + args[i]);
@@ -522,7 +522,7 @@ public class Simulateur {
                 //String filename= export;
                 FileWriter fw = new FileWriter(filename, true); //the true will append the new data
 
-                fw.write(TEB + ";" + snrpb + "\n");//appends the string to the file
+                fw.write(TEB + ";" + ne + "\n");//appends the string to the file
                 fw.close();
             } catch (IOException ioe) {
                 System.err.println("IOException: " + ioe.getMessage());

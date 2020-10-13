@@ -35,7 +35,7 @@ ylabel("TEB");
 legend('RZ','CodRZ', ' NRZ','CodNRZ', 'NRZT','CodNRZT')
 
 %Affichage log
-subplot(212);
+figure(2)
 semilogy(datasRZ(:,2),datasRZ(:,1),'b');
 hold on
 semilogy(datasRZ(:,2),datasCRZ(:,1),'c');
@@ -47,6 +47,7 @@ hold on
 semilogy(datasRZ(:,2),datasNRZT(:,1),'r');
 hold on
 semilogy(datasNRZT(:,2),datasCNRZT(:,1),'m');
+axis([0 18 10^-6 0.6])
 legend('RZ','CodRZ', ' NRZ','CodNRZ', 'NRZT','CodNRZT')
 xlabel("SRNpb (dB)");
 ylabel("TEB (log)");
