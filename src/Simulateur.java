@@ -473,7 +473,6 @@ public class Simulateur {
             if(ne<3) throw new ArgumentsException("Nombre d echantillons incompatible avec forme");
             else ne -= ne % 3;
         }
-        System.out.println(ne);
         if (affichage == true && export == true) {
             System.out.println("erreur: on ne peut pas export en meme temps qu'afficher");
             System.exit(1);
@@ -525,7 +524,7 @@ public class Simulateur {
                 //String filename= export;
                 FileWriter fw = new FileWriter(filename, true); //the true will append the new data
 
-                fw.write(TEB + ";" + ne + "\n");//appends the string to the file
+                fw.write(TEB + ";" + snrpb + "\n");//appends the string to the file
                 fw.close();
             } catch (IOException ioe) {
                 System.err.println("IOException: " + ioe.getMessage());

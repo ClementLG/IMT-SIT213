@@ -208,8 +208,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
         Ps = Ps / (float) informationRecue.nbElements();
 
         //Calcul du snr en fonction du nombre dechantillon et du snr par bit en dB
-        snr = snrpb - 10 * (float) Math.log10(nbEchantillon / 2);
-        
+        snr = snrpb - 10 * (float) (Math.log10(nbEchantillon) - Math.log10(2));
         sigma =  Ps  / (float) Math.pow(10, (snr / 10));
         //Calcul de sigma
         sigma = (float) Math.sqrt(sigma);      
@@ -218,6 +217,7 @@ public class TransmetteurAnalogiqueBruitReel extends Transmetteur<Float, Float>{
     	System.out.println("sigma:"+sigma);
     	System.out.println("Eb/n0:"+snrpb);
     	System.out.println("SNR:"+snr);
+    	System.out.println("ne : "+nbEchantillon);
     	return sigma;
     }
 

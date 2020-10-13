@@ -113,13 +113,15 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
      */
     private void toLogique(float seuil) {
     	int k=1;
-    	float moy=Amax-Amin;
-    	
+    	float moy=0;
+    	System.out.println(moy);
     	for (int i = 0; i < informationRecue.nbElements(); i+=nbEchantillon) {
     		for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
 				moy+=informationRecue.iemeElement(j);
+				
 			}
     		moy=moy/nbEchantillon;
+    		
     		k++;
     		//le signal pourrait etre deforme (si cest pas un 1 on met 0 par default
     		if(moy>seuil) {
@@ -128,7 +130,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
     		else {
     			informationConverti.add(false);
     		}
-    		moy=Amax-Amin;
+    		moy=0;
 		}
     	
     	
