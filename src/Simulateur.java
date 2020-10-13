@@ -424,10 +424,9 @@ public class Simulateur {
             } else if (args[i].matches("-nbEch")) {
                 i++;
                 // traiter la valeur associee
-                if (Integer.parseInt(args[i]) >= 3) {
+                if (Integer.parseInt(args[i]) >= 1) {
                     ne = Integer.parseInt(args[i]);
-                    ne -= ne % 3;
-                } else throw new ArgumentsException("Nombre d'echantillon invalide :" + args[i]);
+                } else throw new ArgumentsException("Nombre d echantillon invalide :" + args[i]);
             } else if (args[i].matches("-ampl")) {
                 i++;
                 // traiter la valeur associee
@@ -470,7 +469,11 @@ public class Simulateur {
                 codeur = true;
             } else throw new ArgumentsException("Option invalide :" + args[i]);
         }
-
+        if(!form.equals("NRZ")) {
+            if(ne<3) throw new ArgumentsException("Nombre d echantillons incompatible avec forme");
+            else ne -= ne % 3;
+        }
+        System.out.println(ne);
         if (affichage == true && export == true) {
             System.out.println("erreur: on ne peut pas export en meme temps qu'afficher");
             System.exit(1);
