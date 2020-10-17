@@ -51,7 +51,10 @@ public class DecodageReception extends Transmetteur<Boolean, Boolean> {
         }
         informationEmise = informationConverti;
     }
-
+    
+    /**
+     * Permet de decoder l information reçue
+     */
     private void decode() throws InformationNonConforme {
         int nb = 0;
 

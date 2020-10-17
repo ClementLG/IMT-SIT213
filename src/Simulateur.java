@@ -520,7 +520,8 @@ public class Simulateur {
     public void exportDuTEB(float TEB) {
         if (export) {
             try {
-                String filename = "C:\\Users\\clegruiec\\OneDrive - RETIS\\IMT\\IMT-SIT213\\src\\export.txt";
+            	String filename = new File("").getAbsolutePath() + "\\export.txt";
+            	//System.out.println(filename);
                 //String filename= export;
                 FileWriter fw = new FileWriter(filename, true); //the true will append the new data
 

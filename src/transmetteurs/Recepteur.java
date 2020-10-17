@@ -114,7 +114,7 @@ public class Recepteur extends Transmetteur<Float, Boolean>{
     private void toLogique(float seuil) {
     	int k=1;
     	float moy=0;
-    	System.out.println(moy);
+    	//System.out.println(moy);
     	for (int i = 0; i < informationRecue.nbElements(); i+=nbEchantillon) {
     		for (int j = ((k-1)*nbEchantillon); j < k*nbEchantillon; j++) {
 				moy+=informationRecue.iemeElement(j);

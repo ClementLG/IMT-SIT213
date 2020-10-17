@@ -1,7 +1,7 @@
 
 
 /**
- * Classe ExportTEB qui permet de lancer plusieur fois avec un SNR différents
+ * Classe ExportTEB qui permet de lancer plusieur fois avec un SNR differents
  *
  * @author c.legruiec
  * @author e.leduc
@@ -39,8 +39,8 @@ public class ExportTEB {
 	
 			}*/
 			String arguments;
-			for (float i = 0; i < 20; i+=0.1) {
-				arguments="-mess 3 -seed 40 -form NRZT -nbEch "+i+" -ampl -5 5 -snrpb 15 -ti 20 0.5 -export -codeur";
+			for (int i = 0; i < 300; i+=1) {
+				arguments="-mess 250000 -seed 40 -form NRZT -nbEch 30 -ampl -5 5 -snrpb 15 -ti "+i+" 1 -codeur -export";
 				args= arguments.split(" ");
 				Simulateur.main(args);
 
