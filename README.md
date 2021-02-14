@@ -1,6 +1,6 @@
 # Contexte
 
-Projet scolaire de 1ère année d'école d'ingénieur (IMT Atlantique).
+Projet scolaire de 2ème année d'école d'ingénieur (IMT Atlantique).
 
 Projet tranversale de POO avec Java et de telecoms (Mathématique et physique des signaux).
 
