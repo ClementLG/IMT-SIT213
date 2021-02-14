@@ -59,7 +59,7 @@ _runTests_ pour lancer les tests
 
 _cleanAll_ pour resetter le projet
 
-(possibiliter d'utiliser Windows mais pas d'utilisation simplifier. Compiler Simulateur.java)
+(possibiliter d'utiliser Windows mais pas d'utilisation simplifiée. Compiler Simulateur.java)
 
 # Utilisation:
 
