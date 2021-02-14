@@ -43,6 +43,24 @@ destination sera dénommé transmetteur.
 
 :email: clement.le-gruiec@imt-atlantique.net
 
+# Installation:
+
+Il faut utiliser les scripts Bash (Linux).
+
+Exécuter :
+
+_compile_ Pour compiler le projet
+
+_Simulateur_ Pour utiliser le simulateur (options en dessous)
+
+_genDoc_ pour générer la javaDocs
+
+_runTests_ pour lancer les tests
+
+_cleanAll_ pour resetter le projet
+
+(possibiliter d'utiliser Windows mais pas d'utilisation simplifier. Compiler Simulateur.java)
+
 # Utilisation:
 
 #### _-mess m_ 
@@ -102,10 +120,13 @@ précise l’utilisation d’un codeur (en émission) et d’un décodeur (en r�
 Par défaut le simulateur n’utilise pas de codage de canal
 
 
-Exemple
+#### Exemple
 Simulateur -s -mess 10         #Génère un signal aléatoire sur 10bits et l'affiche à l'écran
+
 Simulateur -s -mess 10101010   #Traite le message 10101010 dans la chaine de transmission et l'affiche à l'écran
+
 Simulateur -s                  #Affiche un message aléatoire de longueur 100
+
 Simulateur -s -mess 10 -seed 40 -form NRTZ -ampl -5 5 #Genere un signal aleatoire (en fct de la seed 40) sur 10bits, le transmets en analogique 
                                                        sous la forme NRZT avec des amplitudes entre -5 et 5
 
