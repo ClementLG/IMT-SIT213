@@ -27,6 +27,7 @@ convertissant au moyen d’un transducteur en un « vecteur » adapté à la tra
 appelé signal. Ce dernier sera injecté dans le canal au moyen d’un émetteur. À l’autre
 extrémité du canal, il sera récupéré et traité par le récepteur et le transducteur de
 réception.
+
 Les principaux canaux de transmission rencontrés dans la nature sont : le canal Hertzien
 (espace libre), le canal guidé électrique (câble), le canal guidé Optique (fibre), le canal
 acoustique aérien et le canal acoustique sous-marin. Chaque canal de propagation devant
@@ -35,6 +36,7 @@ fréquence par l’opération de modulation. En outre, le canal sera une source 
 les signaux qu’il transporte. Les principales sources de bruit rencontrées en pratique sont :
 la dispersion de trajets, la dispersion chromatique, le bruit de détection (grenaille), le bruit
 thermique et le bruit d’amplification.
+
 Par la suite, chaque composant du système de transmission entre la source et la
 destination sera dénommé transmetteur.
 
