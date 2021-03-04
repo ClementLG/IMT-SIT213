@@ -199,3 +199,6 @@ Simulateur -s -mess 10 -seed 40 -form NRTZ -ampl -5 5 #Genere un signal aleatoir
 - ./tests/transmetteurs/TransmetteurAnalogiqueBruitReelTest.java
 - ./tests/transmetteurs/TransmetteurAnalogiqueParfaitTest.java
 - ./tests/transmetteurs/TransmetteurParfaitTest.java
+
+# tags
+SIT213 IMT ATLANTIQUE SIMULATEUR SIGNEAUX ANALOGIQUE NUMERIQUE SIT 213 
